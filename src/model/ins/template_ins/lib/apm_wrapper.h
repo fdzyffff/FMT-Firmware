@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2020 The Firmament Authors. All Rights Reserved.
+ * Copyright 2022 The Firmament Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
+#ifndef APM_WRAPPER_H
+#define APM_WRAPPER_H
 
-#include <INS.h>
-#include <firmament.h>
+// modify for fmt interface
+void apm_step(void);
 
-/* INS output bus */
-MCN_DEFINE(ins_output, sizeof(INS_Out_Bus));
-/* Model information */
-fmt_model_info_t ins_model_info;
-
-void ins_interface_step(void)
-{
-    /* Add your code here */
-    apm_ecl_step();
-}
-
-void ins_interface_init(void)
-{
-    /* Fill in the modle information */
-    ins_model_info.period = 10;
-    ins_model_info.info = "Template INS";
-
-    /* Add your code here */
-}
+#endif

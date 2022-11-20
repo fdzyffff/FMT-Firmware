@@ -14,25 +14,15 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include <INS.h>
+#include <APM.h>
 #include <firmament.h>
 
-/* INS output bus */
-MCN_DEFINE(ins_output, sizeof(INS_Out_Bus));
-/* Model information */
-fmt_model_info_t ins_model_info;
-
-void ins_interface_step(void)
+void apm_interface_init(void)
 {
-    /* Add your code here */
-    apm_ecl_step();
+    APM_init();
 }
 
-void ins_interface_init(void)
+void apm_interface_step(uint32_t timestamp)
 {
-    /* Fill in the modle information */
-    ins_model_info.period = 10;
-    ins_model_info.info = "Template INS";
-
-    /* Add your code here */
+    APM_400Hz();
 }

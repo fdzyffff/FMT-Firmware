@@ -226,25 +226,25 @@ uint8_t constrain(float* val, float min_val, float max_val)
     return 0;
 }
 
-float constrain_float(float amt, float low, float high)
-{
-    // the check for NaN as a float prevents propogation of
-    // floating point errors through any function that uses
-    // constrain_float(). The normal float semantics already handle -Inf
-    // and +Inf
-    if (isnan(amt)) {
-        return (low + high) * 0.5f;
-    }
+// float constrain_float(float amt, float low, float high)
+// {
+//     // the check for NaN as a float prevents propogation of
+//     // floating point errors through any function that uses
+//     // constrain_float(). The normal float semantics already handle -Inf
+//     // and +Inf
+//     if (isnan(amt)) {
+//         return (low + high) * 0.5f;
+//     }
 
-    return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
-}
+//     return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
+// }
 
 uint16_t constrain_uint16(uint16_t amt, uint16_t low, uint16_t high)
 {
     return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
 }
 
-uint32_t constrain_uint32(uint32_t amt, uint32_t low, uint32_t high)
-{
-    return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
-}
+// uint32_t constrain_uint32(uint32_t amt, uint32_t low, uint32_t high)
+// {
+//     return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
+// }

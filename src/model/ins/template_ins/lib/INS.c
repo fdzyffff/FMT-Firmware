@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2020 The Firmament Authors. All Rights Reserved.
+ * Copyright 2022 The Firmament Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
-
 #include <INS.h>
 #include <firmament.h>
 
-/* INS output bus */
-MCN_DEFINE(ins_output, sizeof(INS_Out_Bus));
-/* Model information */
-fmt_model_info_t ins_model_info;
+#include "apm_wrapper.h"
 
-void ins_interface_step(void)
+INS_Out_Bus px4_ecl_out_bus = { 0 };
+
+void apm_ecl_init(void)
 {
-    /* Add your code here */
-    apm_ecl_step();
+    ;
 }
 
-void ins_interface_init(void)
+void apm_ecl_step(void)
 {
-    /* Fill in the modle information */
-    ins_model_info.period = 10;
-    ins_model_info.info = "Template INS";
-
-    /* Add your code here */
+    apm_step();
 }

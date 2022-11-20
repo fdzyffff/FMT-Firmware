@@ -153,6 +153,9 @@ typedef struct {
 
 #endif
 
+void apm_ecl_init(void);
+void apm_ecl_step(void);
+
 #ifdef __cplusplus
 }
 #endif

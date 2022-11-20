@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright 2020 The Firmament Authors. All Rights Reserved.
+ * Copyright 2022 The Firmament Authors. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
+#include "my_apm.h"
+#include "ap_hal.h"
 
-#include <INS.h>
-#include <firmament.h>
+extern AP_HAL hal;
 
-/* INS output bus */
-MCN_DEFINE(ins_output, sizeof(INS_Out_Bus));
-/* Model information */
-fmt_model_info_t ins_model_info;
-
-void ins_interface_step(void)
+void my_apm_test()
 {
-    /* Add your code here */
-    apm_ecl_step();
+    Vector3f apmt(0.0f, 0.0f, 0.0f);
+    hal.rcout.write(0, 1600);
 }
 
-void ins_interface_init(void)
-{
-    /* Fill in the modle information */
-    ins_model_info.period = 10;
-    ins_model_info.info = "Template INS";
-
-    /* Add your code here */
-}

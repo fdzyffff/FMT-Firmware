@@ -28,6 +28,7 @@
 #include "module/sysio/pilot_cmd.h"
 #include "module/task_manager/task_manager.h"
 #include "task/logger/task_logger.h"
+#include "ardupilot/apm_interface.h"
 
 #define EVENT_VEHICLE_UPDATE (1 << 0)
 
@@ -71,6 +72,8 @@ void task_vehicle_entry(void* parameter)
                 gcs_cmd_collect();
                 mission_data_collect();
 
+                apm_interface_step(timestamp);
+
 #ifdef FMT_USING_SIH
                 /* run Plant model */
                 PERIOD_EXECUTE3(plant_step, plant_model_info.period, time_now, plant_interface_step(timestamp););
@@ -109,6 +112,9 @@ fmt_err_t task_vehicle_init(void)
 
     /* init controller model */
     control_interface_init();
+
+    /* init apm modules*/
+    apm_interface_init();
 
     /* create event */
     if (rt_event_init(&event_vehicle, "vehicle", RT_IPC_FLAG_FIFO) != RT_EOK) {
