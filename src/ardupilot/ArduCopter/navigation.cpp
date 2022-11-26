@@ -112,7 +112,7 @@ void Copter::test_star_updates()
                     cmd.content.location.options = 0;
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -128,7 +128,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -144,7 +144,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -160,7 +160,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -176,7 +176,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -192,7 +192,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -209,7 +209,7 @@ void Copter::test_star_updates()
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
                     cmd.p1 = 3;//uint16_t, 悬停时间，单位s，设为0则飞到目标点后会立即判定完成此任务
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }
@@ -225,7 +225,7 @@ void Copter::test_star_updates()
                     cmd.content.location.options = 0;
                     //if want to set alt from home point add following line
                     cmd.content.location.flags.relative_alt = 1; //alt from home point
-                    copter.start_command(cmd);
+                    start_command(cmd);
                     TestStar.do_next = false;
                     break;
                 }

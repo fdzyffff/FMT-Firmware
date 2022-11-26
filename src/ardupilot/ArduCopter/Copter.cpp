@@ -47,4 +47,6 @@ Copter::Copter(void) :
     flight_modes[3] = FLIGHT_MODE_4;
     flight_modes[4] = FLIGHT_MODE_5;
     flight_modes[5] = FLIGHT_MODE_6;
+    test_value_p1 = (100.f);
+    printf(" Init: Copter\n");
 }

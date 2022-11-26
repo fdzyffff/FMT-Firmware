@@ -133,7 +133,9 @@ public:
 		cross_offset(200.f),
 		fore_offset(300.f),
 		stall_high(50.f)
-    {}
+    {
+        printf(" Init: Parameters\n");
+    }
 };
 
 /*
@@ -160,10 +162,12 @@ public:
     float acro_y_expo;
 
     ParametersG2() : 
-    wp_navalt_min(0),
+    wp_navalt_min(10),
     gndeffect_comp_enabled(0),
     frame_class(1),
     acro_y_expo(ACRO_Y_EXPO_DEFAULT)
-    {}
+    {
+        printf(" Init: ParametersG2\n");
+    }
 };
 

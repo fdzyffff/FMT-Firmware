@@ -12,7 +12,7 @@ void Copter::init_ardupilot()
 
     // update motor interlock state
     update_using_interlock();
-    
+
     init_rc_in();               // sets up rc channels from radio
 
     // allocate the motors class
@@ -121,6 +121,7 @@ void Copter::allocate_motors(void)
             motors = new AP_MotorsMatrix(MAIN_LOOP_RATE);
             break;
     }
+
 
     AP_AHRS_View *ahrs_view = ahrs.create_view(ROTATION_NONE);
 

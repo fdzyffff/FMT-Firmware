@@ -4,8 +4,9 @@
 // extern uint32_t APM_millis(void);
 // extern APM_Params_t apm_params;
 
-Copter copter;
+Copter* copter;
 AP_HAL hal;
+APM_test_t apmtest;
 my_temp_log_t my_temp_log;
 
 int16_t RC_in_data[20];
@@ -14,29 +15,40 @@ int16_t RC_out_data[20];
 uint32_t millis() {return systime_now_ms();}
 uint64_t micro64() {return systime_now_us();} 
 
-
 extern "C" {
 
 void APM_Copter_Init(void)  //飞控初始化
 {
-    copter.setup();
+    // Copter copter_temp;
+    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("                                               APM init                                             \n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+    copter = new Copter();
+    apmtest = *(new APM_test_t());
+    hal =*(new AP_HAL());
+}
+
+void APM_Copter_Setup(void)  //飞控初始化
+{
+    copter->setup();
+    apmtest.init(2000);
+    copter->test_value_p1 = 100.f;
     memset(RC_in_data, 0, sizeof(RC_in_data));
     memset(RC_out_data, 0, sizeof(RC_out_data));
+    printf("----------------------------------------------------------------------------------------------------\n");
 }
 
-void APM_Copter_400Hz(void)  //2.5ms 飞控循环
+void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
 {
-    copter.loop();
-}
+    // param_set_val(param_get_by_full_name("APM","USER_TEST_P1"), &tmp_1);
 
-void APM_Copter_10Hz(void)   //100ms 飞控循环
-{
-    copter.ten_hz_loop();
+    copter->loop();
 }
 
 void APM_Copter_init_para(void)
 {
-    copter.p1 = apm_params.p1;
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, USER_TEST_P1), &copter->test_value_p1));
+    // copter->p1 = apm_params.user_test_p1;
 }
 
 // void copter_init(void)
@@ -46,49 +58,41 @@ void APM_Copter_init_para(void)
 //     memset(RC_out_data, 0, sizeof(RC_out_data));
 // }
 
-// void copter_update_rc(void)
-// {
-//     // trans rc value to copter instance
-//     for (uint8_t i = 0; i < 18; i++){
-//         hal.rcin._rc_in_data[i] = RC_in_data[i];
-//     }
-//     hal.rcin._new_input = true;
-// }
+void APM_Copter_update_rc(void)
+{
+    // trans rc value to copter instance
+    for (uint8_t i = 0; i < sizeof(rcChannel)/2; i++){
+        hal.rcin._rc_in_data[i] = rcChannel[i];
+    }
+    hal.rcin._new_input = true;
+}
 
-// void copter_update_inertial(void)
-// {
-//     // S16 TempS16 =0 ;
-//     // // trans inertial to copter instance
-//     // hal.sitl_state.latitude = ((int32_t)INS.lat); // unit:0.0000001d,inertial_nav
-//     // hal.sitl_state.longitude = ((int32_t)INS.lon); //unit:0.0000001d,inertial_nav
-//     // hal.sitl_state.altitude = ((float)INS.alt)/100.0f; // double MSL
+void APM_Copter_update_inertial(void)
+{
+    // trans inertial to copter instance
+    hal.sitl_state.latitude = (int32_t)(ins_out_msg.lat*1e7f);  // unit:0.0000001d,inertial_nav
+    hal.sitl_state.longitude = (int32_t)(ins_out_msg.lon*1e7f); //unit:0.0000001d,inertial_nav
+    hal.sitl_state.altitude = ins_out_msg.alt;         // double MSL
 
-//     // hal.sitl_state.speedN = INS.velocity_x; // double m/s, positive value for north
-//     // hal.sitl_state.speedE = INS.velocity_y; // double m/s, positive value for east
-//     // hal.sitl_state.speedD = INS.velocity_z; // double m/s, positive value for down
+    hal.sitl_state.speedN = ins_out_msg.vn; // float m/s, positive value for north
+    hal.sitl_state.speedE = ins_out_msg.ve; // float m/s, positive value for east
+    hal.sitl_state.speedD = ins_out_msg.vd; // float m/s, positive value for down
        
-//     // hal.sitl_state.xAccel = INS.accel_x; // double m/s/s in ned, positive value for north
-//     // hal.sitl_state.yAccel = INS.accel_y; // double m/s/s in ned, positive value for east
+    hal.sitl_state.xAccel = ins_out_msg.ax; // float m/s/s in body
+    hal.sitl_state.yAccel = ins_out_msg.ay; // float m/s/s in body
+    hal.sitl_state.zAccel = ins_out_msg.az; // float m/s/s in body   
 
-//     // hal.sitl_state.zAccel = INS.accel_z; // double m/s/s in ned, positive value for down    keep still  is -9.806   
+    hal.sitl_state.rollRate  = degrees(ins_out_msg.p); // float degrees/s in body frame, positive value for roll
+    hal.sitl_state.pitchRate = degrees(ins_out_msg.q); // float degrees/s in body frame, positive value for pitch
+    hal.sitl_state.yawRate   = degrees(ins_out_msg.r); // float degrees/s in body frame, positive value for turn
 
-//     // hal.sitl_state.rollRate = ((float)tcdr)/1000.0f; // double degrees/s in body frame, positive value for roll right
-//     // hal.sitl_state.pitchRate = ((float)tcdp)/1000.0f; // double degrees/s in body frame, positive value for pitch up
-//     // hal.sitl_state.yawRate = ((float)tcdy)/100.0f; // double degrees/s in body frame, positive value for turn right
-
-//     // TempS16 = cHy;
-//     // if(TempS16>1800) {TempS16 -= 3600;} // N 0    E 90   W -90   S +-180
-//     // hal.sitl_state.rollDeg = ((float)cr)/10.0f; // double euler angles, degrees, positive value for roll right
-//     // hal.sitl_state.pitchDeg =((float)cp)/10.0f; // double euler angles, degrees, positive value for pitch up
-//     // hal.sitl_state.yawDeg = ((float)TempS16)/10.0f; // double euler angles, degrees, positive value for turn right
-//     // //欧拉角至四元数
-//     // hal.sitl_state.quaternion.from_euler(radians(hal.sitl_state.rollDeg), radians(hal.sitl_state.pitchDeg), radians(hal.sitl_state.yawDeg));
-//     // //比如 gps 锁定时为 1，无 gps 等定位信息时可以设 0。 
-//     // if(IsGPSOK == TRUE) {
-//     //     hal.sitl_state.position_ok = 1;
-//     // } else {
-//     //     hal.sitl_state.position_ok = 0;
-//     // }
+    hal.sitl_state.rollDeg   = degrees(ins_out_msg.phi);   // float euler angles, degrees, positive value for roll
+    hal.sitl_state.pitchDeg  = degrees(ins_out_msg.theta); // float euler angles, degrees, positive value for pitch
+    hal.sitl_state.yawDeg    = wrap_360(degrees(ins_out_msg.psi));   // float euler angles, degrees, positive value for turn
+    // euler angle to quanternion
+    hal.sitl_state.quaternion.from_euler(radians(hal.sitl_state.rollDeg), radians(hal.sitl_state.pitchDeg), radians(hal.sitl_state.yawDeg));
+    hal.sitl_state.position_ok = ins_out_msg.flag&(1<<5);
+}
 
 //     my_temp_log.pos_x = copter.inertial_nav.get_position().x;
 //     my_temp_log.pos_y = copter.inertial_nav.get_position().y;
@@ -227,16 +231,16 @@ void copter_init_para(void)
     // copter.g2.rc_channels.rc_channel(7)->radio_trim = C_st0;
     // copter.g2.rc_channels.rc_channel(7)->radio_max = C_st2;
 
-    copter.g.frame_type = AP_Motors::MOTOR_FRAME_TYPE_X;
+    // copter.g.frame_type = AP_Motors::MOTOR_FRAME_TYPE_X;
 
-    copter.flight_modes[0] = 0;//STABILIZE
-    copter.flight_modes[1] = 0;//STABILIZE
-    copter.flight_modes[2] = 0;//STABILIZE
-    copter.flight_modes[3] = 0;//STABILIZE
-    copter.flight_modes[4] = 0;//STABILIZE
-    copter.flight_modes[5] = 0;//STABILIZE
+    // copter.flight_modes[0] = 0;//STABILIZE
+    // copter.flight_modes[1] = 0;//STABILIZE
+    // copter.flight_modes[2] = 0;//STABILIZE
+    // copter.flight_modes[3] = 0;//STABILIZE
+    // copter.flight_modes[4] = 0;//STABILIZE
+    // copter.flight_modes[5] = 0;//STABILIZE
 
-    copter.g.disarm_delay = 0;
+    // copter.g.disarm_delay = 0;
 }
 
 void copter_update_para(void)
@@ -303,8 +307,8 @@ void copter_update_para(void)
     // copter.g.cross_offset = SysPara.T1F2;                    //跟飞降落过程横向偏置距离     cm           运动过程中，车右偏置为负值    左侧为正值 y  
     // copter.g.stall_high = SysPara.T1F4;                      //熄火高度    cm    默认50cm
 
-    copter.attitude_control->bf_feedforward(true);
-    copter.attitude_control->use_ff_and_input_shaping(true);
+    // copter.attitude_control->bf_feedforward(true);
+    // copter.attitude_control->use_ff_and_input_shaping(true);
 }
 
 }

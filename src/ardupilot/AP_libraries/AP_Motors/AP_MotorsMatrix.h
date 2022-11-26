@@ -6,6 +6,7 @@
 #include "AP_Math.h"        // ArduPilot Mega Vector/Matrix math Library
 #include "RC_Channel.h"     // RC Channel Library
 #include "AP_MotorsMulticopter.h"
+#include "ap_hal.h"
 
 #define AP_MOTORS_MATRIX_YAW_FACTOR_CW   -1
 #define AP_MOTORS_MATRIX_YAW_FACTOR_CCW   1
@@ -17,7 +18,9 @@ public:
     /// Constructor
     AP_MotorsMatrix(uint16_t loop_rate, uint16_t speed_hz = AP_MOTORS_SPEED_DEFAULT) :
         AP_MotorsMulticopter(loop_rate, speed_hz)
-    {};
+    {
+        printf(" Init: MotorsMatrix\n");
+    };
 
     // init
     void                init(motor_frame_class frame_class, motor_frame_type frame_type) override;

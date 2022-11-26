@@ -15,6 +15,7 @@
 /*
   simple bitmask class
  */
+#include "APM.h"
 
 class Bitmask {
 public:

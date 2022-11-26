@@ -1,7 +1,44 @@
 #include "Copter.h"
 
+#define SCHED_TASK(func, rate_hz, max_time_micros) SCHED_TASK_CLASS(Copter, copter, func, rate_hz, max_time_micros)
+
+
+void Copter_pre::setup()
+{
+    // static_cast<Copter&>(copter).setup();
+}
+
+void Copter_pre::loop()
+{
+    // static_cast<Copter&>(copter).loop();
+}
+
+void Copter_pre::rc_loop()
+{
+    // static_cast<Copter&>(copter).rc_loop();
+}
+
+// void Copter_pre::throttle_loop()
+// {
+//     static_cast<Copter&>(copter).throttle_loop();
+// }
+
+
 void Copter::setup() 
 {
+/*
+  scheduler table for fast CPUs - all regular tasks apart from the fast_loop()
+  should be listed here, along with how often they should be called (in hz)
+  and the maximum time they are expected to take (in microseconds)
+ */
+    static const AP_Scheduler::Task copter_scheduler_tasks[] = {
+        SCHED_TASK(rc_loop,              400,    130),
+        SCHED_TASK(throttle_loop,        100,    130),
+        SCHED_TASK(arm_motors_check,     10,     130),
+        SCHED_TASK(one_hz_loop,          1,      10),
+    };
+    scheduler.init(&copter_scheduler_tasks[0], ARRAY_SIZE(copter_scheduler_tasks));
+
     init_ardupilot();
     fast_loopTimer = micro64();
 }
@@ -9,7 +46,10 @@ void Copter::setup()
 
 void Copter::loop()
 {
+    // printf(" wp_navalt_min: %f\n",g2.wp_navalt_min);
+    // printf(" test_value_p1: %f\n",test_value_p1);
     uint64_t timer = micro64();
+    // printf(" This is APM LOOP 1\n");
 
     // used by PI Loops
     G_Dt                    = (float)(timer - fast_loopTimer) / 1000000.0f;
@@ -20,9 +60,18 @@ void Copter::loop()
 
     // Execute the fast loop
     // ---------------------
-    rc_loop();
     fast_loop();
-    throttle_loop();
+
+    // tell the scheduler one tick has passed
+    scheduler.tick();
+
+    // run all the tasks that are due to run. Note that we only
+    // have to call this once per loop, as the tasks are scheduled
+    // in multiples of the main loop tick. So if they don't run on
+    // the first call to the scheduler they won't run on a later
+    // call until scheduler.tick() is called again
+    uint32_t time_available = (timer + MAIN_LOOP_MICROS) - micro64();
+    scheduler.run(time_available > MAIN_LOOP_MICROS ? 0u : time_available);
 }
 
 
@@ -63,6 +112,7 @@ void Copter::rc_loop()
     // -----------------------------------------
     read_radio();
     read_control_switch();
+    // printf(" rc_loop millis() %ld,\n", millis());
 }
 
 // throttle_loop - should be run at 400 hz
@@ -74,6 +124,7 @@ void Copter::throttle_loop()
 
     // check auto_armed status
     update_auto_armed();
+    // printf(" throttle_loop millis() %ld,\n", millis());
 }
 
 // ten_hz_loop - runs at 10Hz
@@ -99,6 +150,14 @@ void Copter::ten_hz_loop()
     run_nav_updates();
     
     test_star_updates();
+}
+
+// one_hz_loop - runs at 10Hz
+void Copter::one_hz_loop()
+{
+    // printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
+    // printf(" hal.sitl_state.speedD: %f\n", hal.sitl_state.speedD);
+    // printf(" hal.sitl_state.latitude: %ld\n", hal.sitl_state.latitude);
 }
 
 void Copter::read_AHRS(void)

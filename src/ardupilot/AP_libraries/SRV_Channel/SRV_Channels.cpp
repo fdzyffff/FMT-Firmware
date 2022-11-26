@@ -35,8 +35,10 @@ SRV_Channels::srv_function SRV_Channels::functions[SRV_Channel::k_nr_aux_servo_f
  */
 SRV_Channels::SRV_Channels(void)
 {
+    printf(" Init: SRV_Channels\n");
     channels = obj_channels;
     
+    function_mask = *(new Bitmask(SRV_Channel::k_nr_aux_servo_functions));
     // set defaults from the parameter table
 
     // setup ch_num on channels

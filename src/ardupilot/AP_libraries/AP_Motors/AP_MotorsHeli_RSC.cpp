@@ -17,7 +17,7 @@
 
 #include "AP_MotorsHeli_RSC.h"
 
-extern uint32_t micro64();
+extern uint64_t micro64();
 
 // init_servo - servo initialization on start-up
 void AP_MotorsHeli_RSC::init_servo()

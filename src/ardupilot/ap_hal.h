@@ -2,6 +2,7 @@
 #define AP_HAL_H
 
 #include "AP_Math.h"
+#include <firmament.h>
 
 #pragma once
 
@@ -164,12 +165,25 @@ public:
     bool _new_output;
 };
 
+class APM_test_t{
+public:
+    int16_t test_value_p1;
+    APM_test_t(void);
+
+    void init(int16_t p1_in) {test_value_p1 = p1_in;}
+};
+
+extern APM_test_t apmtest;
+
 class AP_HAL{
 public:
-	RCInput rcin;
+    RCInput rcin;
     RCOutput rcout;
-	struct sitl_fdm sitl_state;
+    APM_test_t apmt;
+    struct sitl_fdm sitl_state;
     bool get_soft_armed() {return false;}
+    uint32_t micros() {return (uint32_t)micro64();}
+    void info();
 };
 
 extern AP_HAL hal;

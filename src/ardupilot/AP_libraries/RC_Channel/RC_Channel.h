@@ -4,6 +4,8 @@
 
 #include "AP_Common.h"
 
+#include "ap_hal.h"
+
 #define RC_CHANNEL_TYPE_ANGLE       0
 #define RC_CHANNEL_TYPE_RANGE       1
 
@@ -131,6 +133,7 @@ public:
     RC_Channels(void);
 
     static RC_Channel *rc_channel(uint8_t chan) {
+        // printf(" RC_Channels: %d \n", sizeof(obj_channels));
         return (chan < NUM_RC_CHANNELS)?&channels[chan]:nullptr;
     }
 

@@ -1,6 +1,6 @@
 #include "Copter.h"
 
-#define ARM_DELAY               50  // called at 10hz so 2 seconds
+#define ARM_DELAY               20  // called at 10hz so 2 seconds
 #define DISARM_DELAY            20  // called at 10hz so 2 seconds
 #define AUTO_TRIM_DELAY         100 // called at 10hz so 10 seconds
 #define LOST_VEHICLE_DELAY      10  // called at 10hz so 1 second
@@ -21,10 +21,16 @@ void Copter::arm_motors_check()
         return;
     }
 
-    int16_t tmp = channel_yaw->get_control_in();
+    int16_t tmp_thr = channel_throttle->get_control_in(); // range to 1000
+    int16_t tmp_roll = channel_roll->get_control_in();
+    int16_t tmp_pitch = channel_pitch->get_control_in();
+    int16_t tmp_yaw = channel_yaw->get_control_in();
+
+    bool arm_flag = (tmp_thr < 100 && tmp_yaw > 4000 && tmp_pitch > 4000 && tmp_roll < -4000);
+    bool disarm_flag = (tmp_thr < 100 && tmp_yaw < -4000 && tmp_pitch > 4000 && tmp_roll > 4000);
 
     // full right
-    if (tmp > 4000) {
+    if (arm_flag) {
 
         // increase the arming counter to a maximum of 1 beyond the auto trim counter
         if( arming_counter <= ARM_DELAY ) {
@@ -40,7 +46,7 @@ void Copter::arm_motors_check()
         }
 
     // full left
-    }else if (tmp < -4000) {
+    }else if (disarm_flag) {
         if (!mode_has_manual_throttle(control_mode) && !ap.land_complete) {
             arming_counter = 0;
             return;

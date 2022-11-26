@@ -25,6 +25,8 @@ src += Glob('AP_libraries/Filter/*.cpp')
 src += Glob('AP_libraries/PID/*.cpp')
 src += Glob('AP_libraries/RC_Channel/*.cpp')
 src += Glob('AP_libraries/SRV_Channel/*.cpp')
+src += Glob('AP_libraries/AP_Scheduler/*.cpp')
+src += Glob('AP_libraries/AP_Param/*.cpp')
 
 inc += [cwd]
 inc += [cwd + '/ArduCopter']
@@ -46,6 +48,9 @@ inc += [cwd + '/AP_Libraries/Filter']
 inc += [cwd + '/AP_Libraries/PID']
 inc += [cwd + '/AP_Libraries/RC_Channel']
 inc += [cwd + '/AP_Libraries/SRV_Channel']
+inc += [cwd + '/AP_Libraries/AP_Scheduler']
+inc += [cwd + '/AP_Libraries/AP_HAL/utility']
+inc += [cwd + '/AP_Libraries/AP_Param']
 
 group = DefineGroup('APM_LIB', src, depend = [''], CPPPATH = inc, CPPDEFINES=['APM_STANDALONE'])
 

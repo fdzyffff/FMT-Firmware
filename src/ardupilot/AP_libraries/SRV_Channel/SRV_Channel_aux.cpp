@@ -138,7 +138,7 @@ void SRV_Channels::update_aux_servo_function(void)
     for (uint8_t i = 0; i < NUM_SERVO_CHANNELS; i++) {
         if ((uint8_t)channels[i].function < SRV_Channel::k_nr_aux_servo_functions) {
             channels[i].aux_servo_function_setup();
-            function_mask = ((uint8_t)channels[i].function);
+            function_mask.set(((uint8_t)channels[i].function));
             functions[channels[i].function].channel_mask |= 1U<<i;
         }
     }
@@ -389,7 +389,7 @@ bool SRV_Channels::set_aux_channel_default(SRV_Channel::Aux_servo_function_t fun
     channels[channel].type_setup = false;
     channels[channel].function = (function);
     channels[channel].aux_servo_function_setup();
-    function_mask = ((uint8_t)function);
+    function_mask.set((uint8_t)function);
     return true;
 }
 

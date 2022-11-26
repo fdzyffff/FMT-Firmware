@@ -25,6 +25,8 @@
 
 #include "RC_Channel.h"
 
+#include "ap_hal.h"
+
 RC_Channel *RC_Channels::channels;
 
 /*
@@ -32,6 +34,7 @@ RC_Channel *RC_Channels::channels;
  */
 RC_Channels::RC_Channels(void)
 {
+    printf(" Init: RC_Channels\n");
     channels = obj_channels;
 
     // setup ch_in on channels

@@ -11,7 +11,7 @@
 #include "stdio.h"
 #include "stdarg.h"
 #include "stdint.h"
-#include <firmament.h>
+// #include <firmament.h>
 
 #include "ap_hal.h"
 // Common dependencies
@@ -27,7 +27,7 @@
 #include "AC_Circle.h"          // circle navigation library
 #include "RC_Channel.h"         // RC Channel Library
 #include "AP_AHRS_NavEKF.h"
-#include "AP_Math.h"
+// #include "AP_Math.h"
 #include "AP_InertialNav_NavEKF.h"
 // Configuration
 #include "defines.h"
@@ -39,22 +39,30 @@
 
 #include "AP_Mission.h"
 #include "ardupilotmega.h"
+#include "AP_Scheduler.h"       // main loop scheduler
 
 // libraries which are dependent on #defines in defines.h and/or config.h
+class Copter_pre {
+public:
+    virtual void setup();
+    virtual void loop();
+    virtual void rc_loop();
+};
 
 // Local modules
-class Copter{
+class Copter : public Copter_pre {
 public:
 
     Copter(void);
 
     //parameters 
-    void setup();
-    void loop();
+    void setup() override;
+    void loop() override;
     void fast_loop();
     void rc_loop();
     void throttle_loop();
     void ten_hz_loop();
+    void one_hz_loop();
     void arm_motors_check();
     void auto_disarm_check();
     void read_AHRS(void);
@@ -323,8 +331,12 @@ public:
 		bool IsStall;
     
     Vector3f get_destination();
+    // Global parameters are all contained within the 'g' class.
     Parameters g;
     ParametersG2 g2;
+    // main loop scheduler
+    AP_Scheduler scheduler;
+
     int8_t flight_modes[6];
 
     // This is the state of the flight control system
@@ -630,7 +642,7 @@ public:
 
     // Top-level logic
 
-    float p1;
+    float test_value_p1;
 
 private:
 
@@ -641,8 +653,10 @@ private:
         uint32_t takeoff_time_ms;
         float takeoff_alt_cm;
     } gndeffect_state;
+
+    // static const AP_Scheduler::Task scheduler_tasks[];
 };
 
 
-extern Copter copter;
+extern Copter* copter;
 

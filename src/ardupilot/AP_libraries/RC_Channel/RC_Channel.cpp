@@ -24,16 +24,14 @@
 
 #include "RC_Channel.h"
 
-#include "ap_hal.h"
-
 extern AP_HAL hal;
 
 // constructor
 RC_Channel::RC_Channel(void) :
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    radio_min(1100),
+    radio_min(1000),
     radio_trim(1500),
-    radio_max(1900),
+    radio_max(2000),
     reversed(0),
     dead_zone(0)
 {

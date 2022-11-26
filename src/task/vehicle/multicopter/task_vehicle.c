@@ -126,7 +126,7 @@ fmt_err_t task_vehicle_init(void)
     if (rt_timer_start(&timer_vehicle) != RT_EOK) {
         return FMT_ERROR;
     }
-
+apm_interface_step(2000);
     return FMT_EOK;
 }
 

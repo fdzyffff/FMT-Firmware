@@ -1,4 +1,5 @@
 #include "ap_hal.h"
+// #include "APM.h"
 
 extern uint32_t millis();
 extern uint64_t micro64();
@@ -88,4 +89,13 @@ void RCOutput::push()
 uint16_t RCOutput::read(uint8_t ch) {
     //send the value last sent
     return (uint16_t)_rc_out_data[ch];
+}
+
+void AP_HAL::info() {
+    printf("This APM hal\n");
+}
+    
+APM_test_t::APM_test_t(void) {
+    test_value_p1 = 100;
+    printf(" Init: APM_test_t\n");
 }

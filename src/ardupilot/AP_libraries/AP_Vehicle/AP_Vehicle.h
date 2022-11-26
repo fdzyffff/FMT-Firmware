@@ -18,6 +18,9 @@
   this header holds a parameter structure for each vehicle type for
   parameters needed by multiple libraries
  */
+
+#include "AP_Param.h"
+
 class AP_Vehicle {
 
 public:
