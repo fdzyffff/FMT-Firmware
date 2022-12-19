@@ -89,6 +89,7 @@ void AP_Motors::rc_write(uint8_t chan, uint16_t pwm)
         // we have a mapped motor number for this channel
         chan = _motor_map[chan];
     }
+
     hal.rcout.write(chan, pwm);
 }
 

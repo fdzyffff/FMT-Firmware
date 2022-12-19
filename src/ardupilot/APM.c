@@ -31,16 +31,6 @@ void APM_update_para(void){
     APM_init_para();
 }
 
-void APM_update_rc(void)
-{
-    APM_Copter_update_rc();
-}
-
-void APM_update_inertial(void)
-{
-    APM_Copter_update_inertial();
-}
-
 // uint32_t APM_millis(void)
 // {
 //     return systime_now_ms();

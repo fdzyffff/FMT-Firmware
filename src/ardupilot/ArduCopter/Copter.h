@@ -214,6 +214,7 @@ public:
     void do_set_home(const AP_Mission::Mission_Command& cmd);
     void do_roi(const AP_Mission::Mission_Command& cmd);
     void do_mount_control(const AP_Mission::Mission_Command& cmd);
+    void do_RTL(void);
     bool verify_nav_wp(const AP_Mission::Mission_Command& cmd);
     bool verify_circle(const AP_Mission::Mission_Command& cmd);
     bool verify_spline_wp(const AP_Mission::Mission_Command& cmd);
@@ -289,6 +290,21 @@ public:
     float guided_max_speed(float distance, float p, float accel_cmss);
     LowPassFilterFloat guided_yaw_base_angle_filt;
 
+    bool rtl_init(bool ignore_checks);
+    void rtl_restart_without_terrain();
+    void rtl_run();
+    void rtl_climb_start();
+    void rtl_return_start();
+    void rtl_climb_return_run();
+    void rtl_loiterathome_start();
+    void rtl_loiterathome_run();
+    void rtl_descent_start();
+    void rtl_descent_run();
+    void rtl_land_start();
+    void rtl_land_run();
+    void rtl_build_path(bool terrain_following_allowed);
+    void rtl_compute_return_target(bool terrain_following_allowed);
+
     bool land_init(bool ignore_checks);
     void land_run();
     void land_gps_run();
@@ -302,8 +318,12 @@ public:
 
     bool rangefinder_alt_ok();
 
-    void test_star_updates();
-    void test_star_init();
+    void navigation_init();
+    void navigation_update();
+    void navigation_next();
+
+    void update_gcs_cmd();
+    void update_fmt_bus();
 
 
     bool fp_init(bool ignore_checks);
@@ -627,7 +647,6 @@ public:
     // Used to exit the roll and pitch auto trim function
     uint8_t auto_trim_counter;
 
-
     // use this to prevent recursion during sensor init
     bool in_mavlink_delay;
 
@@ -642,7 +661,12 @@ public:
 
     // Top-level logic
 
+    struct FMT_mission_t {
+        bool current_mission_verified;
+    } FMT_mission;
+
     float test_value_p1;
+
 
 private:
 

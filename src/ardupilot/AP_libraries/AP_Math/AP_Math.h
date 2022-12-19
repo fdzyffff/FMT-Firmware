@@ -166,6 +166,11 @@ static inline float degrees(float rad)
     return rad * RAD_TO_DEG;
 }
 
+static inline double degrees(double rad)
+{
+    return rad * RAD_TO_DEG;
+}
+
 template<class T>
 float sq(const T val)
 {

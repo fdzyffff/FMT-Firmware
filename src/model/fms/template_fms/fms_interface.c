@@ -17,7 +17,7 @@
 #include <firmament.h>
 
 /* FMS output topic */
-MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
+// MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
 /* Model information */
 fmt_model_info_t fms_model_info;
 

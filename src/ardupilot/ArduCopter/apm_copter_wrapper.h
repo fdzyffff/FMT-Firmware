@@ -8,7 +8,5 @@ void APM_Copter_Setup(void);   //上电初始化
 void APM_Copter_Main(void);    //飞控主循环，不小于400Hz
 void APM_Copter_init_para(void);
 void APM_Copter_update_para(void);
-void APM_Copter_update_rc(void);
-void APM_Copter_update_inertial(void);
 
 #endif

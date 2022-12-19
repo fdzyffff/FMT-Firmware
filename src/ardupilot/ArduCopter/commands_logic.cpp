@@ -3,7 +3,7 @@
 // start_command - this function will be called when the ap_mission lib wishes to start a new command
 bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
 {
-    if (control_mode != AUTO && control_mode != TESTSTAR) {
+    if (control_mode != AUTO) {
         return false;
     }
     copter_current_cmd = cmd;
@@ -43,7 +43,7 @@ bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
         break;
 
     case MAV_CMD_NAV_RETURN_TO_LAUNCH:             //20
-        //do_RTL();
+        do_RTL();
         break;
 
     case MAV_CMD_NAV_SPLINE_WAYPOINT:           // 82  Navigate to Waypoint using spline
@@ -276,12 +276,12 @@ bool Copter::verify_command(const AP_Mission::Mission_Command& cmd)
 //
 /********************************************************************************/
 
-/*// do_RTL - start Return-to-Launch
+// do_RTL - start Return-to-Launch
 void Copter::do_RTL(void)
 {
     // start rtl in auto flight mode
     auto_rtl_start();
-}*/
+}
 
 /********************************************************************************/
 //	Nav (Must) commands

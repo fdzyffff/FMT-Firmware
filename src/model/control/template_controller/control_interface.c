@@ -18,7 +18,7 @@
 #include <firmament.h>
 
 /* controller output topic */
-MCN_DEFINE(control_output, sizeof(Control_Out_Bus));
+// MCN_DEFINE(control_output, sizeof(Control_Out_Bus));
 /* Model information */
 fmt_model_info_t control_model_info;
 

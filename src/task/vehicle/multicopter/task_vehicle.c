@@ -72,7 +72,6 @@ void task_vehicle_entry(void* parameter)
                 gcs_cmd_collect();
                 mission_data_collect();
 
-                apm_interface_step(timestamp);
 
 #ifdef FMT_USING_SIH
                 /* run Plant model */
@@ -81,9 +80,11 @@ void task_vehicle_entry(void* parameter)
                 /* run INS model */
                 PERIOD_EXECUTE3(ins_step, ins_model_info.period, time_now, ins_interface_step(timestamp););
                 /* run FMS model */
-                PERIOD_EXECUTE3(fms_step, fms_model_info.period, time_now, fms_interface_step(timestamp););
+                // PERIOD_EXECUTE3(fms_step, fms_model_info.period, time_now, fms_interface_step(timestamp););
                 /* run Controller model */
-                PERIOD_EXECUTE3(control_step, control_model_info.period, time_now, control_interface_step(timestamp););
+                // PERIOD_EXECUTE3(control_step, control_model_info.period, time_now, control_interface_step(timestamp););
+
+                apm_interface_step(timestamp);
 
 #if defined(FMT_HIL_WITH_ACTUATOR) || (!defined(FMT_USING_HIL) && !defined(FMT_USING_SIH))
                 send_actuator_cmd();
@@ -92,6 +93,15 @@ void task_vehicle_entry(void* parameter)
 #if defined(FMT_USING_HIL)
                 send_hil_actuator_cmd();
 #endif
+                // sainty check for loop frequency
+                // static uint32_t last_ts_update = 0;
+                // static uint16_t ts_count = 0;
+                // ts_count++;
+                // if (time_now - last_ts_update > 1000) {
+                //     printf( "ts_count: %d\n", ts_count);
+                //     last_ts_update = time_now;
+                //     ts_count = 0;
+                // }
             }
         }
     }
@@ -122,11 +132,11 @@ fmt_err_t task_vehicle_init(void)
     }
 
     /* register timer event */
-    rt_timer_init(&timer_vehicle, "vehicle", timer_vehicle_update, RT_NULL, 1, RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_HARD_TIMER);
+    rt_timer_init(&timer_vehicle, "vehicle", timer_vehicle_update, RT_NULL, 2, RT_TIMER_FLAG_PERIODIC | RT_TIMER_FLAG_HARD_TIMER);
     if (rt_timer_start(&timer_vehicle) != RT_EOK) {
         return FMT_ERROR;
     }
-apm_interface_step(2000);
+
     return FMT_EOK;
 }
 

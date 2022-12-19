@@ -3,6 +3,7 @@
 
 #include "AP_Math.h"
 #include <firmament.h>
+#include "APM.h"
 
 #pragma once
 
@@ -161,7 +162,7 @@ public:
     void     set_failsafe_pwm(uint32_t chmask, uint16_t period_us) {}
     void     cork(void)  {_new_output = false;}
     void     push(void);
-    int16_t  _rc_out_data[20];
+    uint16_t  _rc_out_data[20];
     bool _new_output;
 };
 
@@ -180,10 +181,31 @@ public:
     RCInput rcin;
     RCOutput rcout;
     APM_test_t apmt;
-    struct sitl_fdm sitl_state;
+    sitl_fdm sitl_state;
+
+    // interface to FMT Bus, copy in apm_copter_wrapper.cpp
+    int16_t rcChannel_msg[16];
+    INS_Out_Bus ins_out_msg;
+    Mission_Data_Bus mission_data_msg;
+    FMS_Out_Bus fms_out_msg;
+    Control_Out_Bus control_out_msg;
+    GCS_Cmd_Bus gcs_cmd_msg;
+
+    uint8_t apm_pilot_cmd_updated;
+    uint8_t apm_gcs_cmd_updated;
+    uint8_t apm_mission_data_updated;
+    
+    uint8_t apm_pilot_cmd_log;
+    uint8_t apm_gcs_cmd_log;
+    uint8_t apm_mission_data_log;
+
     bool get_soft_armed() {return false;}
     uint32_t micros() {return (uint32_t)micro64();}
     void info();
+    void update();
+    void update_rc();
+    void update_mission();
+    void update_inertial();
 };
 
 extern AP_HAL hal;

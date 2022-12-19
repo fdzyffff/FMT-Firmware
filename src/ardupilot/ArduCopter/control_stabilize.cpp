@@ -50,21 +50,6 @@ void Copter::stabilize_run()
     // get pilot's desired throttle
     pilot_throttle_scaled = get_pilot_desired_throttle(channel_throttle->get_control_in());
 
-    // update attitude controller targets
-/*    uint32_t tnow = millis();
-    if (target_yaw_rate > 1.0f || target_yaw_rate < -1.0f) { // call attitude controller with rate yaw determined by pilot input
-        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
-        last_pilot_heading = ahrs.yaw_sensor;
-        last_pilot_yaw_input_ms = tnow; // time when pilot last changed heading
-        my_yaw_ctrl_state = 1;
-    } else { // hold current heading
-        target_yaw_rate = 0.0f; // Stop rotation on yaw axis
-        attitude_control->input_euler_angle_roll_pitch_yaw(target_roll, target_pitch, last_pilot_heading, false, get_smoothing_gain());
-        my_yaw_ctrl_state = 3;
-    }*/
-    my_target_roll = target_roll;
-    my_target_pitch = target_pitch;
-    my_target_yaw_rate = target_yaw_rate;
     // call attitude controller
     attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
 

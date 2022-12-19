@@ -14,7 +14,7 @@ extern uint32_t millis();
 
 // position controller default definitions
 #define POSCONTROL_ACCELERATION_MIN             50.0f   // minimum horizontal acceleration in cm/s/s - used for sanity checking acceleration in leash length calculation
-#define POSCONTROL_ACCEL_XY                     150.0f  // default horizontal acceleration in cm/s/s.  This is overwritten by waypoint and loiter controllers
+#define POSCONTROL_ACCEL_XY                     100.0f  // default horizontal acceleration in cm/s/s.  This is overwritten by waypoint and loiter controllers
 #define POSCONTROL_ACCEL_XY_MAX                 980.0f  // max horizontal acceleration in cm/s/s that the position velocity controller will ask from the lower accel controller
                                                         // should be 1.5 times larger than POSCONTROL_ACCELERATION.
                                                         // max acceleration = max lean angle * 980 * pi / 180.  i.e. 23deg * 980 * 3.141 / 180 = 393 cm/s/s
@@ -22,10 +22,10 @@ extern uint32_t millis();
 #define POSCONTROL_STOPPING_DIST_DOWN_MAX       200.0f  // max stopping distance (in cm) vertically while descending
 #define POSCONTROL_JERK_LIMIT_CMSSS             1700.0f // default jerk limit on horizontal acceleration (unit: m/s/s/s)
 
-#define POSCONTROL_SPEED                        1000.0f  // default horizontal speed in cm/s
+#define POSCONTROL_SPEED                        500.0f  // default horizontal speed in cm/s
 #define POSCONTROL_SPEED_DOWN                  -150.0f  // default descent rate in cm/s
 #define POSCONTROL_SPEED_UP                     250.0f  // default climb rate in cm/s
-#define POSCONTROL_VEL_XY_MAX_FROM_POS_ERR      400.0f  // max speed output from pos_to_vel controller when feed forward is used
+#define POSCONTROL_VEL_XY_MAX_FROM_POS_ERR      200.0f  // max speed output from pos_to_vel controller when feed forward is used
 
 #define POSCONTROL_ACCEL_Z                      250.0f  // default vertical acceleration in cm/s/s.
 
@@ -40,7 +40,9 @@ extern uint32_t millis();
 #define POSCONTROL_THROTTLE_CUTOFF_FREQ         2.0f    // low-pass filter on accel error (unit: hz)
 #define POSCONTROL_ACCEL_FILTER_HZ              2.0f    // low-pass filter on acceleration (unit: hz)
 #define POSCONTROL_JERK_RATIO                   1.0f    // Defines the time it takes to reach the requested acceleration
+
 #define POSCONTROL_OVERSPEED_GAIN_Z             2.0f    // gain controlling rate at which z-axis speed is brought back within SPEED_UP and SPEED_DOWN range
+
 class AC_PosControl
 {
 public:

@@ -162,6 +162,9 @@ void plant_interface_step(uint32_t timestamp)
 {
     if (mcn_poll(control_out_nod)) {
         mcn_copy(MCN_HUB(control_output), control_out_nod, &Plant_U.Control_Out);
+    // for (uint8_t i_act = 0; i_act < 4; i_act++) {
+    //     printf("  Plant_U.Control_Out.actuator_cmd[%d]=%d\n", i_act, Plant_U.Control_Out.actuator_cmd[i_act]);
+    // }
     }
 
     /* run plant model */

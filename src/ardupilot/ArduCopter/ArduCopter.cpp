@@ -32,10 +32,11 @@ void Copter::setup()
   and the maximum time they are expected to take (in microseconds)
  */
     static const AP_Scheduler::Task copter_scheduler_tasks[] = {
-        SCHED_TASK(rc_loop,              400,    130),
-        SCHED_TASK(throttle_loop,        100,    130),
-        SCHED_TASK(arm_motors_check,     10,     130),
-        SCHED_TASK(one_hz_loop,          1,      10),
+        SCHED_TASK(update_throttle_hover,  100,    90),
+        SCHED_TASK(throttle_loop,          50,     75),
+        SCHED_TASK(arm_motors_check,       10,     50),
+        SCHED_TASK(run_nav_updates,        50,    100),
+        SCHED_TASK(one_hz_loop,            1,      100),
     };
     scheduler.init(&copter_scheduler_tasks[0], ARRAY_SIZE(copter_scheduler_tasks));
 
@@ -78,6 +79,9 @@ void Copter::loop()
 // Main loop - 400hz
 void Copter::fast_loop()
 {    
+
+    rc_loop();
+
     // run low level rate controllers that only require IMU data
     attitude_control->rate_controller_run();
 
@@ -102,6 +106,10 @@ void Copter::fast_loop()
     update_land_and_crash_detectors();
 
     update_throttle_hover();
+
+    update_gcs_cmd();
+
+    update_fmt_bus();
 }
 
 // rc_loops - reads user input from transmitter/receiver
@@ -115,7 +123,7 @@ void Copter::rc_loop()
     // printf(" rc_loop millis() %ld,\n", millis());
 }
 
-// throttle_loop - should be run at 400 hz
+// throttle_loop - should be run at 50 hz
 // ---------------------------
 void Copter::throttle_loop()
 {
@@ -124,7 +132,6 @@ void Copter::throttle_loop()
 
     // check auto_armed status
     update_auto_armed();
-    // printf(" throttle_loop millis() %ld,\n", millis());
 }
 
 // ten_hz_loop - runs at 10Hz
@@ -147,17 +154,57 @@ void Copter::ten_hz_loop()
 
     //auto_disarm_check();
     //arm_motors_check();
-    run_nav_updates();
-    
-    test_star_updates();
 }
 
 // one_hz_loop - runs at 10Hz
 void Copter::one_hz_loop()
 {
-    // printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
+    // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
     // printf(" hal.sitl_state.speedD: %f\n", hal.sitl_state.speedD);
     // printf(" hal.sitl_state.latitude: %ld\n", hal.sitl_state.latitude);
+    // printf(" hal.sitl_state.longitude: %ld\n", hal.sitl_state.longitude);
+
+    // printf(" ins_out_msg.lat: %f\n", degrees(ins_out_msg.lat));
+    // printf(" ins_out_msg.lon: %f\n", degrees(ins_out_msg.lon));
+    // printf(" ins_out_msg.lat_0: %f\n", degrees(ins_out_msg.lat_0));
+    // printf(" ins_out_msg.lon_0: %f\n", degrees(ins_out_msg.lon_0));
+    // printf(" hal.apm_mission_data_updated = %d\n", hal.apm_mission_data_updated);
+    // printf(" hal.mission_data_msg.valid_items = %d\n", hal.mission_data_msg.valid_items);
+    // printf(" hal.mission_data_msg.command[0] = %d\n", hal.mission_data_msg.command[0]);
+    // printf(" hal.mission_data_msg.mission_type[0] = %d\n", hal.mission_data_msg.mission_type[0]);
+    // printf(" hal.mission_data_msg.x[0] = %ld\n", hal.mission_data_msg.x[0]);
+    // printf(" hal.mission_data_msg.y[0] = %ld\n", hal.mission_data_msg.y[0]);
+    // printf(" hal.mission_data_msg.z[0] = %f\n", hal.mission_data_msg.z[0]);
+    // printf(" wp_distance = %ld\n", wp_distance);
+    // printf(" get_auto_heading[%d] %f\n", auto_yaw_mode, get_auto_heading()*0.01f);
+    // for (uint8_t i_act = 0; i_act < 4; i_act++) {
+    //     printf("  hal.rcout._rc_out_data[%d]=%d\n", i_act, hal.rcout._rc_out_data[i_act]);
+    // }
+    // for (uint8_t i_act = 0; i_act < 4; i_act++) {
+    //     if (i_act == 0) {
+    //         printf("  hal.control_out_msg.actuator_cmd [%d", hal.control_out_msg.actuator_cmd[i_act]);
+    //     } else if (i_act < 3) {
+    //         printf(", %d", hal.control_out_msg.actuator_cmd[i_act]);
+    //     } else {
+    //         printf(", %d]\n", hal.control_out_msg.actuator_cmd[i_act]);
+    //     }
+    // }
+    // if (ap.home_state == HOME_UNSET) {
+    //     printf("Home set\n");
+    // }
+    // printf(" control_mode : %d\n", control_mode);
+
+    // static uint8_t t_count = 1;
+    // if (t_count>0) {
+    //     t_count++;
+    // }
+    // if (t_count>6) {
+    //     printf("do arm\n");
+    //     init_arm_motors(true);
+    //     t_count = 0;
+    // }
+    // console_printf(" failsafe.radio: %d\n", failsafe.radio);
+
 }
 
 void Copter::read_AHRS(void)
@@ -182,3 +229,165 @@ void Copter::update_home_from_EKF()
         set_home_to_current_location();
     }
 }
+
+void Copter::update_gcs_cmd() 
+{
+    static uint8_t last_ctrl_mode = 0;
+    static uint8_t last_state_cmd = 0;
+    if (hal.apm_gcs_cmd_updated) {
+        printf("mode:%d, submod:%d \n",hal.gcs_cmd_msg.mode, hal.gcs_cmd_msg.cmd_1);
+        if (last_state_cmd != hal.gcs_cmd_msg.cmd_1) {
+            switch (hal.gcs_cmd_msg.cmd_1)
+            {
+                case FMS_Cmd_None:
+                default:
+                case FMS_Cmd_PreArm:
+                    printf ("Do PreArm\n");
+                    init_arm_motors(true);
+                    break;
+                case FMS_Cmd_Arm:
+                    printf ("[no]Do Arm\n");
+                    break;
+                case FMS_Cmd_Disarm:
+                    printf ("Do Disarm\n");
+                    init_disarm_motors();
+                    break;
+                case FMS_Cmd_Takeoff:
+                    printf ("[no]Do Takeoff\n");
+                    break;
+                case FMS_Cmd_Land:
+                    printf ("Do Land\n");
+                    set_mode(LAND, MODE_REASON_GCS_COMMAND);
+                    break;
+                case FMS_Cmd_Return:
+                    printf ("Do RTL\n");
+                    set_mode(RTL, MODE_REASON_GCS_COMMAND);
+                    break;
+                case FMS_Cmd_Pause:
+                    printf ("[no]Do Pause\n");
+                    break;
+                case FMS_Cmd_Continue:
+                    printf ("[no]Do Continue\n");
+                    break;
+            }
+            last_state_cmd = hal.gcs_cmd_msg.cmd_1;
+        }
+
+        if (last_ctrl_mode != hal.gcs_cmd_msg.mode) {
+            switch (hal.gcs_cmd_msg.mode)
+            {
+                default:
+                    printf ("Invalid mode\n");
+                    break;
+                case PilotMode_Acro:
+                    printf ("[no]APM Acro mode\n");
+                    // set_mode(ACRO, MODE_REASON_GCS_COMMAND);
+                    break;
+                case PilotMode_Stabilize:
+                    printf ("APM Stabilize mode\n");
+                    set_mode(STABILIZE, MODE_REASON_GCS_COMMAND);
+                    break;
+                case PilotMode_Altitude:
+                    printf ("APM Alt_hold mode\n");
+                    set_mode(ALT_HOLD, MODE_REASON_GCS_COMMAND);
+                    break;
+                case PilotMode_Position:
+                    printf ("APM Loiter mode\n");
+                    set_mode(LOITER, MODE_REASON_GCS_COMMAND);
+                    break;
+                case PilotMode_Mission:
+                    printf ("APM Auto mode\n");
+                    set_mode(AUTO, MODE_REASON_GCS_COMMAND);
+                    break;        
+            }
+            last_ctrl_mode = hal.gcs_cmd_msg.mode;
+        }
+        hal.apm_gcs_cmd_updated = 0;
+        hal.apm_gcs_cmd_log = 1;
+    }
+}
+
+void Copter::update_fmt_bus() 
+{
+    // for FMS_OUT_BUS
+    if (motors->armed()) {
+        if (!ap.land_complete) {
+            hal.fms_out_msg.status = VehicleStatus_Arm;
+        } else {
+            hal.fms_out_msg.status = VehicleStatus_Standby;
+        }
+    } else {
+        hal.fms_out_msg.status = VehicleStatus_Disarm;
+    }
+    hal.fms_out_msg.ctrl_mode = control_mode;
+    switch (control_mode) {
+        case AUTO:
+            hal.fms_out_msg.mode = PilotMode_Mission;
+            switch (auto_mode) {
+                case Auto_TakeOff:
+                    hal.fms_out_msg.state = VehicleState_Takeoff;
+                    break;
+                case Auto_WP:
+                case Auto_CircleMoveToEdge:
+                case Auto_Circle:
+                case Auto_Spline:
+                    hal.fms_out_msg.state = VehicleState_Mission;
+                    break;
+                case Auto_Land:
+                    hal.fms_out_msg.state = VehicleState_Land;
+                    break;
+                case Auto_RTL:
+                    hal.fms_out_msg.state = VehicleState_Return;
+                    break;
+                case Auto_NavGuided:
+                    hal.fms_out_msg.state = VehicleState_Offboard;
+                    break;
+                case Auto_Loiter:
+                    hal.fms_out_msg.state = VehicleState_Hold;
+                    break;
+                default:
+                    hal.fms_out_msg.state = VehicleState_Hold;
+                    break;
+            }
+            break;
+        case STABILIZE:
+            hal.fms_out_msg.mode = PilotMode_Stabilize;
+            hal.fms_out_msg.state = VehicleState_Stabilize;
+            break;
+        case ALT_HOLD:
+            hal.fms_out_msg.mode = PilotMode_Altitude;
+            hal.fms_out_msg.state = VehicleState_Altitude;
+            break;
+        case LOITER:
+            hal.fms_out_msg.mode = PilotMode_Position;
+            hal.fms_out_msg.state = VehicleState_Position;
+            break;
+        case RTL:
+            hal.fms_out_msg.mode = PilotMode_Mission;
+            hal.fms_out_msg.state = VehicleState_Return;
+            break;
+        case LAND:
+            hal.fms_out_msg.mode = PilotMode_Mission;
+            hal.fms_out_msg.state = VehicleState_Land;
+            break;
+        case ACRO:
+            hal.fms_out_msg.mode = PilotMode_Acro;
+            hal.fms_out_msg.state = VehicleState_Acro;
+            break;
+        case GUIDED:
+            hal.fms_out_msg.mode = PilotMode_Offboard;
+            hal.fms_out_msg.state = VehicleState_Offboard;
+            break;
+        default:
+            hal.fms_out_msg.mode = PilotMode_None;
+            hal.fms_out_msg.state = VehicleState_None;
+            break;
+    }
+
+    // hal.fms_out_msg.reserved1;
+    for (uint8_t i = 0; i < 16; i++){
+        hal.fms_out_msg.actuator_cmd[i] = hal.control_out_msg.actuator_cmd[i];
+    }
+
+}
+

@@ -9,8 +9,8 @@ AP_HAL hal;
 APM_test_t apmtest;
 my_temp_log_t my_temp_log;
 
-int16_t RC_in_data[20];
-int16_t RC_out_data[20];
+// int16_t RC_in_data[20];
+// int16_t RC_out_data[20];
 
 uint32_t millis() {return systime_now_ms();}
 uint64_t micro64() {return systime_now_us();} 
@@ -33,8 +33,8 @@ void APM_Copter_Setup(void)  //飞控初始化
     copter->setup();
     apmtest.init(2000);
     copter->test_value_p1 = 100.f;
-    memset(RC_in_data, 0, sizeof(RC_in_data));
-    memset(RC_out_data, 0, sizeof(RC_out_data));
+    // memset(RC_in_data, 0, sizeof(RC_in_data));
+    // memset(RC_out_data, 0, sizeof(RC_out_data));
     printf("----------------------------------------------------------------------------------------------------\n");
 }
 
@@ -42,56 +42,39 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
 {
     // param_set_val(param_get_by_full_name("APM","USER_TEST_P1"), &tmp_1);
 
+    memcpy(&hal.rcChannel_msg,&rcChannel_msg,sizeof(rcChannel_msg));
+    memcpy(&hal.ins_out_msg,&ins_out_msg,sizeof(ins_out_msg));
+    memcpy(&hal.mission_data_msg,&mission_data_msg,sizeof(mission_data_msg));
+    memcpy(&hal.gcs_cmd_msg,&gcs_cmd_msg,sizeof(gcs_cmd_msg));
+
+    hal.apm_pilot_cmd_updated = apm_pilot_cmd_updated;
+    hal.apm_gcs_cmd_updated = apm_gcs_cmd_updated;
+    hal.apm_mission_data_updated = apm_mission_data_updated;
+
+    // update hal
+    hal.update();
+
+    // the Copter main loop, includes fast_loop and loops defined in ArduCopter.cpp by AP_scheduler
     copter->loop();
+
+    // output
+    memcpy(&fms_out_msg,&hal.fms_out_msg,sizeof(fms_out_msg));
+    memcpy(&control_out_msg,&hal.control_out_msg,sizeof(control_out_msg));
+
+    apm_pilot_cmd_updated = hal.apm_pilot_cmd_updated;
+    apm_gcs_cmd_updated = hal.apm_gcs_cmd_updated;
+    apm_mission_data_updated = hal.apm_mission_data_updated;
+
+    apm_pilot_cmd_log = hal.apm_pilot_cmd_log;
+    apm_gcs_cmd_log = hal.apm_gcs_cmd_log;
+    apm_mission_data_log = hal.apm_mission_data_log;
 }
 
 void APM_Copter_init_para(void)
 {
     FMT_CHECK(param_link_variable(PARAM_GET(APM, USER_TEST_P1), &copter->test_value_p1));
+    // copter->g.wp_yaw_behavior = 0;
     // copter->p1 = apm_params.user_test_p1;
-}
-
-// void copter_init(void)
-// {
-//     copter.setup();
-//     memset(RC_in_data, 0, sizeof(RC_in_data));
-//     memset(RC_out_data, 0, sizeof(RC_out_data));
-// }
-
-void APM_Copter_update_rc(void)
-{
-    // trans rc value to copter instance
-    for (uint8_t i = 0; i < sizeof(rcChannel)/2; i++){
-        hal.rcin._rc_in_data[i] = rcChannel[i];
-    }
-    hal.rcin._new_input = true;
-}
-
-void APM_Copter_update_inertial(void)
-{
-    // trans inertial to copter instance
-    hal.sitl_state.latitude = (int32_t)(ins_out_msg.lat*1e7f);  // unit:0.0000001d,inertial_nav
-    hal.sitl_state.longitude = (int32_t)(ins_out_msg.lon*1e7f); //unit:0.0000001d,inertial_nav
-    hal.sitl_state.altitude = ins_out_msg.alt;         // double MSL
-
-    hal.sitl_state.speedN = ins_out_msg.vn; // float m/s, positive value for north
-    hal.sitl_state.speedE = ins_out_msg.ve; // float m/s, positive value for east
-    hal.sitl_state.speedD = ins_out_msg.vd; // float m/s, positive value for down
-       
-    hal.sitl_state.xAccel = ins_out_msg.ax; // float m/s/s in body
-    hal.sitl_state.yAccel = ins_out_msg.ay; // float m/s/s in body
-    hal.sitl_state.zAccel = ins_out_msg.az; // float m/s/s in body   
-
-    hal.sitl_state.rollRate  = degrees(ins_out_msg.p); // float degrees/s in body frame, positive value for roll
-    hal.sitl_state.pitchRate = degrees(ins_out_msg.q); // float degrees/s in body frame, positive value for pitch
-    hal.sitl_state.yawRate   = degrees(ins_out_msg.r); // float degrees/s in body frame, positive value for turn
-
-    hal.sitl_state.rollDeg   = degrees(ins_out_msg.phi);   // float euler angles, degrees, positive value for roll
-    hal.sitl_state.pitchDeg  = degrees(ins_out_msg.theta); // float euler angles, degrees, positive value for pitch
-    hal.sitl_state.yawDeg    = wrap_360(degrees(ins_out_msg.psi));   // float euler angles, degrees, positive value for turn
-    // euler angle to quanternion
-    hal.sitl_state.quaternion.from_euler(radians(hal.sitl_state.rollDeg), radians(hal.sitl_state.pitchDeg), radians(hal.sitl_state.yawDeg));
-    hal.sitl_state.position_ok = ins_out_msg.flag&(1<<5);
 }
 
 //     my_temp_log.pos_x = copter.inertial_nav.get_position().x;

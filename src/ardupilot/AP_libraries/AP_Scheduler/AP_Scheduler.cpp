@@ -24,7 +24,7 @@
 #include "AP_Vehicle.h"
 #include <stdio.h>
 
-#define SCHEDULER_DEFAULT_LOOP_RATE 1000
+#define SCHEDULER_DEFAULT_LOOP_RATE 500
 
 extern AP_HAL hal;
 
@@ -38,8 +38,8 @@ AP_Scheduler::AP_Scheduler(void):
     // only allow 50 to 400 Hz
     if (_loop_rate_hz < 50) {
         _loop_rate_hz=50;
-    } else if (_loop_rate_hz > 1000) {
-        _loop_rate_hz=1000;
+    } else if (_loop_rate_hz > 500) {
+        _loop_rate_hz=500;
     }
 }
 
@@ -94,15 +94,14 @@ void AP_Scheduler::run(uint32_t time_available)
 
             if (dt >= interval_ticks*2) {
                 // we've slipped a whole run of this task!
-                // if (_debug > 4) {
-                //     ::printf("Scheduler slip task[%u-%s] (%u/%u/%u)\n",
-                //              (unsigned)i,
-                //              _tasks[i].name,
-                //              (unsigned)dt,
-                //              (unsigned)interval_ticks,
-                //              (unsigned)_task_time_allowed);
-                // }
-                ;
+                if (_debug > 4) {
+                    printf("Scheduler slip task[%u-%s] (%u/%u/%u)\n",
+                             (unsigned)i,
+                             _tasks[i].name,
+                             (unsigned)dt,
+                             (unsigned)interval_ticks,
+                             (unsigned)_task_time_allowed);
+                }
             }
 
             if (_task_time_allowed <= time_available) {

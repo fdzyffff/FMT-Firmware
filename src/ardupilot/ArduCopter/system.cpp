@@ -45,6 +45,7 @@ void Copter::init_ardupilot()
     ap.pre_arm_rc_check = true;
     enable_motor_output();
 
+    set_mode(AUTO, MODE_REASON_TX_COMMAND);
     // flag that initialisation has completed
     ap.initialised = true;
 }
