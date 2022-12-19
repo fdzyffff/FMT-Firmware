@@ -17,7 +17,7 @@
 #include <firmament.h>
 
 /* FMS output topic */
-MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
+// MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
 /* Model information */
 fmt_model_info_t fms_model_info;
 
@@ -33,7 +33,7 @@ void fms_interface_init(void)
     fms_model_info.info = "Template FMS";
 
     /* advertise fms_output topic */
-    mcn_advertise(MCN_HUB(fms_output), NULL);
+    // mcn_advertise(MCN_HUB(fms_output), NULL);
 
     /* Add your code here */
 }
