@@ -28,6 +28,7 @@
 #include "module/sysio/pilot_cmd.h"
 #include "module/task_manager/task_manager.h"
 #include "task/logger/task_logger.h"
+#include "ardupilot/apm_interface.h"
 
 #define EVENT_VEHICLE_UPDATE (1 << 0)
 
