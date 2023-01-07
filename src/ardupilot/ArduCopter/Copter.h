@@ -1,4 +1,5 @@
 #pragma once
+
 /*
   This is the main Copter class
  */
@@ -6,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Header includes
 ////////////////////////////////////////////////////////////////////////////////
-
+// #include "board.h"
 //#include <cmath>
 #include "stdio.h"
 #include "stdarg.h"
@@ -42,6 +43,7 @@
 #include "AP_Scheduler.h"       // main loop scheduler
 
 // libraries which are dependent on #defines in defines.h and/or config.h
+
 class Copter_pre {
 public:
     virtual void setup();
@@ -49,7 +51,6 @@ public:
     virtual void rc_loop();
 };
 
-// Local modules
 class Copter : public Copter_pre {
 public:
 

@@ -141,8 +141,3 @@ void AP_HAL::update_mission(void)
     // reset consume
     fms_out_msg.wp_consume = 0;
 }
-    
-APM_test_t::APM_test_t(void) {
-    test_value_p1 = 100;
-    // printf(" Init: APM_test_t\n");
-}

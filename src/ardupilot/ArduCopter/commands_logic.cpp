@@ -50,12 +50,6 @@ bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
         //do_spline_wp(cmd);
         break;
 
-#if NAV_GUIDED == ENABLED
-    case MAV_CMD_NAV_GUIDED_ENABLE:             // 92  accept navigation commands from external nav computer
-        do_nav_guided_enable(cmd);
-        break;
-#endif
-
     case MAV_CMD_NAV_DELAY:                    // 94 Delay the next navigation command
         do_nav_delay(cmd);
         break;
@@ -113,53 +107,6 @@ bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
         // point the camera to a specified angle
         //do_mount_control(cmd);
         break;
-    
-/*    case MAV_CMD_DO_FENCE_ENABLE:
-#if AC_FENCE == ENABLED
-        if (cmd.p1 == 0) { //disable
-            copter.fence.enable(false);
-            gcs_send_text_fmt(MAV_SEVERITY_INFO, "Fence Disabled");
-        } else { //enable fence
-            copter.fence.enable(true);
-            gcs_send_text_fmt(MAV_SEVERITY_INFO, "Fence Enabled");
-        }
-#endif //AC_FENCE == ENABLED
-        break;
-
-#if CAMERA == ENABLED
-    case MAV_CMD_DO_CONTROL_VIDEO:                      // Control on-board camera capturing. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds (decimal)| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|
-        break;
-
-    case MAV_CMD_DO_DIGICAM_CONFIGURE:                  // Mission command to configure an on-board camera controller system. |Modes: P, TV, AV, M, Etc| Shutter speed: Divisor number for one second| Aperture: F stop number| ISO number e.g. 80, 100, 200, Etc| Exposure type enumerator| Command Identity| Main engine cut-off time before camera trigger in seconds/10 (0 means no cut-off)|
-        do_digicam_configure(cmd);
-        break;
-
-    case MAV_CMD_DO_DIGICAM_CONTROL:                    // Mission command to control an on-board camera controller system. |Session control e.g. show/hide lens| Zoom's absolute position| Zooming step value to offset zoom from the current position| Focus Locking, Unlocking or Re-locking| Shooting Command| Command Identity| Empty|
-        do_digicam_control(cmd);
-        break;
-
-    case MAV_CMD_DO_SET_CAM_TRIGG_DIST:
-        camera.set_trigger_distance(cmd.content.cam_trigg_dist.meters);
-        break;
-#endif
-*/
-/*#if PARACHUTE == ENABLED
-    case MAV_CMD_DO_PARACHUTE:                          // Mission command to configure or release parachute
-        do_parachute(cmd);
-        break;
-#endif
-
-#if GRIPPER_ENABLED == ENABLED
-    case MAV_CMD_DO_GRIPPER:                            // Mission command to control gripper
-        do_gripper(cmd);
-        break;
-#endif*/
-
-#if NAV_GUIDED == ENABLED
-    case MAV_CMD_DO_GUIDED_LIMITS:                      // 220  accept guided mode limits
-        do_guided_limits(cmd);
-        break;
-#endif
 
     default:
         // do nothing with unrecognized MAVLink messages
@@ -226,11 +173,6 @@ bool Copter::verify_command(const AP_Mission::Mission_Command& cmd)
 
     case MAV_CMD_NAV_SPLINE_WAYPOINT:
         return verify_spline_wp(cmd);
-
-#if NAV_GUIDED == ENABLED
-    case MAV_CMD_NAV_GUIDED_ENABLE:
-        return verify_nav_guided_enable(cmd);
-#endif
 
      case MAV_CMD_NAV_DELAY:
         return verify_nav_delay(cmd);
@@ -449,19 +391,6 @@ void Copter::do_loiter_time(const AP_Mission::Mission_Command& cmd)
     loiter_time_max = cmd.p1;     // units are (seconds)
 }
 
-#if NAV_GUIDED == ENABLED
-// do_nav_guided_enable - initiate accepting commands from external nav computer
-void Copter::do_nav_guided_enable(const AP_Mission::Mission_Command& cmd)
-{
-    if (cmd.p1 > 0) {
-        // initialise guided limits
-        guided_limit_init_time_and_pos();
-
-        // set spline navigation target
-        auto_nav_guided_start();
-    }
-}
-#endif  // NAV_GUIDED
 
 // do_nav_delay - Delay the next navigation command
 void Copter::do_nav_delay(const AP_Mission::Mission_Command& cmd)
@@ -477,17 +406,6 @@ void Copter::do_nav_delay(const AP_Mission::Mission_Command& cmd)
     }
 }
 
-
-#if NAV_GUIDED == ENABLED
-// do_guided_limits - pass guided limits to guided controller
-void Copter::do_guided_limits(const AP_Mission::Mission_Command& cmd)
-{
-    guided_limit_set(cmd.p1 * 1000, // convert seconds to ms
-                     cmd.content.guided_limits.alt_min * 100.0f,    // convert meters to cm
-                     cmd.content.guided_limits.alt_max * 100.0f,    // convert meters to cm
-                     cmd.content.guided_limits.horiz_max * 100.0f); // convert meters to cm
-}
-#endif
 
 /********************************************************************************/
 //	Verify Nav (Must) commands
@@ -641,19 +559,6 @@ bool Copter::verify_spline_wp(const AP_Mission::Mission_Command& cmd)
     }
 }
 
-#if NAV_GUIDED == ENABLED
-// verify_nav_guided - check if we have breached any limits
-bool Copter::verify_nav_guided_enable(const AP_Mission::Mission_Command& cmd)
-{
-    // if disabling guided mode then immediately return true so we move to next command
-    if (cmd.p1 == 0) {
-        return true;
-    }
-
-    // check time and position limits
-    return guided_limit_check();
-}
-#endif  // NAV_GUIDED
 
 // verify_nav_delay - check if we have waited long enough
 bool Copter::verify_nav_delay(const AP_Mission::Mission_Command& cmd)
@@ -736,35 +641,6 @@ bool Copter::verify_yaw()
 //	Do (Now) commands
 /********************************************************************************/
 
-// do_guided - start guided mode
-bool Copter::do_guided(const AP_Mission::Mission_Command& cmd)
-{
-    // only process guided waypoint if we are in guided mode
-    if (control_mode != GUIDED && !(control_mode == AUTO && auto_mode == Auto_NavGuided)) {
-        return false;
-    }
-
-    // switch to handle different commands
-    switch (cmd.id) {
-
-        case MAV_CMD_NAV_WAYPOINT:
-        {
-            // set wp_nav's destination
-            Location_Class dest(cmd.content.location);
-            return guided_set_destination(dest);
-        }
-
-        case MAV_CMD_CONDITION_YAW:
-            do_yaw(cmd);
-            return true;
-
-        default:
-            // reject unrecognised command
-            return false;
-    }
-
-    return true;
-}
 
 void Copter::do_change_speed(const AP_Mission::Mission_Command& cmd)
 {

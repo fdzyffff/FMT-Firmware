@@ -54,11 +54,11 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
             success = guided_init(ignore_checks);
             break;
 
-       case LAND:
+        case LAND:
            success = land_init(ignore_checks);
            break;
 
-       case RTL:
+        case RTL:
            success = rtl_init(ignore_checks);
            break;
 //
@@ -157,13 +157,13 @@ void Copter::update_flight_mode()
             guided_run();
             break;
 
-       case LAND:
-           land_run();
-           break;
+        case LAND:
+            land_run();
+            break;
 
-       case RTL:
-           rtl_run();
-           break;
+        case RTL:
+            rtl_run();
+            break;
 
 //        case DRIFT:
 //            drift_run();

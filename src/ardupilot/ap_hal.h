@@ -166,21 +166,11 @@ public:
     bool _new_output;
 };
 
-class APM_test_t{
-public:
-    int16_t test_value_p1;
-    APM_test_t(void);
-
-    void init(int16_t p1_in) {test_value_p1 = p1_in;}
-};
-
-extern APM_test_t apmtest;
 
 class AP_HAL{
 public:
     RCInput rcin;
     RCOutput rcout;
-    APM_test_t apmt;
     sitl_fdm sitl_state;
 
     // interface to FMT Bus, copy in apm_copter_wrapper.cpp
