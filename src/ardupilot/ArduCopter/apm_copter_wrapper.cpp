@@ -6,7 +6,6 @@
 
 Copter* copter;
 AP_HAL hal;
-APM_test_t apmtest;
 my_temp_log_t my_temp_log;
 
 // int16_t RC_in_data[20];
@@ -24,14 +23,12 @@ void APM_Copter_Init(void)  //飞控初始化
     printf("                                               APM init                                             \n");
     printf("----------------------------------------------------------------------------------------------------\n");
     copter = new Copter();
-    apmtest = *(new APM_test_t());
     hal =*(new AP_HAL());
 }
 
 void APM_Copter_Setup(void)  //飞控初始化
 {
     copter->setup();
-    apmtest.init(2000);
     copter->test_value_p1 = 100.f;
     // memset(RC_in_data, 0, sizeof(RC_in_data));
     // memset(RC_out_data, 0, sizeof(RC_out_data));

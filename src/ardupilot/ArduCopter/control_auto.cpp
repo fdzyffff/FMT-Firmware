@@ -33,7 +33,7 @@ bool Copter::auto_init(bool ignore_checks)
         wp_nav->wp_and_spline_init();
 
         // clear guided limits
-        guided_limit_clear();
+        // guided_limit_clear();
 
         navigation_init();
 
@@ -74,12 +74,6 @@ void Copter::auto_run()
 
     case Auto_Spline:
         auto_spline_run();
-        break;
-
-    case Auto_NavGuided:
-#if NAV_GUIDED == ENABLED
-        auto_nav_guided_run();
-#endif
         break;
 
     case Auto_Loiter:
@@ -468,28 +462,6 @@ void Copter::auto_circle_run()
     // roll & pitch from waypoint controller, yaw rate from pilot
     attitude_control->input_euler_angle_roll_pitch_yaw(circle_nav->get_roll(), circle_nav->get_pitch(), circle_nav->get_yaw(),true, get_smoothing_gain());
 }
-
-#if NAV_GUIDED == ENABLED
-// auto_nav_guided_start - hand over control to external navigation controller in AUTO mode
-void Copter::auto_nav_guided_start()
-{
-    auto_mode = Auto_NavGuided;
-
-    // call regular guided flight mode initialisation
-    guided_init(true);
-
-    // initialise guided start time and position as reference for limit checking
-    guided_limit_init_time_and_pos();
-}
-
-// auto_nav_guided_run - allows control by external navigation controller
-//      called by auto_run at 100hz or more
-void Copter::auto_nav_guided_run()
-{
-    // call regular guided flight mode run function
-    guided_run();
-}
-#endif  // NAV_GUIDED
 
 // auto_loiter_start - initialises loitering in auto mode
 //  returns success/failure because this can be called by exit_mission
