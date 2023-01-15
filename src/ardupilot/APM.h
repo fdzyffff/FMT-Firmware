@@ -8,7 +8,6 @@
 extern "C" {
 #endif
 
-
 #ifndef DEFINED_TYPEDEF_FOR_Mission_Data_Bus_
     #define DEFINED_TYPEDEF_FOR_Mission_Data_Bus_
 
@@ -49,18 +48,48 @@ typedef struct {
     float     u_cmd;        //   m/s     velocity x command in control frame
     float     v_cmd;        //   m/s     velocity y command in control frame
     float     w_cmd;        //   m/s     velocity z command in control frame
-    uint32_t  throttle_cmd; //   [1000 2000]     throttle command
+    float     ax_cmd;       //   m/s     velocity x command in control frame
+    float     ay_cmd;       //   m/s     velocity y command in control frame
+    float     az_cmd;       //   m/s     velocity z command in control frame
     uint16_t  actuator_cmd[16];//    [1000 2000]     actuator command
+    uint16_t  throttle_cmd; //   [1000 2000]     throttle command
+    uint16_t  cmd_mask;
     uint8_t   status;       //   enum VehicleStatus  vehicle status: 0: None, 1: Disarm, 2: Standby, 3: Arm, 
     uint8_t   state;        //   enum VehicleState   vehicle state: 0: None, 1: Disarm, 2: Standby, 3: Offboard, 4: Mission, 5: InvalidAutoMode, 6: Hold, 7: Acro, 8: Stabilize, 9: Altitude, 10: Position, 11: InvalidAssistMode, 12: Manual, 13: InvalidManualMode, 14: InvalidArmMode, 15: Land, 16: Return, 17: Takeoff
     uint8_t   ctrl_mode;    //   enum ControlMode    control mode: 0: None, 1: Manual, 2: Acro, 3: Stabilize, 4: ALTCTL, 5: POSCTL
-    uint8_t   reset;         //   enum PilotMode  pilot mode: 0: None, 1: Manual, 2: Acro, 3: Stabilize, 4: Altitude, 5: Position, 6: Mission, 7: Offboard
-    uint8_t   mode;        //   reset controller
-    uint8_t   reserved1;
+    uint8_t   mode;         //   enum PilotMode  pilot mode: 0: None, 1: Manual, 2: Acro, 3: Stabilize, 4: Altitude, 5: Position, 6: Mission, 7: Offboard
+    uint8_t   reset;        //   reset controller
     uint8_t   wp_consume;   //  consumed waypoints
     uint8_t   wp_current;   //  current waypoint
+    uint8_t   reserved;     //  current waypoint
 } FMS_Out_Bus;
 
+// typedef struct {
+//   uint32_T timestamp;
+//   real32_T p_cmd;
+//   real32_T q_cmd;
+//   real32_T r_cmd;
+//   real32_T phi_cmd;
+//   real32_T theta_cmd;
+//   real32_T psi_rate_cmd;
+//   real32_T u_cmd;
+//   real32_T v_cmd;
+//   real32_T w_cmd;
+//   real32_T ax_cmd;
+//   real32_T ay_cmd;
+//   real32_T az_cmd;
+//   uint16_T actuator_cmd[16];
+//   uint16_T throttle_cmd;
+//   uint16_T cmd_mask;
+//   uint8_T status;
+//   uint8_T state;
+//   uint8_T ctrl_mode;
+//   uint8_T mode;
+//   uint8_T reset;
+//   uint8_T wp_consume;
+//   uint8_T wp_current;
+//   uint8_T reserved;
+// } FMS_Out_Bus;
 #endif
 
 #ifndef DEFINED_TYPEDEF_FOR_Control_Out_Bus_

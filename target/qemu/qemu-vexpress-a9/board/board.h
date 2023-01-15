@@ -39,6 +39,8 @@ extern int __bss_end;
 #define SYSTEM_TOTAL_MEM_SIZE (8 * 1024 * 1024)
 #define SYSTEM_FREE_MEM_END   (void*)(SYSTEM_FREE_MEM_BEGIN + SYSTEM_TOTAL_MEM_SIZE)
 
+#define _EXT_DTCM0 
+
 void rt_hw_board_init(void);
 void bsp_early_initialize(void);
 void bsp_initialize(void);

@@ -136,7 +136,7 @@ SECTIONS
 
         /* This is used by the startup in order to initialize the .data secion */
         _sidata = .;
-    } > itcm0
+    } > dtcm0_ekf2 AT > lma_dtcm0_ekf2
     __exidx_end = .;
 
     /* .data section which is used for initialized data */

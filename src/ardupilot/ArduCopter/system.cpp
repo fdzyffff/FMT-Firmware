@@ -113,13 +113,16 @@ void Copter::update_auto_armed()
 void Copter::allocate_motors(void)
 {
     switch ((AP_Motors::motor_frame_class)g2.frame_class) {
+        default:
         case AP_Motors::MOTOR_FRAME_QUAD:
         case AP_Motors::MOTOR_FRAME_HEXA:
         case AP_Motors::MOTOR_FRAME_Y6:
         case AP_Motors::MOTOR_FRAME_OCTA:
         case AP_Motors::MOTOR_FRAME_OCTAQUAD:
-        default:
             motors = new AP_MotorsMatrix(MAIN_LOOP_RATE);
+            break;
+        case AP_Motors::MOTOR_FRAME_BI:
+            motors = new AP_MotorsBi(MAIN_LOOP_RATE);
             break;
     }
 

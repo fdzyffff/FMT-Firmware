@@ -155,9 +155,6 @@ protected:
     int8_t           _throttle_hover_learn;  // enable/disabled hover thrust learning
     int8_t           _disarm_disable_pwm;    // disable PWM output while disarmed
 
-    // Maximum lean angle of yaw servo in degrees. This is specific to tricopter
-    float            _yaw_servo_angle_max_deg;
-
     // time to spool motors to min throttle
     float            _spool_up_time;
     
@@ -180,4 +177,7 @@ protected:
     float               _throttle_limit;        // ratio of throttle limit between hover and maximum
     float               _throttle_thrust_max;   // the maximum allowed throttle thrust 0.0 to 1.0 in the range throttle_min to throttle_max
     uint16_t            _disarm_safety_timer;
+
+    // Maximum lean angle of yaw servo in degrees. This is specific to tricopter
+    float            _yaw_servo_angle_max_deg;
 };

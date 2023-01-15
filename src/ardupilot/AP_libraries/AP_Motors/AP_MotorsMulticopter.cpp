@@ -37,7 +37,8 @@ AP_MotorsMulticopter::AP_MotorsMulticopter(uint16_t loop_rate, uint16_t speed_hz
     _lift_max(1.0f),
     _throttle_limit(1.0f),
     _throttle_thrust_max(0.0f),
-    _disarm_safety_timer(0)
+    _disarm_safety_timer(0), 
+    _yaw_servo_angle_max_deg(20.0f)
 
 {
 
