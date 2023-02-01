@@ -403,9 +403,9 @@ extern GCS_Cmd_Bus gcs_cmd_msg;
 extern Control_Out_Bus control_out_msg;
 
 void APM_init(void);                //上电初始化
-void APM_init_para(void);           //参数初始化
+void APM_Copter_Init_Para_P1(void); //参数初始化
 void APM_loop(void);                //ardupilot主循环
-// void APM_update_para(void);      //参数更新
+void APM_Copter_Init_Para_P2(void); //参数初始化
 
 void APM_update_para(void);
 void APM_update_rc(void);

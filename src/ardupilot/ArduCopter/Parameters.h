@@ -7,14 +7,14 @@
 class Parameters {
 public:
 
-    float        throttle_filt;
+    float          throttle_filt;
     int16_t        throttle_behavior;
     int16_t        takeoff_trigger_dz;
-    float        pilot_takeoff_alt;
+    float          pilot_takeoff_alt;
 
     int16_t        rtl_altitude;
     int16_t        rtl_speed_cms;
-    float        rtl_cone_slope;
+    float          rtl_cone_slope;
     int16_t        rtl_alt_final;
     int16_t        rtl_climb_min;              // rtl minimum climb in cm
 
@@ -75,6 +75,12 @@ public:
 	float               cross_offset;
 	float               fore_offset;
 	float               stall_high;    
+    int8_t              flight_mode1;
+    int8_t              flight_mode2;
+    int8_t              flight_mode3;
+    int8_t              flight_mode4;
+    int8_t              flight_mode5;
+    int8_t              flight_mode6;
 
     // Note: keep initializers here in the same order as they are declared
     // above.
@@ -132,7 +138,13 @@ public:
 		altitude_offset(0.0f),
 		cross_offset(200.f),
 		fore_offset(300.f),
-		stall_high(50.f)
+		stall_high(50.f),
+        flight_mode1(0),
+        flight_mode2(0),
+        flight_mode3(0),
+        flight_mode4(0),
+        flight_mode5(0),
+        flight_mode6(0)
     {
         printf(" Init: Parameters\n");
     }
