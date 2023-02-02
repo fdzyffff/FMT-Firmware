@@ -161,49 +161,7 @@ void Copter::one_hz_loop()
 {
     // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
     // printf(" hal.sitl_state.speedD: %f\n", hal.sitl_state.speedD);
-    // printf(" hal.sitl_state.latitude: %ld\n", hal.sitl_state.latitude);
-    // printf(" hal.sitl_state.longitude: %ld\n", hal.sitl_state.longitude);
-
-    // printf(" ins_out_msg.lat: %f\n", degrees(ins_out_msg.lat));
-    // printf(" ins_out_msg.lon: %f\n", degrees(ins_out_msg.lon));
-    // printf(" ins_out_msg.lat_0: %f\n", degrees(ins_out_msg.lat_0));
-    // printf(" ins_out_msg.lon_0: %f\n", degrees(ins_out_msg.lon_0));
-    // printf(" hal.apm_mission_data_updated = %d\n", hal.apm_mission_data_updated);
-    // printf(" hal.mission_data_msg.valid_items = %d\n", hal.mission_data_msg.valid_items);
-    // printf(" hal.mission_data_msg.command[0] = %d\n", hal.mission_data_msg.command[0]);
-    // printf(" hal.mission_data_msg.mission_type[0] = %d\n", hal.mission_data_msg.mission_type[0]);
-    // printf(" hal.mission_data_msg.x[0] = %ld\n", hal.mission_data_msg.x[0]);
-    // printf(" hal.mission_data_msg.y[0] = %ld\n", hal.mission_data_msg.y[0]);
-    // printf(" hal.mission_data_msg.z[0] = %f\n", hal.mission_data_msg.z[0]);
-    // printf(" wp_distance = %ld\n", wp_distance);
-    // printf(" get_auto_heading[%d] %f\n", auto_yaw_mode, get_auto_heading()*0.01f);
-    // for (uint8_t i_act = 0; i_act < 4; i_act++) {
-    //     printf("  hal.rcout._rc_out_data[%d]=%d\n", i_act, hal.rcout._rc_out_data[i_act]);
-    // }
-    // for (uint8_t i_act = 0; i_act < 4; i_act++) {
-    //     if (i_act == 0) {
-    //         printf("  hal.control_out_msg.actuator_cmd [%d", hal.control_out_msg.actuator_cmd[i_act]);
-    //     } else if (i_act < 3) {
-    //         printf(", %d", hal.control_out_msg.actuator_cmd[i_act]);
-    //     } else {
-    //         printf(", %d]\n", hal.control_out_msg.actuator_cmd[i_act]);
-    //     }
-    // }
-    // if (ap.home_state == HOME_UNSET) {
-    //     printf("Home set\n");
-    // }
-    // printf(" control_mode : %d\n", control_mode);
-
-    // static uint8_t t_count = 1;
-    // if (t_count>0) {
-    //     t_count++;
-    // }
-    // if (t_count>6) {
-    //     printf("do arm\n");
-    //     init_arm_motors(true);
-    //     t_count = 0;
-    // }
-    // console_printf(" failsafe.radio: %d\n", failsafe.radio);
+    // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
 }
 
@@ -239,8 +197,6 @@ void Copter::update_gcs_cmd()
         if (last_state_cmd != hal.gcs_cmd_msg.cmd_1) {
             switch (hal.gcs_cmd_msg.cmd_1)
             {
-                case FMS_Cmd_None:
-                default:
                 case FMS_Cmd_PreArm:
                     printf ("Do PreArm\n");
                     init_arm_motors(true);
@@ -268,6 +224,9 @@ void Copter::update_gcs_cmd()
                     break;
                 case FMS_Cmd_Continue:
                     printf ("[no]Do Continue\n");
+                    break;
+                case FMS_Cmd_None:
+                default:
                     break;
             }
             last_state_cmd = hal.gcs_cmd_msg.cmd_1;

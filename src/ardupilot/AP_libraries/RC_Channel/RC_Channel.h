@@ -103,6 +103,7 @@ public:
 
     int8_t     reversed; //para
     int16_t    dead_zone; //para
+
 private:
 
     // pwm is stored here

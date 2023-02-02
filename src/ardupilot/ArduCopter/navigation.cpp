@@ -121,7 +121,7 @@ void Copter::navigation_update()
 void Copter::navigation_next() {
     if (hal.mission_data_msg.valid_items >=1) {
         // do next command
-        printf ("Do cmd #%d\n", hal.mission_data_msg.current[0]);
+        printf ("Do cmd #%d [%d]\n", hal.mission_data_msg.current[0], hal.mission_data_msg.command[0]);
         AP_Mission::Mission_Command cmd;
         Vector3f tmp_neu;
         Location_Class tmp_loc;

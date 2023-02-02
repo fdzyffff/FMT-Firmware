@@ -153,13 +153,14 @@ public:
         return servo_trim;
     }
 
-private:
     int16_t servo_min;
     int16_t servo_max;
     int16_t servo_trim;
     // reversal, following convention that 1 means reversed, 0 means normal
     int8_t reversed;
     int8_t function;
+
+private:
 
     // a pending output value as PWM
     uint16_t output_pwm;

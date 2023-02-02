@@ -82,14 +82,14 @@ void APM_Copter_Init_Para_P1(void)
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE3),           &copter->g.flight_mode3));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE4),           &copter->g.flight_mode4));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE5),           &copter->g.flight_mode5));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE6),           &copter->g.flight_mode6));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_ENABLE),        &copter->optflow._enabled));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FXSCALER),      &copter->optflow._flowScalerX));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FYSCALER),      &copter->optflow._flowScalerY));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_ORIENT_YAW),    &copter->optflow._yawAngle_cd));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_X),         &copter->optflow._pos_offset.x));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_Y),         &copter->optflow._pos_offset.y));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_Z),         &copter->optflow._pos_offset.z));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE6),           &copter->g.flight_mode6));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_ENABLE),        &copter->optflow._enabled));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FXSCALER),      &copter->optflow._flowScalerX));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FYSCALER),      &copter->optflow._flowScalerY));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_ORIENT_YAW),    &copter->optflow._yawAngle_cd));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_X),         &copter->optflow._pos_offset.x));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_Y),         &copter->optflow._pos_offset.y));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_POS_Z),         &copter->optflow._pos_offset.z));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FRAME_CLASS),        &copter->g2.frame_class));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FRAME_TYPE),         &copter->g.frame_type));
     // PARAM_FLOAT(FS_BATT_ENABLE, 0),
@@ -98,13 +98,13 @@ void APM_Copter_Init_Para_P1(void)
     // PARAM_FLOAT(FS_BATT_VOLT2, 10.5),
     // PARAM_FLOAT(FS_BATT_VOLTAGE, 38.31),
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FS_CRASH_CHECK),     &copter->g.fs_crash_check));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, FS_GCS_ENABLE),      &copter->g.failsafe_gcs));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FS_GCS_ENABLE),      &copter->g.failsafe_gcs));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FS_THR_ENABLE),      &copter->g.failsafe_throttle));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FS_THR_VALUE),       &copter->g.failsafe_throttle_value));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, MIS_RESTART),        &copter->mission._restart));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, MIS_TOTAL),          &copter->mission._cmd_total));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, PHLD_BRAKE_ANGLE),   &copter->g.poshold_brake_angle_max));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, PHLD_BRAKE_RATE),    &copter->g.poshold_brake_rate));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, MIS_RESTART),        &copter->mission._restart));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, MIS_TOTAL),          &copter->mission._cmd_total));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, PHLD_BRAKE_ANGLE),   &copter->g.poshold_brake_angle_max));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, PHLD_BRAKE_RATE),    &copter->g.poshold_brake_rate));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, PILOT_ACCEL_Z),      &copter->g.pilot_accel_z));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, PILOT_THR_BHV),      &copter->g.throttle_behavior));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, PILOT_THR_FILT),     &copter->g.throttle_filt));
@@ -291,7 +291,7 @@ void APM_Copter_Init_Para_P1(void)
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO16_MIN),        &copter->g2.servo_channels.srv_channel(15)->servo_min));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO16_REVERSED),   &copter->g2.servo_channels.srv_channel(15)->reversed));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO16_TRIM),       &copter->g2.servo_channels.srv_channel(15)->servo_trim));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, SYSID_THISMAV),      &copter->g.sysid_this_mav));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, SYSID_THISMAV),      &copter->g.sysid_this_mav));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, WP_NAVALT_MIN),      &copter->g2.wp_navalt_min));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, WP_YAW_BEHAVIOR),    &copter->g.wp_yaw_behavior));
 }

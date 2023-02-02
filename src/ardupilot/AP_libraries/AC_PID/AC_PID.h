@@ -74,8 +74,6 @@ public:
     float       get_integrator() const { return _integrator; }
     void        set_integrator(float i) { _integrator = i; }
 
-protected:
-
     // parameters
     float        _kp;
     float        _ki;
@@ -83,6 +81,8 @@ protected:
     float        _imax;
     float        _filt_hz;                   // PID Input filter frequency in Hz
     float        _ff;
+
+protected:
 
     // flags
     struct ac_pid_flags {

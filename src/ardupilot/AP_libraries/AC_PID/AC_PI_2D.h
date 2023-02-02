@@ -66,8 +66,6 @@ public:
     void        set_integrator(const Vector3f &i) { _integrator.x = i.x; _integrator.y = i.y; }
 
 
-protected:
-
     // calc_filt_alpha - recalculate the input filter alpha
     void        calc_filt_alpha();
 
@@ -76,6 +74,8 @@ protected:
     float        _ki;
     float        _imax;
     float        _filt_hz;                   // PID Input filter frequency in Hz
+
+protected:
 
     // flags
     struct ac_pid_flags {

@@ -370,7 +370,7 @@ public:
 
     // Attitude, Position and Waypoint navigation objects
     // To-Do: move inertial nav up or other navigation variables down here
-    AC_AttitudeControl *attitude_control;
+    AC_AttitudeControl_Multi *attitude_control;
     AC_PosControl *pos_control;
     AC_WPNav *wp_nav;
     AC_Circle *circle_nav;

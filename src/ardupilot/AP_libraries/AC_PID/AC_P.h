@@ -50,6 +50,5 @@ public:
     float       kP() { return _kp; }
     void        kP(const float v) { _kp = v; }
 
-private:
     float        _kp;
 };
