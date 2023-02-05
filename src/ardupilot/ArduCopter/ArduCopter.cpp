@@ -160,7 +160,8 @@ void Copter::ten_hz_loop()
 void Copter::one_hz_loop()
 {
     // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
-    // printf(" hal.sitl_state.speedD: %f\n", hal.sitl_state.speedD);
+    // printf(" failsafe.radio: %d\n", failsafe.radio);
+    // printf(" ap.rc_receiver_present: %d\n", ap.rc_receiver_present);
     // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
 }

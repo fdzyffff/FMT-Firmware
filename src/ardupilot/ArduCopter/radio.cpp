@@ -86,7 +86,7 @@ void Copter::read_radio()
     }else{
         uint32_t elapsed = tnow_ms - last_radio_update_ms;
         // turn on throttle failsafe if no update from the RC Radio for 500ms or 2000ms if we are using RC_OVERRIDE
-        if (((!failsafe.rc_override_active && (elapsed >= FS_RADIO_TIMEOUT_MS))) &&
+        if (((!failsafe.rc_override_active && (elapsed >= FS_RADIO_TIMEOUT_MS)) || (failsafe.rc_override_active && (elapsed >= FS_RADIO_RC_OVERRIDE_TIMEOUT_MS))) &&
             (g.failsafe_throttle && (ap.rc_receiver_present||motors->armed()) && !failsafe.radio)) {
             set_failsafe_radio(true);
         }
