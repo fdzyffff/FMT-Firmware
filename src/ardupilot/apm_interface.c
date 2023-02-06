@@ -59,28 +59,28 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(ATC_ACCEL_R_MAX, 110000.0),     //copter->attitude_control->_accel_roll_max
     PARAM_FLOAT(ATC_ACCEL_Y_MAX, 27000.0),      //copter->attitude_control->_accel_yaw_max
     PARAM_FLOAT(ATC_ANG_LIM_TC, 1),             //copter->attitude_control->_angle_limit_tc
-    PARAM_FLOAT(ATC_ANG_PIT_P, 5.5),            //copter->attitude_control->_p_angle_pitch._kp
-    PARAM_FLOAT(ATC_ANG_RLL_P, 5.5),            //copter->attitude_control->_p_angle_roll._kp
-    PARAM_FLOAT(ATC_ANG_YAW_P, 6),              //copter->attitude_control->_p_angle_yaw._kp
+    PARAM_FLOAT(ATC_ANG_PIT_P, 4.5),            //copter->attitude_control->_p_angle_pitch._kp
+    PARAM_FLOAT(ATC_ANG_RLL_P, 4.5),            //copter->attitude_control->_p_angle_roll._kp
+    PARAM_FLOAT(ATC_ANG_YAW_P, 4.5),            //copter->attitude_control->_p_angle_yaw._kp
     PARAM_INT8(ATC_ANGLE_BOOST, 1),             //copter->attitude_control->_angle_boost_enabled
-    PARAM_FLOAT(ATC_RAT_PIT_D, 0.014),          //copter->attitude_control->_pid_rate_pitch._kd
+    PARAM_FLOAT(ATC_RAT_PIT_D, 0.0036),         //copter->attitude_control->_pid_rate_pitch._kd
     PARAM_FLOAT(ATC_RAT_PIT_FF, 0),             //copter->attitude_control->_pid_rate_pitch._ff
     PARAM_FLOAT(ATC_RAT_PIT_FILT, 20),          //copter->attitude_control->_pid_rate_pitch._filt_hz
-    PARAM_FLOAT(ATC_RAT_PIT_I, 0.12),           //copter->attitude_control->_pid_rate_pitch._ki
+    PARAM_FLOAT(ATC_RAT_PIT_I, 0.09),           //copter->attitude_control->_pid_rate_pitch._ki
     PARAM_FLOAT(ATC_RAT_PIT_IMAX, 0.5),         //copter->attitude_control->_pid_rate_pitch._imax
-    PARAM_FLOAT(ATC_RAT_PIT_P, 0.16),           //copter->attitude_control->_pid_rate_pitch._kp
-    PARAM_FLOAT(ATC_RAT_RLL_D, 0.013),          //copter->attitude_control->_pid_rate_roll._kd
+    PARAM_FLOAT(ATC_RAT_PIT_P, 0.135),          //copter->attitude_control->_pid_rate_pitch._kp
+    PARAM_FLOAT(ATC_RAT_RLL_D, 0.0036),         //copter->attitude_control->_pid_rate_roll._kd
     PARAM_FLOAT(ATC_RAT_RLL_FF, 0),             //copter->attitude_control->_pid_rate_roll._ff
     PARAM_FLOAT(ATC_RAT_RLL_FILT, 20),          //copter->attitude_control->_pid_rate_roll._filt_hz
-    PARAM_FLOAT(ATC_RAT_RLL_I, 0.13),           //copter->attitude_control->_pid_rate_roll._ki
+    PARAM_FLOAT(ATC_RAT_RLL_I, 0.09),           //copter->attitude_control->_pid_rate_roll._ki
     PARAM_FLOAT(ATC_RAT_RLL_IMAX, 0.5),         //copter->attitude_control->_pid_rate_roll._imax
-    PARAM_FLOAT(ATC_RAT_RLL_P, 0.18),           //copter->attitude_control->_pid_rate_roll._kp
-    PARAM_FLOAT(ATC_RAT_YAW_D, 0.028),          //copter->attitude_control->_pid_rate_yaw._kd
+    PARAM_FLOAT(ATC_RAT_RLL_P, 0.135),          //copter->attitude_control->_pid_rate_roll._kp
+    PARAM_FLOAT(ATC_RAT_YAW_D, 0.0),            //copter->attitude_control->_pid_rate_yaw._kd
     PARAM_FLOAT(ATC_RAT_YAW_FF, 0),             //copter->attitude_control->_pid_rate_yaw._ff
     PARAM_FLOAT(ATC_RAT_YAW_FILT, 2.5),         //copter->attitude_control->_pid_rate_yaw._filt_hz
-    PARAM_FLOAT(ATC_RAT_YAW_I, 0.1),            //copter->attitude_control->_pid_rate_yaw._ki
+    PARAM_FLOAT(ATC_RAT_YAW_I, 0.018),          //copter->attitude_control->_pid_rate_yaw._ki
     PARAM_FLOAT(ATC_RAT_YAW_IMAX, 0.5),         //copter->attitude_control->_pid_rate_yaw._imax
-    PARAM_FLOAT(ATC_RAT_YAW_P, 0.35),           //copter->attitude_control->_pid_rate_yaw._kp
+    PARAM_FLOAT(ATC_RAT_YAW_P, 0.18),           //copter->attitude_control->_pid_rate_yaw._kp
     PARAM_INT8(ATC_RATE_FF_ENAB, 1),            //copter->attitude_control->_rate_bf_ff_enabled
     PARAM_FLOAT(ATC_SLEW_YAW, 1500),            //copter->attitude_control->_slew_yaw
     PARAM_FLOAT(ATC_THR_MIX_MAN, 0.5),          //copter->attitude_control->_thr_mix_man
@@ -117,7 +117,7 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(FS_BATT_VOLTAGE, 38.31),
     PARAM_INT8(FS_CRASH_CHECK, 0),              //copter->g.fs_crash_check
     PARAM_INT8(FS_GCS_ENABLE, 0),               //copter->g.failsafe_gcs
-    PARAM_INT8(FS_THR_ENABLE, 0),               //copter->g.failsafe_throttle
+    PARAM_INT8(FS_THR_ENABLE, 1),               //copter->g.failsafe_throttle
     PARAM_INT16(FS_THR_VALUE, 975),             //copter->g.failsafe_throttle_value
     PARAM_INT8(MIS_RESTART, 0),                 //copter->mission._restart
     PARAM_INT16(MIS_TOTAL, 50),                 //copter->mission._cmd_total
@@ -329,7 +329,7 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(VEL_XY_P, 0.95),                //copter->pos_control->_pi_vel_xy._kp
     PARAM_FLOAT(VEL_Z_P, 5),                    //copter->pos_control->_p_vel_z._kp
     PARAM_FLOAT(WP_NAVALT_MIN, 0),              //copter->g2.wp_navalt_min
-    PARAM_INT8(WP_YAW_BEHAVIOR, 0),             //copter->g.wp_yaw_behavior
+    PARAM_INT8(WP_YAW_BEHAVIOR, 1),             //copter->g.wp_yaw_behavior
     PARAM_FLOAT(WPNAV_ACCEL, 200),              //copter->wp_nav->_wp_accel_cms
     PARAM_FLOAT(WPNAV_ACCEL_Z, 100),            //copter->wp_nav->_wp_accel_z_cms
     PARAM_FLOAT(WPNAV_LOIT_JERK, 1200),         //copter->wp_nav->_loiter_jerk_max_cmsss

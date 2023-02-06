@@ -8,9 +8,9 @@
 void APM_init(void)                //上电初始化
 {
     APM_Copter_Init();
-    // APM_Copter_Init_Para_P1();
+    APM_Copter_Init_Para_P1();
     APM_Copter_Setup();
-    // APM_Copter_Init_Para_P2();
+    APM_Copter_Init_Para_P2();
 }
 
 void APM_init_para(void)           //参数初始化
