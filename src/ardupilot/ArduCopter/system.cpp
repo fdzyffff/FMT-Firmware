@@ -47,6 +47,9 @@ void Copter::init_ardupilot()
 
     set_mode(AUTO, MODE_REASON_TX_COMMAND);
     // flag that initialisation has completed
+
+    console_printf(THIS_APM_FIRMWARE);
+
     ap.initialised = true;
 }
 

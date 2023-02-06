@@ -58,3 +58,42 @@ void Copter::stabilize_run()
     // output pilot's throttle
     attitude_control->set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
 }
+
+// // stabilize_run - runs the main stabilize controller
+// // should be called at 100hz or more
+// void Copter::stabilize_run()
+// {
+//     float target_roll, target_pitch;
+//     float target_yaw_rate;
+//     float pilot_throttle_scaled;
+
+//     // if not armed set throttle to zero and exit immediately
+//     if (!motors->armed()) {
+//         motors->set_desired_spool_state(AP_Motors::DESIRED_SPIN_WHEN_ARMED);
+//         attitude_control->set_throttle_out_unstabilized(0,true,g.throttle_filt);
+//         return;
+//     }
+
+//     // clear landing flag
+//     set_land_complete(false);
+
+//     motors->set_desired_spool_state(AP_Motors::DESIRED_THROTTLE_UNLIMITED);
+
+//     // convert pilot input to lean angles
+//     // To-Do: convert get_pilot_desired_lean_angles to return angles as floats
+//     get_pilot_desired_lean_angles(0, 0, target_roll, target_pitch, aparm.angle_max);
+
+//     // get pilot's desired yaw rate
+//     target_yaw_rate = get_pilot_desired_yaw_rate(0);
+
+//     // get pilot's desired throttle
+//     pilot_throttle_scaled = get_pilot_desired_throttle(500);
+
+//     // call attitude controller
+//     attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
+
+//     // body-frame rate controller is run directly from 100hz loop
+
+//     // output pilot's throttle
+//     attitude_control->set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
+// }

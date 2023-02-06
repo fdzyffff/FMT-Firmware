@@ -41,6 +41,7 @@
 #include "AP_Mission.h"
 #include "ardupilotmega.h"
 #include "AP_Scheduler.h"       // main loop scheduler
+#include "version.h"
 
 // libraries which are dependent on #defines in defines.h and/or config.h
 

@@ -69,7 +69,7 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
 
 void APM_Copter_Init_Para_P1(void)
 {
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, USER_TEST_P1),       &copter->test_value_p1));
+    // FMT_CHECK(param_link_variable(PARAM_GET(APM, USER_TEST_P1),       &copter->test_value_p1));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, CH7_OPT),            &copter->g.ch7_option));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, CH8_OPT),            &copter->g.ch8_option));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, CH9_OPT),            &copter->g.ch9_option));
