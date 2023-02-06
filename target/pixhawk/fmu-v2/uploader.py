@@ -892,7 +892,6 @@ def main():
                 # print('Using port {:}'.format(serial_list[0]))
                 args.port = serial_list[0].device
 
-
             portlist = []
             patterns = args.port.split(",")
             # on unix-like platforms use glob to support wildcard ports. This allows
@@ -910,6 +909,7 @@ def main():
             successful = False
             
             for port in portlist:
+                print (portlist)
                 # create an uploader attached to the port
                 try:
                     if "linux" in _platform:
