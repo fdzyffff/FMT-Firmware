@@ -77,7 +77,7 @@ void Copter::loop()
 }
 
 
-// Main loop - 400hz
+// Main loop - 500hz
 void Copter::fast_loop()
 {    
 
@@ -161,7 +161,7 @@ void Copter::ten_hz_loop()
 void Copter::one_hz_loop()
 {
     // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
-    printf(" hal.rcin._rc_in_data[0,1,2,3]: [%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3]);
+    // printf(" hal.rcin._rc_in_data[0,1,2,3,4]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[4]);
     // printf(" hal.rcout._rc_out_data[0,1,2,3]: [%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3]);
     // printf(" channel_throttle->get_radio_min(): %d\n", channel_throttle->get_radio_min());
     // printf(" motors->get_pwm_output_min(): %d\n", motors->get_pwm_output_min());

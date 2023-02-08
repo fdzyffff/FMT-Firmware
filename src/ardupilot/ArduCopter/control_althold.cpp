@@ -20,6 +20,7 @@ bool Copter::althold_init(bool ignore_checks)
 
     // stop takeoff if running
     takeoff_stop();
+    console_printf("ALT-hold Mode\n");
 
     return true;
 }

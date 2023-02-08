@@ -15,6 +15,12 @@ struct {
 
 void Copter::read_control_switch()
 {
+    flight_modes[0] = g.flight_mode1;
+    flight_modes[1] = g.flight_mode2;
+    flight_modes[2] = g.flight_mode3;
+    flight_modes[3] = g.flight_mode4;
+    flight_modes[4] = g.flight_mode5;
+    flight_modes[5] = g.flight_mode6;
     uint32_t tnow_ms = millis();
 
     // calculate position of flight mode switch
@@ -26,7 +32,6 @@ void Copter::read_control_switch()
     else if (rc5_in < 1621) switch_position = 3;
     else if (rc5_in < 1750) switch_position = 4;
     else switch_position = 5;
-    switch_position = 0;
 
     // store time that switch last moved
     if (control_switch_state.last_switch_position != switch_position) {

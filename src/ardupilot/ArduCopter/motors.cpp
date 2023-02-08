@@ -25,6 +25,7 @@ void Copter::arm_motors_check()
     int16_t tmp_roll = channel_roll->get_control_in();
     int16_t tmp_pitch = channel_pitch->get_control_in();
     int16_t tmp_yaw = channel_yaw->get_control_in();
+    // console_printf("ctmp_thr[%d], tmp_roll[%d], tmp_pitch[%d], tmp_yaw[%d]\n",tmp_thr, tmp_roll, tmp_pitch, tmp_yaw);
 
     bool arm_flag = (tmp_thr < 100 && tmp_yaw > 4000 && tmp_pitch > 4000 && tmp_roll < -4000);
     bool disarm_flag = (tmp_thr < 100 && tmp_yaw < -4000 && tmp_pitch > 4000 && tmp_roll > 4000);
@@ -113,6 +114,7 @@ void Copter::auto_disarm_check()
 //  returns false if arming failed because of pre-arm checks, arming checks or a gyro calibration failure
 bool Copter::init_arm_motors(bool arming_from_gcs)
 {
+    printf ("Arming\n");
     static bool in_arm_motors = false;
 
     // exit immediately if already in this function
@@ -181,6 +183,8 @@ bool Copter::init_arm_motors(bool arming_from_gcs)
     ap.in_arming_delay = true;
 
     // return success
+
+    printf ("Armed\n");
     return true;
 }
 

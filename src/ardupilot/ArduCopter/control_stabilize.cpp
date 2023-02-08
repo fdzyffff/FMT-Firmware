@@ -17,6 +17,7 @@ bool Copter::stabilize_init(bool ignore_checks)
     last_pilot_heading = ahrs.yaw_sensor;
     last_pilot_yaw_input_ms = millis();
 
+    console_printf("Stabilize Mode\n");
     return true;
 }
 

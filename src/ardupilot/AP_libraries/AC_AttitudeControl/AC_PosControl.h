@@ -27,7 +27,7 @@ extern uint32_t millis();
 #define POSCONTROL_SPEED_UP                     250.0f  // default climb rate in cm/s
 #define POSCONTROL_VEL_XY_MAX_FROM_POS_ERR      200.0f  // max speed output from pos_to_vel controller when feed forward is used
 
-#define POSCONTROL_ACCEL_Z                      250.0f  // default vertical acceleration in cm/s/s.
+#define POSCONTROL_ACCEL_Z                      150.0f  // default vertical acceleration in cm/s/s.
 
 #define POSCONTROL_LEASH_LENGTH_MIN             100.0f  // minimum leash lengths in cm
 

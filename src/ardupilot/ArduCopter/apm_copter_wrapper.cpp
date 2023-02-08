@@ -82,7 +82,7 @@ void APM_Copter_Init_Para_P1(void)
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE3),           &copter->g.flight_mode3));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE4),           &copter->g.flight_mode4));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE5),           &copter->g.flight_mode5));
-    // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE6),           &copter->g.flight_mode6));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, FLTMODE6),           &copter->g.flight_mode6));
     // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_ENABLE),        &copter->optflow._enabled));
     // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FXSCALER),      &copter->optflow._flowScalerX));
     // FMT_CHECK(param_link_variable(PARAM_GET(APM, FLOW_FYSCALER),      &copter->optflow._flowScalerY));
@@ -117,11 +117,11 @@ void APM_Copter_Init_Para_P1(void)
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO1_MIN),         &copter->g2.rc_channels.rc_channel(0)->radio_min));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO1_REVERSED),    &copter->g2.rc_channels.rc_channel(0)->reversed));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO1_TRIM),        &copter->g2.rc_channels.rc_channel(0)->radio_trim));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_DZ),          &copter->g2.rc_channels.rc_channel(2)->dead_zone));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_MAX),         &copter->g2.rc_channels.rc_channel(2)->radio_max));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_MIN),         &copter->g2.rc_channels.rc_channel(2)->radio_min));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_REVERSED),    &copter->g2.rc_channels.rc_channel(2)->reversed));
-    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_TRIM),        &copter->g2.rc_channels.rc_channel(2)->radio_trim));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_DZ),          &copter->g2.rc_channels.rc_channel(1)->dead_zone));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_MAX),         &copter->g2.rc_channels.rc_channel(1)->radio_max));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_MIN),         &copter->g2.rc_channels.rc_channel(1)->radio_min));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_REVERSED),    &copter->g2.rc_channels.rc_channel(1)->reversed));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO2_TRIM),        &copter->g2.rc_channels.rc_channel(1)->radio_trim));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO3_DZ),          &copter->g2.rc_channels.rc_channel(2)->dead_zone));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO3_MAX),         &copter->g2.rc_channels.rc_channel(2)->radio_max));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO3_MIN),         &copter->g2.rc_channels.rc_channel(2)->radio_min));

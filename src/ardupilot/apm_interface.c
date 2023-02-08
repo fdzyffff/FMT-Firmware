@@ -129,40 +129,40 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(MOT_SPIN_MAX, 0.95),            //copter->motors->_spin_max
     PARAM_FLOAT(MOT_SPIN_MIN, 0.15),            //copter->motors->_spin_min
     PARAM_FLOAT(MOT_SPOOL_TIME, 0.5),           //copter->motors->_spool_up_time
-    PARAM_FLOAT(MOT_THST_EXPO, 0.6),            //copter->motors->_thrust_curve_expo
+    PARAM_FLOAT(MOT_THST_EXPO, 0.0f),            //copter->motors->_thrust_curve_expo
     PARAM_FLOAT(MOT_THST_HOVER, 0.3223571),     //copter->motors->_throttle_hover
     PARAM_INT16(MOT_YAW_HEADROOM, 200),         //copter->motors->_yaw_headroom
     PARAM_INT16(PHLD_BRAKE_ANGLE, 3000),        //copter->g.poshold_brake_angle_max
     PARAM_INT16(PHLD_BRAKE_RATE, 8),            //copter->g.poshold_brake_rate
-    PARAM_INT16(PILOT_ACCEL_Z, 250),            //copter->g.pilot_accel_z
+    PARAM_INT16(PILOT_ACCEL_Z, 150),            //copter->g.pilot_accel_z
     PARAM_INT16(PILOT_THR_BHV, 0),              //copter->g.throttle_behavior
     PARAM_FLOAT(PILOT_THR_FILT, 0),             //copter->g.throttle_filt
     PARAM_FLOAT(PILOT_TKOFF_ALT, 200),          //copter->g.pilot_takeoff_alt
     PARAM_INT16(PILOT_TKOFF_DZ, 100),           //copter->g.takeoff_trigger_dz
-    PARAM_INT16(PILOT_VELZ_MAX, 250),           //copter->g.pilot_velocity_z_max
+    PARAM_INT16(PILOT_VELZ_MAX, 200),           //copter->g.pilot_velocity_z_max
     PARAM_FLOAT(POS_XY_P, 0.85),                //copter->pos_control->_p_pos_xy._kp
     PARAM_FLOAT(POS_Z_P, 1),                    //copter->pos_control->_p_pos_z._kp
     PARAM_INT8(RC_FEEL_RP, 60),                 //copter->g.rc_feel_rp
     PARAM_INT16(RADIO1_DZ, 20),                 //copter->g2.rc_channels.rc_channel(0)->dead_zone
     PARAM_INT16(RADIO1_MAX, 1950),              //copter->g2.rc_channels.rc_channel(0)->radio_max
-    PARAM_INT16(RADIO1_MIN, 1051),              //copter->g2.rc_channels.rc_channel(0)->radio_min
+    PARAM_INT16(RADIO1_MIN, 1094),              //copter->g2.rc_channels.rc_channel(0)->radio_min
     PARAM_INT8(RADIO1_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(0)->reversed
-    PARAM_INT16(RADIO1_TRIM, 1500),             //copter->g2.rc_channels.rc_channel(0)->radio_trim
+    PARAM_INT16(RADIO1_TRIM, 1515),             //copter->g2.rc_channels.rc_channel(0)->radio_trim
     PARAM_INT16(RADIO2_DZ, 20),                 //copter->g2.rc_channels.rc_channel(2)->dead_zone
     PARAM_INT16(RADIO2_MAX, 1950),              //copter->g2.rc_channels.rc_channel(2)->radio_max
-    PARAM_INT16(RADIO2_MIN, 1051),              //copter->g2.rc_channels.rc_channel(2)->radio_min
+    PARAM_INT16(RADIO2_MIN, 1094),              //copter->g2.rc_channels.rc_channel(2)->radio_min
     PARAM_INT8(RADIO2_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(2)->reversed
-    PARAM_INT16(RADIO2_TRIM, 1500),             //copter->g2.rc_channels.rc_channel(2)->radio_trim
+    PARAM_INT16(RADIO2_TRIM, 1515),             //copter->g2.rc_channels.rc_channel(2)->radio_trim
     PARAM_INT16(RADIO3_DZ, 20),                 //copter->g2.rc_channels.rc_channel(2)->dead_zone
     PARAM_INT16(RADIO3_MAX, 1950),              //copter->g2.rc_channels.rc_channel(2)->radio_max
-    PARAM_INT16(RADIO3_MIN, 1051),              //copter->g2.rc_channels.rc_channel(2)->radio_min
+    PARAM_INT16(RADIO3_MIN, 1094),              //copter->g2.rc_channels.rc_channel(2)->radio_min
     PARAM_INT8(RADIO3_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(2)->reversed
-    PARAM_INT16(RADIO3_TRIM, 1500),             //copter->g2.rc_channels.rc_channel(2)->radio_trim
+    PARAM_INT16(RADIO3_TRIM, 1051),             //copter->g2.rc_channels.rc_channel(2)->radio_trim
     PARAM_INT16(RADIO4_DZ, 20),                 //copter->g2.rc_channels.rc_channel(3)->dead_zone
     PARAM_INT16(RADIO4_MAX, 1950),              //copter->g2.rc_channels.rc_channel(3)->radio_max
-    PARAM_INT16(RADIO4_MIN, 1051),              //copter->g2.rc_channels.rc_channel(3)->radio_min
+    PARAM_INT16(RADIO4_MIN, 1094),              //copter->g2.rc_channels.rc_channel(3)->radio_min
     PARAM_INT8(RADIO4_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(3)->reversed
-    PARAM_INT16(RADIO4_TRIM, 1500),             //copter->g2.rc_channels.rc_channel(3)->radio_trim
+    PARAM_INT16(RADIO4_TRIM, 1515),             //copter->g2.rc_channels.rc_channel(3)->radio_trim
     PARAM_INT16(RADIO5_DZ, 20),                 //copter->g2.rc_channels.rc_channel(4)->dead_zone
     PARAM_INT16(RADIO5_MAX, 1950),              //copter->g2.rc_channels.rc_channel(4)->radio_max
     PARAM_INT16(RADIO5_MIN, 1051),              //copter->g2.rc_channels.rc_channel(4)->radio_min

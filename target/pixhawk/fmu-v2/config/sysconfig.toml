@@ -8,7 +8,7 @@ target = "Pixhawk FMUv2"
     [[console.devices]]
     type = "serial"
     name = "serial0"
-    baudrate = 57600
+    baudrate = 115200
     auto-switch = true
 
     [[console.devices]]
@@ -21,7 +21,7 @@ target = "Pixhawk FMUv2"
     [[mavproxy.devices]]
     type = "serial"
     name = "serial1"
-    baudrate = 57600
+    baudrate = 115200
 
     [[mavproxy.devices]]
     type = "usb"
@@ -67,7 +67,7 @@ target = "Pixhawk FMUv2"
     [[actuator.devices]]
     protocol = "pwm"
     name = "main_out"
-    freq = 50                  # pwm frequency in Hz
+    freq = 400                 # pwm frequency in Hz
 
     [[actuator.devices]]
     protocol = "pwm"
