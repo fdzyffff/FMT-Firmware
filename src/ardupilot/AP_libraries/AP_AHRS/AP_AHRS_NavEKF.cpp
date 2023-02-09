@@ -193,8 +193,9 @@ bool AP_AHRS_NavEKF::set_origin(const Location &loc)
 // return true if inertial navigation is active
 bool AP_AHRS_NavEKF::have_inertial_nav(void) const
 {
-    const struct sitl_fdm &fdm = hal.sitl_state;
-    return fdm.position_ok;
+    // const struct sitl_fdm &fdm = hal.sitl_state;
+    // return fdm.position_ok;
+    return true;
 }
 
 // return a ground velocity in meters/second, North/East/Down
@@ -202,11 +203,11 @@ bool AP_AHRS_NavEKF::have_inertial_nav(void) const
 bool AP_AHRS_NavEKF::get_velocity_NED(Vector3f &vec) const
 {
     const struct sitl_fdm &fdm = hal.sitl_state;
-    if (fdm.position_ok){
+    // if (fdm.position_ok){
         vec = Vector3f(fdm.speedN, fdm.speedE, fdm.speedD);
         return true;
-    }
-    return false;
+    // }
+    // return false;
 }
 
 // returns the expected NED magnetic field

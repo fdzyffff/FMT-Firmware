@@ -6,12 +6,6 @@ target = "Pixhawk FMUv2"
 # Console Configuration
 [console]
     [[console.devices]]
-    type = "serial"
-    name = "serial0"
-    baudrate = 115200
-    auto-switch = true
-
-    [[console.devices]]
     type = "mavlink"
     name = "mav_console"
     auto-switch = true
@@ -20,8 +14,9 @@ target = "Pixhawk FMUv2"
 [mavproxy]
     [[mavproxy.devices]]
     type = "serial"
-    name = "serial1"
-    baudrate = 115200
+    name = "serial0"
+    baudrate = 57600
+    auto-switch = true
 
     [[mavproxy.devices]]
     type = "usb"
