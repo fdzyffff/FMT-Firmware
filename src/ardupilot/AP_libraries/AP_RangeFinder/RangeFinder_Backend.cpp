@@ -13,12 +13,9 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <AP_Common/AP_Common.h>
-#include <AP_HAL/AP_HAL.h>
+#include "AP_Common.h"
 #include "RangeFinder.h"
 #include "RangeFinder_Backend.h"
-
-extern const AP_HAL::HAL& hal;
 
 /*
   base class constructor. 

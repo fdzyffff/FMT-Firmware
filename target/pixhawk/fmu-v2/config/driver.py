@@ -9,6 +9,7 @@ DRIVERS = [
     'gps/gps_m8n.c',
     'vision_flow/pmw3901_xx.c',
     'rgb_led/tca62724.c',
+    'range_finder/tf_luna.c',
 ]
 
 DRIVERS_CPPPATH = []

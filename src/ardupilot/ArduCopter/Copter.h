@@ -30,6 +30,7 @@
 #include "AP_AHRS_NavEKF.h"
 // #include "AP_Math.h"
 #include "AP_InertialNav_NavEKF.h"
+#include "AP_RangeFinder.h"
 // Configuration
 #include "defines.h"
 #include "config.h"
@@ -318,6 +319,8 @@ public:
     void set_mode_land_with_pause(mode_reason_t reason);
     bool landing_with_GPS();
 
+    void init_rangefinder(void);
+    void read_rangefinder(void);
     bool rangefinder_alt_ok();
 
     void navigation_init();
@@ -380,6 +383,8 @@ public:
     
     // Inertial Navigation EKF
     AP_AHRS_NavEKF ahrs;
+
+    RangeFinder rangefinder {ROTATION_PITCH_270};
 
     int32_t last_pilot_heading;
     uint32_t last_pilot_yaw_input_ms;

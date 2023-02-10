@@ -48,7 +48,7 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     hal.apm_pilot_cmd_updated = apm_pilot_cmd_updated;
     hal.apm_gcs_cmd_updated = apm_gcs_cmd_updated;
     hal.apm_mission_data_updated = apm_mission_data_updated;
-    hail.apm_rangefinder_data_updated = apm_rangefinder_data_updated;
+    hal.apm_rangefinder_data_updated = apm_rangefinder_data_updated;
 
     // update hal
     hal.update();
@@ -63,10 +63,12 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     apm_pilot_cmd_updated = hal.apm_pilot_cmd_updated;
     apm_gcs_cmd_updated = hal.apm_gcs_cmd_updated;
     apm_mission_data_updated = hal.apm_mission_data_updated;
+    apm_rangefinder_data_updated = hal.apm_rangefinder_data_updated;
 
     apm_pilot_cmd_log = hal.apm_pilot_cmd_log;
     apm_gcs_cmd_log = hal.apm_gcs_cmd_log;
     apm_mission_data_log = hal.apm_mission_data_log;
+    apm_rangefinder_data_log = hal.apm_rangefinder_data_log;
 }
 
 void APM_Copter_Init_Para_P1(void)
@@ -194,25 +196,12 @@ void APM_Copter_Init_Para_P1(void)
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO16_MIN),        &copter->g2.rc_channels.rc_channel(15)->radio_min));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO16_REVERSED),   &copter->g2.rc_channels.rc_channel(15)->reversed));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, RADIO16_TRIM),       &copter->g2.rc_channels.rc_channel(15)->radio_trim));
-    // PARAM_FLOAT(RNGFND_ADDR, 0),
-    // PARAM_FLOAT(RNGFND_FUNCTION, 0),
-    // PARAM_FLOAT(RNGFND_GAIN, 0.8),
-    // PARAM_FLOAT(RNGFND_GNDCLEAR, 10),
-    // PARAM_FLOAT(RNGFND_MAX_CM, 3000),
-    // PARAM_FLOAT(RNGFND_MIN_CM, 80),
-    // PARAM_FLOAT(RNGFND_OFFSET, 0),
-    // PARAM_FLOAT(RNGFND_ORDER, 0),
-    // PARAM_FLOAT(RNGFND_ORIENT, 25),
-    // PARAM_FLOAT(RNGFND_PIN, -1),
-    // PARAM_FLOAT(RNGFND_POS_X, 0),
-    // PARAM_FLOAT(RNGFND_POS_Y, 0),
-    // PARAM_FLOAT(RNGFND_POS_Z, 0),
-    // PARAM_FLOAT(RNGFND_PWRRNG, 0),
-    // PARAM_FLOAT(RNGFND_RMETRIC, 0),
-    // PARAM_FLOAT(RNGFND_SCALING, 0),
-    // PARAM_FLOAT(RNGFND_SETTLE, 0),
-    // PARAM_FLOAT(RNGFND_STOP_PIN, -1),
-    // PARAM_FLOAT(RNGFND_TYPE, 0),
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_GAIN),        &copter->g.rangefinder_gain));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_GNDCLEAR),    &copter->rangefinder._ground_clearance_cm[0]));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_MAX_CM),      &copter->rangefinder._max_distance_cm[0]));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_MIN_CM),      &copter->rangefinder._min_distance_cm[0]));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_ORIENT),      &copter->rangefinder._orientation[0]));
+    FMT_CHECK(param_link_variable(PARAM_GET(APM, RNGFND_TYPE),        &copter->rangefinder._type[0]));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO1_FUNCTION),    &copter->g2.servo_channels.srv_channel(0)->function));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO1_MAX),         &copter->g2.servo_channels.srv_channel(0)->servo_max));
     FMT_CHECK(param_link_variable(PARAM_GET(APM, SERVO1_MIN),         &copter->g2.servo_channels.srv_channel(0)->servo_min));

@@ -186,25 +186,12 @@ static param_t __param_list_apm[] = {
     PARAM_INT16(RADIO16_MIN, 1051),             //copter->g2.rc_channels.rc_channel(15)->radio_min
     PARAM_INT8(RADIO16_REVERSED, 0),            //copter->g2.rc_channels.rc_channel(15)->reversed
     PARAM_INT16(RADIO16_TRIM, 1500),            //copter->g2.rc_channels.rc_channel(15)->radio_trim
-    PARAM_INT8(RNGFND_ADDR, 0),
-    PARAM_FLOAT(RNGFND_FUNCTION, 0),
-    PARAM_FLOAT(RNGFND_GAIN, 0.8),
-    PARAM_FLOAT(RNGFND_GNDCLEAR, 10),
-    PARAM_FLOAT(RNGFND_MAX_CM, 3000),
-    PARAM_FLOAT(RNGFND_MIN_CM, 80),
-    PARAM_FLOAT(RNGFND_OFFSET, 0),
-    PARAM_FLOAT(RNGFND_ORDER, 0),
-    PARAM_FLOAT(RNGFND_ORIENT, 25),
-    PARAM_INT8(RNGFND_PIN, -1),
-    PARAM_FLOAT(RNGFND_POS_X, 0),
-    PARAM_FLOAT(RNGFND_POS_Y, 0),
-    PARAM_FLOAT(RNGFND_POS_Z, 0),
-    PARAM_FLOAT(RNGFND_PWRRNG, 0),
-    PARAM_FLOAT(RNGFND_RMETRIC, 0),
-    PARAM_FLOAT(RNGFND_SCALING, 0),
-    PARAM_FLOAT(RNGFND_SETTLE, 0),
-    PARAM_INT8(RNGFND_STOP_PIN, -1),
-    PARAM_FLOAT(RNGFND_TYPE, 0),
+    PARAM_FLOAT(RNGFND_GAIN, 0.8),              //copter->g.rangefinder_gain
+    PARAM_INT8(RNGFND_GNDCLEAR, 10),            //copter->rangefinder._ground_clearance_cm[0]
+    PARAM_INT16(RNGFND_MAX_CM, 800),            //copter->rangefinder._max_distance_cm[0]
+    PARAM_INT16(RNGFND_MIN_CM, 80),             //copter->rangefinder._min_distance_cm[0]
+    PARAM_INT8(RNGFND_ORIENT, 25),              //copter->rangefinder._orientation[0]
+    PARAM_INT8(RNGFND_TYPE, 0),                 //copter->rangefinder._type[0]
     PARAM_INT8(SERVO1_FUNCTION, 0),             //copter->g2.servo_channels.srv_channel(0)->function
     PARAM_INT16(SERVO1_MAX, 1900),              //copter->g2.servo_channels.srv_channel(0)->servo_max
     PARAM_INT16(SERVO1_MIN, 1100),              //copter->g2.servo_channels.srv_channel(0)->servo_min

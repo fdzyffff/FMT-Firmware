@@ -30,6 +30,7 @@ void Copter::init_ardupilot()
     attitude_control->parameter_sanity_check();
     pos_control->set_dt(MAIN_LOOP_SECONDS);
 
+    init_rangefinder();
     // initialise the flight mode and aux switch
     // ---------------------------
     reset_control_switch();

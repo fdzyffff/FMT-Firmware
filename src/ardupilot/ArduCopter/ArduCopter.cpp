@@ -34,8 +34,9 @@ void Copter::setup()
     static const AP_Scheduler::Task copter_scheduler_tasks[] = {
         SCHED_TASK(update_throttle_hover,  100,    90),
         SCHED_TASK(throttle_loop,          50,     75),
-        SCHED_TASK(arm_motors_check,       10,     50),
         SCHED_TASK(run_nav_updates,        50,    100),
+        SCHED_TASK(read_rangefinder,       20,    100),
+        SCHED_TASK(arm_motors_check,       10,     50),
         SCHED_TASK(ten_hz_loop,            10,    100),
         SCHED_TASK(one_hz_loop,            1,     100),
     };
@@ -168,6 +169,8 @@ void Copter::one_hz_loop()
     // printf(" ap.rc_receiver_present: %d\n", ap.rc_receiver_present);
     // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
+    // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
+    console_printf("OK: %d, Dist: %f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get() );
 }
 
 void Copter::read_AHRS(void)

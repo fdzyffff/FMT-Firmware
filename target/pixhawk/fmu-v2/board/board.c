@@ -34,6 +34,7 @@
 #include "driver/imu/mpu6000.h"
 #include "driver/rgb_led/tca62724.h"
 #include "driver/vision_flow/pmw3901_xx.h"
+#include "driver/range_finder/tf_luna.h"
 #include "drv_gpio.h"
 #include "drv_i2c_soft.h"
 #include "drv_pwm.h"
@@ -327,9 +328,10 @@ void bsp_initialize(void)
     /* init barometer */
     RT_CHECK(drv_ms5611_init("spi1_dev3", "barometer"));
     /* init optical flow module (a mini tf included) */
-    RT_CHECK(pmw3901_xx_drv_init("serial3"));
+    // RT_CHECK(pmw3901_xx_drv_init("serial3"));
     /* init gps */
-    RT_CHECK(gps_m8n_init("serial2", "gps"));
+    // RT_CHECK(gps_m8n_init("serial2", "gps"));
+    RT_CHECK(tf_luna_drv_init("serial2"));
 
     /* register sensor to sensor hub */
     FMT_CHECK(register_sensor_imu("gyro0", "accel0", 0));

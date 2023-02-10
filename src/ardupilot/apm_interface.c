@@ -85,6 +85,55 @@ uint8_t apm_rangefinder_data_log = 0;
 
 // fmt_model_info_t fms_model_info;
 
+
+static char* fms_status[] = {
+    "None",
+    "Disarm",
+    "Standby",
+    "Arm"
+};
+
+static char* fms_state[] = {
+    "None",
+    "Disarm",
+    "Standby",
+    "Offboard",
+    "Mission",
+    "InvalidAutoMode",
+    "Hold",
+    "Acro",
+    "Stabilize",
+    "Altitude",
+    "Position",
+    "InvalidAssistMode",
+    "Manual",
+    "InValidManualMode",
+    "InvalidArmMode",
+    "Land",
+    "Return",
+    "Takeoff"
+};
+
+static char* fms_ctrl_mode[] = {
+    "None",
+    "Manual",
+    "Acro",
+    "Stabilize",
+    "ALTCTL",
+    "POSCTL"
+};
+
+static char* fms_mode[] = {
+    "None",
+    "Manual",
+    "Acro",
+    "Stabilize",
+    "Altitude",
+    "Position",
+    "Mission",
+    "Offboard"
+};
+
 static int control_out_echo(void* param)
 {
     Control_Out_Bus control_out;

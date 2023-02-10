@@ -61,18 +61,12 @@ public:
 
     // parameters for each instance
     int8_t  _type[RANGEFINDER_MAX_INSTANCES];
-    int8_t  _pin[RANGEFINDER_MAX_INSTANCES];
-    int8_t  _ratiometric[RANGEFINDER_MAX_INSTANCES];
-    int8_t  _stop_pin[RANGEFINDER_MAX_INSTANCES];
-    int16_t _settle_time_ms[RANGEFINDER_MAX_INSTANCES];
-    float _scaling[RANGEFINDER_MAX_INSTANCES];
+    // float _scaling[RANGEFINDER_MAX_INSTANCES];
     float _offset[RANGEFINDER_MAX_INSTANCES];
-    int8_t  _function[RANGEFINDER_MAX_INSTANCES];
+    // int8_t  _function[RANGEFINDER_MAX_INSTANCES];
     int16_t _min_distance_cm[RANGEFINDER_MAX_INSTANCES];
     int16_t _max_distance_cm[RANGEFINDER_MAX_INSTANCES];
     int8_t  _ground_clearance_cm[RANGEFINDER_MAX_INSTANCES];
-    int8_t  _address[RANGEFINDER_MAX_INSTANCES];
-    int16_t _powersave_range;
     Vector3f _pos_offset[RANGEFINDER_MAX_INSTANCES]; // position offset in body frame
     int8_t  _orientation[RANGEFINDER_MAX_INSTANCES];
     
@@ -88,8 +82,6 @@ public:
     // 10Hz from main loop
     void update(void);
 
-    // Handle an incoming DISTANCE_SENSOR message (from a MAVLink enabled range finder)
-    void handle_msg(mavlink_message_t *msg);
 
 #define _RangeFinder_STATE(instance) state[instance]
 
@@ -101,7 +93,7 @@ public:
 
     // get orientation of a given range finder
     enum Rotation get_orientation(uint8_t instance) const {
-        return (instance<num_instances? (enum Rotation)_orientation[instance].get() : ROTATION_NONE);
+        return (instance<num_instances? (enum Rotation)_orientation[instance] : ROTATION_NONE);
     }
 
     uint16_t distance_cm(uint8_t instance) const {

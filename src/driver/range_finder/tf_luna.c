@@ -16,6 +16,7 @@
 
 #include <firmament.h>
 
+#include "hal/serial/serial.h"
 #include "module/sensor/sensor_hub.h"
 #include "module/workqueue/workqueue_manager.h"
 
@@ -71,6 +72,7 @@ static bool parse_package(uint8_t c)
 
     switch (state) {
     case TF_LUNA_HEADER1:
+        // console_printf("TF_LUNA_HEADER1 %x\n",c);
         if (c == 0x59) {
             cs = c;
             state++;
@@ -78,6 +80,7 @@ static bool parse_package(uint8_t c)
         recv_len = 0;
         break;
     case TF_LUNA_HEADER2:
+        // console_printf("TF_LUNA_HEADER2\n");
         if (c == 0x59) {
             cs += c;
             state++;
@@ -92,6 +95,7 @@ static bool parse_package(uint8_t c)
     case TF_LUNA_STRENGTH_H:
     case TF_LUNA_TEMP_L:
     case TF_LUNA_TEMP_H:
+        // console_printf("TF_DATA\n");
         buf[recv_len] = c;
         cs += c;
         state++;
@@ -99,6 +103,7 @@ static bool parse_package(uint8_t c)
         break;
 
     case TF_LUNA_CHECKSUM:
+        // console_printf("TF_LUNA_CHECKSUM\n");
         if (cs == c) {
             cmplt = true;
             data.timestamp = systime_now_ms();
@@ -125,6 +130,21 @@ static bool parse_package(uint8_t c)
     return cmplt;
 }
 
+static rt_err_t set_baudrate(rt_device_t dev, uint32_t baudrate)
+{
+    struct serial_device* serial_dev = (struct serial_device*)dev;
+
+    if (serial_dev->config.baud_rate != baudrate) {
+        struct serial_configure pconfig = serial_dev->config;
+
+        pconfig.baud_rate = baudrate;
+
+        return rt_device_control(dev, RT_DEVICE_CTRL_CONFIG, &pconfig);
+    }
+
+    return RT_EOK;
+}
+
 static void thread_entry(void* args)
 {
     rt_err_t res;
@@ -132,11 +152,25 @@ static void thread_entry(void* args)
     rt_uint32_t wait_set = EVENT_TF_LUNA_UPDATE;
     uint8_t c;
 
+    // while (1) {
+    //     /* wait event occur */
+    //     res = rt_event_recv(&event, wait_set, RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR, 10, &recv_set);
+
+    //     if ((res == RT_EOK && (recv_set & EVENT_TF_LUNA_UPDATE)) || res == -RT_ETIMEOUT) {
+            console_printf("RF TTT \n");
+    //     }
+    // }
+
     /* open device */
     if (rt_device_open(dev, RT_DEVICE_OFLAG_RDONLY | RT_DEVICE_FLAG_INT_RX) != RT_EOK) {
         printf("tf_luna fail to open device!\n");
         return;
     }
+
+    uint32_t baudrates[] = { 9600, 19200, 38400, 57600, 115200, 230400, 460800 };
+    uint32_t baudrate = baudrates[4];
+
+    set_baudrate(dev, baudrate);
 
     while (1) {
         /* wait event occur */

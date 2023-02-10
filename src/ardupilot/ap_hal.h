@@ -167,7 +167,7 @@ public:
 class Sensors {
 public:
     Sensors();
-}
+};
 
 class AP_HAL{
 public:
@@ -183,15 +183,17 @@ public:
     FMS_Out_Bus fms_out_msg;
     Control_Out_Bus control_out_msg;
     GCS_Cmd_Bus gcs_cmd_msg;
-    Rangefinder_Bus rangefinder_data_msg;
+    Rangefinder_Data_bus rangefinder_data_msg;
 
     uint8_t apm_pilot_cmd_updated;
     uint8_t apm_gcs_cmd_updated;
     uint8_t apm_mission_data_updated;
+    uint8_t apm_rangefinder_data_updated;
     
     uint8_t apm_pilot_cmd_log;
     uint8_t apm_gcs_cmd_log;
     uint8_t apm_mission_data_log;
+    uint8_t apm_rangefinder_data_log;
 
     bool get_soft_armed() {return false;}
     uint32_t micros() {return (uint32_t)micro64();}

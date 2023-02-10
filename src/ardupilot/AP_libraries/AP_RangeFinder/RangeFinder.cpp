@@ -24,7 +24,7 @@ RangeFinder::RangeFinder(enum Rotation orientation_default) :
 {
     // set orientation defaults
     for (uint8_t i=0; i<RANGEFINDER_MAX_INSTANCES; i++) {
-        _orientation[i].set_default(orientation_default);
+        _orientation[i] = orientation_default;
     }
 
     // init state and drivers
@@ -87,7 +87,7 @@ bool RangeFinder::_add_backend(AP_RangeFinder_Backend *backend)
         return false;
     }
     if (num_instances == RANGEFINDER_MAX_INSTANCES) {
-        AP_HAL::panic("Too many RANGERS backends");
+        console_printf("Too many RANGERS backends\n");
     }
 
     drivers[num_instances++] = backend;
@@ -99,13 +99,11 @@ bool RangeFinder::_add_backend(AP_RangeFinder_Backend *backend)
  */
 void RangeFinder::detect_instance(uint8_t instance)
 {
-    enum RangeFinder_Type type = (enum RangeFinder_Type)_type[instance].get();
+    enum RangeFinder_Type type = (enum RangeFinder_Type)_type[instance];
     switch (type) {
     case RangeFinder_TYPE_FMT:
-        if (AP_RangeFinder_PX4_PWM::detect(*this, instance)) {
-            state[instance].instance = instance;
-            drivers[instance] = new AP_RangeFinder_PX4_PWM(*this, instance, state[instance]);
-        }
+        state[instance].instance = instance;
+        drivers[instance] = new AP_RangeFinder_FMT(*this, instance, state[instance]);
         break;
     default:
         break;
@@ -134,16 +132,6 @@ RangeFinder::RangeFinder_Status RangeFinder::status_orient(enum Rotation orienta
         return status(i);
     }
     return RangeFinder_NotConnected;
-}
-
-void RangeFinder::handle_msg(mavlink_message_t *msg)
-{
-    uint8_t i;
-    for (i=0; i<num_instances; i++) {
-        if ((drivers[i] != nullptr) && (_type[i] != RangeFinder_TYPE_NONE)) {
-          drivers[i]->handle_msg(msg);
-        }
-    }
 }
 
 // return true if we have a range finder with the specified orientation
