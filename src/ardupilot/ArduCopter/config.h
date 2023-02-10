@@ -83,7 +83,7 @@
 //
 
 #ifndef RANGEFINDER_ENABLED
- # define RANGEFINDER_ENABLED DISABLED
+ # define RANGEFINDER_ENABLED ENABLED
 #endif
 
 #ifndef RANGEFINDER_HEALTH_MAX
@@ -107,7 +107,7 @@
 #endif
 
 #ifndef RANGEFINDER_TILT_CORRECTION         // by disable tilt correction for use of range finder data by EKF
- # define RANGEFINDER_TILT_CORRECTION DISABLED
+ # define RANGEFINDER_TILT_CORRECTION ENABLED
 #endif
 
 #ifndef RANGEFINDER_GLITCH_ALT_CM

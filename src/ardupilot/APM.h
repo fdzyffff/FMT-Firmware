@@ -296,6 +296,16 @@ typedef struct {
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_RANGEFINDER_Data_Bus_
+    #define DEFINED_TYPEDEF_FOR_RANGEFINDER_Data_Bus_
+
+typedef struct {
+    uint32_t timestamp_ms;
+    float distance_m; // negative value indicate invalid
+} Rangefinder_Data_bus;
+
+#endif
+
 // enum defination
 #ifndef DEFINED_TYPEDEF_FOR_VehicleStatus_
     #define DEFINED_TYPEDEF_FOR_VehicleStatus_
@@ -387,19 +397,69 @@ typedef enum {
 
 #endif
 
+static char* fms_status[] = {
+    "None",
+    "Disarm",
+    "Standby",
+    "Arm"
+};
+
+static char* fms_state[] = {
+    "None",
+    "Disarm",
+    "Standby",
+    "Offboard",
+    "Mission",
+    "InvalidAutoMode",
+    "Hold",
+    "Acro",
+    "Stabilize",
+    "Altitude",
+    "Position",
+    "InvalidAssistMode",
+    "Manual",
+    "InValidManualMode",
+    "InvalidArmMode",
+    "Land",
+    "Return",
+    "Takeoff"
+};
+
+static char* fms_ctrl_mode[] = {
+    "None",
+    "Manual",
+    "Acro",
+    "Stabilize",
+    "ALTCTL",
+    "POSCTL"
+};
+
+static char* fms_mode[] = {
+    "None",
+    "Manual",
+    "Acro",
+    "Stabilize",
+    "Altitude",
+    "Position",
+    "Mission",
+    "Offboard"
+};
+
 extern uint8_t apm_pilot_cmd_updated;
 extern uint8_t apm_gcs_cmd_updated;
 extern uint8_t apm_mission_data_updated;
 extern uint8_t apm_pilot_cmd_log;
 extern uint8_t apm_gcs_cmd_log;
 extern uint8_t apm_mission_data_log;
+extern uint8_t apm_rangefinder_data_log;
 
 extern int16_t rcChannel_msg[16];
 extern INS_Out_Bus ins_out_msg;
 extern Mission_Data_Bus mission_data_msg;
-extern FMS_Out_Bus fms_out_msg;
-extern Control_Out_Bus control_out_msg;
 extern GCS_Cmd_Bus gcs_cmd_msg;
+extern Control_Out_Bus control_out_msg;
+extern Rangefinder_Data_bus rangefinder_data_msg;
+extern FMS_Out_Bus fms_out_msg;
 extern Control_Out_Bus control_out_msg;
 
 void APM_init(void);                //上电初始化

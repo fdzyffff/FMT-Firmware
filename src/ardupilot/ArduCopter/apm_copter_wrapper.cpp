@@ -43,10 +43,12 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     memcpy(&hal.ins_out_msg,&ins_out_msg,sizeof(ins_out_msg));
     memcpy(&hal.mission_data_msg,&mission_data_msg,sizeof(mission_data_msg));
     memcpy(&hal.gcs_cmd_msg,&gcs_cmd_msg,sizeof(gcs_cmd_msg));
+    memcpy(&hal.rangefinder_data_msg,&rangefinder_data_msg,sizeof(rangefinder_data_msg));
 
     hal.apm_pilot_cmd_updated = apm_pilot_cmd_updated;
     hal.apm_gcs_cmd_updated = apm_gcs_cmd_updated;
     hal.apm_mission_data_updated = apm_mission_data_updated;
+    hail.apm_rangefinder_data_updated = apm_rangefinder_data_updated;
 
     // update hal
     hal.update();

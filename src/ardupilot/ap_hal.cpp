@@ -98,6 +98,7 @@ void AP_HAL::update() {
     update_inertial();
     update_rc();
     update_mission();
+    update_sensors();
 }
 
 void AP_HAL::update_inertial() {
@@ -140,4 +141,9 @@ void AP_HAL::update_mission(void)
 {
     // reset consume
     fms_out_msg.wp_consume = 0;
+}
+
+void AP_HAL::update_sensors(void)
+{
+    ;
 }

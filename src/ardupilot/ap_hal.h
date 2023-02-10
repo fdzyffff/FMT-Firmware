@@ -143,8 +143,6 @@ public:
     bool _new_input;
 };
 
-
-
 class RCOutput {
 public:
     RCOutput() ;
@@ -166,12 +164,17 @@ public:
     bool _new_output;
 };
 
+class Sensors {
+public:
+    Sensors();
+}
 
 class AP_HAL{
 public:
     RCInput rcin;
     RCOutput rcout;
     sitl_fdm sitl_state;
+    Sensors sensors;
 
     // interface to FMT Bus, copy in apm_copter_wrapper.cpp
     int16_t rcChannel_msg[16];
@@ -180,6 +183,7 @@ public:
     FMS_Out_Bus fms_out_msg;
     Control_Out_Bus control_out_msg;
     GCS_Cmd_Bus gcs_cmd_msg;
+    Rangefinder_Bus rangefinder_data_msg;
 
     uint8_t apm_pilot_cmd_updated;
     uint8_t apm_gcs_cmd_updated;
@@ -196,6 +200,7 @@ public:
     void update_rc();
     void update_mission();
     void update_inertial();
+    void update_sensors();
 };
 
 extern AP_HAL hal;
