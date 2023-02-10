@@ -170,7 +170,7 @@ void Copter::one_hz_loop()
     // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
     // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
-    console_printf("OK: %d, Dist: %f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get() );
+    console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
 }
 
 void Copter::read_AHRS(void)

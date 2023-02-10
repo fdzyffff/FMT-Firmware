@@ -70,11 +70,9 @@ void Copter::init_rangefinder(void)
 // return rangefinder altitude in centimeters
 void Copter::read_rangefinder(void)
 {
-    // int16_t temp_alt = hal.rangefinder_data_msg.distance_m*100.f;
+    int16_t temp_alt = hal.rangefinder_data_msg.distance_m*100.f;
     rangefinder_state.alt_healthy = (temp_alt>20 && temp_alt<800);
-
-    int16_t temp_alt = hal.rangefinder_data_msg.distance_m*100.f * MAX(0.707f, ahrs.get_rotation_body_to_ned().c.z);
-    rangefinder_state.alt_cm = temp_alt;
+    rangefinder_state.alt_cm = hal.rangefinder_data_msg.distance_m*100.f * MAX(0.707f, ahrs.get_rotation_body_to_ned().c.z);
 
     // filter rangefinder for use by AC_WPNav
     uint32_t now = millis();

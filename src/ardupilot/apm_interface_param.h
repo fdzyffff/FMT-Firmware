@@ -116,7 +116,7 @@ static param_t __param_list_apm[] = {
     PARAM_INT16(RADIO2_MIN, 1094),              //copter->g2.rc_channels.rc_channel(2)->radio_min
     PARAM_INT8(RADIO2_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(2)->reversed
     PARAM_INT16(RADIO2_TRIM, 1515),             //copter->g2.rc_channels.rc_channel(2)->radio_trim
-    PARAM_INT16(RADIO3_DZ, 20),                 //copter->g2.rc_channels.rc_channel(2)->dead_zone
+    PARAM_INT16(RADIO3_DZ, 50),                 //copter->g2.rc_channels.rc_channel(2)->dead_zone
     PARAM_INT16(RADIO3_MAX, 1950),              //copter->g2.rc_channels.rc_channel(2)->radio_max
     PARAM_INT16(RADIO3_MIN, 1094),              //copter->g2.rc_channels.rc_channel(2)->radio_min
     PARAM_INT8(RADIO3_REVERSED, 0),             //copter->g2.rc_channels.rc_channel(2)->reversed

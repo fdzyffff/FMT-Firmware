@@ -6,6 +6,7 @@
 
 Copter* copter;
 AP_HAL hal;
+AP_Log apm_log;
 my_temp_log_t my_temp_log;
 
 // int16_t RC_in_data[20];
@@ -24,6 +25,7 @@ void APM_Copter_Init(void)  //飞控初始化
     printf("----------------------------------------------------------------------------------------------------\n");
     copter = new Copter();
     hal =*(new AP_HAL());
+    apm_log = *(new AP_Log());
 }
 
 void APM_Copter_Setup(void)  //飞控初始化

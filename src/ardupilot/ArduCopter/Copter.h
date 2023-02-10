@@ -15,6 +15,7 @@
 // #include <firmament.h>
 
 #include "ap_hal.h"
+#include "ap_log.h"
 // Common dependencies
 #include "AP_Common.h"
 #include "Location.h"

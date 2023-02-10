@@ -1,6 +1,5 @@
 #include "Copter.h"
 
-
 /*
  * Init and run calls for althold, flight mode
  */
@@ -124,11 +123,13 @@ void Copter::althold_run()
         // call attitude controller
         attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
 
+        apm_log.climb_rate_cms_thr = target_climb_rate;
         // adjust climb rate using rangefinder
         if (rangefinder_alt_ok()) {
             // if rangefinder is ok, use surface tracking
             target_climb_rate = get_surface_tracking_climb_rate(target_climb_rate, pos_control->get_alt_target(), G_Dt);
         }
+        apm_log.climb_rate_cms_after_surface = target_climb_rate;
 
         // get avoidance adjusted climb rate
         target_climb_rate = get_avoidance_adjusted_climbrate(target_climb_rate);
