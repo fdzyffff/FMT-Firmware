@@ -108,13 +108,13 @@ void Copter::navigation_update()
         FMT_mission.current_mission_verified = true;
     }
 
-    if (FMT_mission.current_mission_verified && hal.apm_mission_data_updated) {
+    if (FMT_mission.current_mission_verified && hal.mission_data_updated) {
         navigation_next();
         FMT_mission.current_mission_verified = false;
 
         hal.fms_out_msg.wp_consume = 1;
-        hal.apm_mission_data_log = 1;
-        hal.apm_mission_data_updated = 0;
+        hal.mission_data_log = 1;
+        hal.mission_data_updated = 0;
     }
 }
 

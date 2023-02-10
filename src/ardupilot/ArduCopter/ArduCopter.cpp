@@ -200,7 +200,7 @@ void Copter::update_gcs_cmd()
 {
     static uint8_t last_ctrl_mode = 0;
     static uint8_t last_state_cmd = 0;
-    if (hal.apm_gcs_cmd_updated) {
+    if (hal.gcs_cmd_updated) {
         printf("mode:%d, submod:%d \n",hal.gcs_cmd_msg.mode, hal.gcs_cmd_msg.cmd_1);
         if (last_state_cmd != hal.gcs_cmd_msg.cmd_1) {
             switch (hal.gcs_cmd_msg.cmd_1)
@@ -269,8 +269,8 @@ void Copter::update_gcs_cmd()
             }
             last_ctrl_mode = hal.gcs_cmd_msg.mode;
         }
-        hal.apm_gcs_cmd_updated = 0;
-        hal.apm_gcs_cmd_log = 1;
+        hal.gcs_cmd_updated = 0;
+        hal.gcs_cmd_log = 1;
     }
 }
 

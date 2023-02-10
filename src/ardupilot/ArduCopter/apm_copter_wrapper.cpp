@@ -41,36 +41,36 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
 {
     // param_set_val(param_get_by_full_name("APM","USER_TEST_P1"), &tmp_1);
 
-    memcpy(&hal.rcChannel_msg,&rcChannel_msg,sizeof(rcChannel_msg));
-    memcpy(&hal.ins_out_msg,&ins_out_msg,sizeof(ins_out_msg));
-    memcpy(&hal.mission_data_msg,&mission_data_msg,sizeof(mission_data_msg));
-    memcpy(&hal.gcs_cmd_msg,&gcs_cmd_msg,sizeof(gcs_cmd_msg));
-    memcpy(&hal.rangefinder_data_msg,&rangefinder_data_msg,sizeof(rangefinder_data_msg));
+    memcpy(&hal.rcChannel_msg,           &apm_handler.rcChannel_msg,          sizeof(apm_handler.rcChannel_msg));
+    memcpy(&hal.ins_out_msg,             &apm_handler.ins_out_msg,            sizeof(apm_handler.ins_out_msg));
+    memcpy(&hal.mission_data_msg,        &apm_handler.mission_data_msg,       sizeof(apm_handler.mission_data_msg));
+    memcpy(&hal.gcs_cmd_msg,             &apm_handler.gcs_cmd_msg,            sizeof(apm_handler.gcs_cmd_msg));
+    memcpy(&hal.rangefinder_data_msg,    &apm_handler.rangefinder_data_msg,   sizeof(apm_handler.rangefinder_data_msg));
 
-    hal.apm_pilot_cmd_updated = apm_pilot_cmd_updated;
-    hal.apm_gcs_cmd_updated = apm_gcs_cmd_updated;
-    hal.apm_mission_data_updated = apm_mission_data_updated;
-    hal.apm_rangefinder_data_updated = apm_rangefinder_data_updated;
+    hal.pilot_cmd_updated                = apm_handler.pilot_cmd_updated;
+    hal.gcs_cmd_updated                  = apm_handler.gcs_cmd_updated;
+    hal.mission_data_updated             = apm_handler.mission_data_updated;
+    hal.rangefinder_data_updated         = apm_handler.rangefinder_data_updated;
 
     // update hal
     hal.update();
 
-    // the Copter main loop, includes fast_loop and loops defined in ArduCopter.cpp by AP_scheduler
+    // the Copter main loop, includes fast_loop and the loops defined in ArduCopter.cpp by AP_scheduler
     copter->loop();
 
     // output
-    memcpy(&fms_out_msg,&hal.fms_out_msg,sizeof(fms_out_msg));
-    memcpy(&control_out_msg,&hal.control_out_msg,sizeof(control_out_msg));
+    memcpy(&apm_handler.fms_out_msg,     &hal.fms_out_msg,                    sizeof(apm_handler.fms_out_msg));
+    memcpy(&apm_handler.control_out_msg, &hal.control_out_msg,                sizeof(apm_handler.control_out_msg));
 
-    apm_pilot_cmd_updated = hal.apm_pilot_cmd_updated;
-    apm_gcs_cmd_updated = hal.apm_gcs_cmd_updated;
-    apm_mission_data_updated = hal.apm_mission_data_updated;
-    apm_rangefinder_data_updated = hal.apm_rangefinder_data_updated;
+    apm_handler.pilot_cmd_updated        = hal.pilot_cmd_updated;
+    apm_handler.gcs_cmd_updated          = hal.gcs_cmd_updated;
+    apm_handler.mission_data_updated     = hal.mission_data_updated;
+    apm_handler.rangefinder_data_updated = hal.rangefinder_data_updated;
 
-    apm_pilot_cmd_log = hal.apm_pilot_cmd_log;
-    apm_gcs_cmd_log = hal.apm_gcs_cmd_log;
-    apm_mission_data_log = hal.apm_mission_data_log;
-    apm_rangefinder_data_log = hal.apm_rangefinder_data_log;
+    apm_handler.pilot_cmd_log            = hal.pilot_cmd_log;
+    apm_handler.gcs_cmd_log              = hal.gcs_cmd_log;
+    apm_handler.mission_data_log         = hal.mission_data_log;
+    apm_handler.rangefinder_data_log     = hal.rangefinder_data_log;
 }
 
 void APM_Copter_Init_Para_P1(void)

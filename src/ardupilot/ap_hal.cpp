@@ -135,12 +135,12 @@ void AP_HAL::update_inertial() {
 void AP_HAL::update_rc(void)
 {
     // trans rc value to copter instance
-    // console_printf("hal.apm_pilot_cmd_updated : %d\n", hal.apm_pilot_cmd_updated);
+    // console_printf("hal.pilot_cmd_updated : %d\n", hal.pilot_cmd_updated);
     for (uint8_t i = 0; i < sizeof(rcChannel_msg)/2; i++){
         rcin._rc_in_data[i] = rcChannel_msg[i];
     }
-    rcin._new_input = hal.apm_pilot_cmd_updated;
-    hal.apm_pilot_cmd_updated = 0;
+    rcin._new_input = hal.pilot_cmd_updated;
+    hal.pilot_cmd_updated = 0;
 }
 
 void AP_HAL::update_mission(void)

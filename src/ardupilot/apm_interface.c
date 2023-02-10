@@ -22,7 +22,6 @@
 #include "module/param/param.h"
 #include "apm_interface_param.h"
 
-#define FMT_READ_RADIO 1
 // FMS input topic
 // MCN_DECLARE(pilot_cmd);
 MCN_DECLARE(gcs_cmd);
@@ -41,14 +40,6 @@ MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
 // MCN_DEFINE(fms_output, sizeof(FMS_Out_Bus));
 // MCN_DEFINE(control_output, sizeof(Control_Out_Bus));
 
-int16_t rcChannel_msg[16];
-INS_Out_Bus ins_out_msg;
-Mission_Data_Bus mission_data_msg;
-GCS_Cmd_Bus gcs_cmd_msg;
-Rangefinder_Data_bus rangefinder_data_msg;
-
-FMS_Out_Bus fms_out_msg;
-Control_Out_Bus control_out_msg;
 
 // rf_data_t rf_report;
 
@@ -56,26 +47,8 @@ Control_Out_Bus control_out_msg;
 // static int16_t rcChannel_tmp[16];
 // static my_radio_in MY_RADIO_BUS;
 // MCN_DEFINE(my_radio_in_topic, sizeof(MY_RADIO_BUS));
+APM_Handler apm_handler;
 
-#if FMT_READ_RADIO == 1
-static McnNode_t rc_channels_nod;
-#endif
-
-static McnNode_t ins_out_nod;
-static McnNode_t mission_data_nod;
-// static McnNode_t pilot_cmd_nod;
-static McnNode_t gcs_cmd_nod;
-static McnNode_t rangefinder_data_nod;
-
-uint8_t apm_pilot_cmd_updated = 1;
-uint8_t apm_gcs_cmd_updated = 1;
-uint8_t apm_mission_data_updated = 1;
-uint8_t apm_rangefinder_data_updated = 1;
-
-uint8_t apm_pilot_cmd_log = 0;
-uint8_t apm_gcs_cmd_log = 0;
-uint8_t apm_mission_data_log = 0;
-uint8_t apm_rangefinder_data_log = 0;
 // static McnNode_t my_radio_in_nod;
 
 // static int Pilot_Cmd_ID;
@@ -166,9 +139,9 @@ static int fms_output_echo(void* param)
 
 // static void mlog_start_cb(void)
 // {
-//     apm_pilot_cmd_updated = 1;
-//     apm_gcs_cmd_updated = 1;
-//     apm_mission_data_updated = 1;
+//     pilot_cmd_updated = 1;
+//     gcs_cmd_updated = 1;
+//     mission_data_updated = 1;
 // }
 
 // static void init_parameter(void)
@@ -206,69 +179,69 @@ void apm_interface_step(uint32_t timestamp)
     //     mcn_copy(MCN_HUB(pilot_cmd), pilot_cmd_nod, &FMS_U.Pilot_Cmd);
 
     //     FMS_U.Pilot_Cmd.timestamp = timestamp;
-    //     apm_pilot_cmd_updated = 1;
+    //     pilot_cmd_updated = 1;
     // }
 
-    if (mcn_poll(gcs_cmd_nod)) {
-        mcn_copy(MCN_HUB(gcs_cmd), gcs_cmd_nod, &gcs_cmd_msg);
+    if (mcn_poll(apm_handler.gcs_cmd_nod)) {
+        mcn_copy(MCN_HUB(gcs_cmd), apm_handler.gcs_cmd_nod, &apm_handler.gcs_cmd_msg);
 
-        gcs_cmd_msg.timestamp = timestamp;
-        apm_gcs_cmd_updated = 1;
-        apm_gcs_cmd_log = 1;
+        apm_handler.gcs_cmd_msg.timestamp = timestamp;
+        apm_handler.gcs_cmd_updated = 1;
+        apm_handler.gcs_cmd_log = 1;
     }
 
-    if (mcn_poll(mission_data_nod)) {
-        mcn_copy(MCN_HUB(mission_data), mission_data_nod, &mission_data_msg);
+    if (mcn_poll(apm_handler.mission_data_nod)) {
+        mcn_copy(MCN_HUB(mission_data), apm_handler.mission_data_nod, &apm_handler.mission_data_msg);
 
-        mission_data_msg.timestamp = timestamp;
-        apm_mission_data_updated = 1;
-        apm_mission_data_log = 1;
+        apm_handler.mission_data_msg.timestamp = timestamp;
+        apm_handler.mission_data_updated = 1;
+        apm_handler.mission_data_log = 1;
     }
 
-    if (mcn_poll(rc_channels_nod)) {
-        mcn_copy(MCN_HUB(rc_channels), rc_channels_nod, &rcChannel_msg);
-        apm_pilot_cmd_updated = 1;
-        apm_pilot_cmd_log = 1;
+    if (mcn_poll(apm_handler.rc_channels_nod)) {
+        mcn_copy(MCN_HUB(rc_channels), apm_handler.rc_channels_nod, &apm_handler.rcChannel_msg);
+        apm_handler.pilot_cmd_updated = 1;
+        apm_handler.pilot_cmd_log = 1;
     }
 
-    if (mcn_poll(ins_out_nod)) {
-        mcn_copy(MCN_HUB(ins_output), ins_out_nod, &ins_out_msg);
+    if (mcn_poll(apm_handler.ins_out_nod)) {
+        mcn_copy(MCN_HUB(ins_output), apm_handler.ins_out_nod, &apm_handler.ins_out_msg);
     }
 
-    if (mcn_poll(rangefinder_data_nod)) {
-        mcn_copy(MCN_HUB(sensor_rangefinder), rangefinder_data_nod, &rangefinder_data_msg);
-        apm_rangefinder_data_updated = 1;
-        apm_rangefinder_data_log = 1;
+    if (mcn_poll(apm_handler.rangefinder_data_nod)) {
+        mcn_copy(MCN_HUB(sensor_rangefinder), apm_handler.rangefinder_data_nod, &apm_handler.rangefinder_data_msg);
+        apm_handler.rangefinder_data_updated = 1;
+        apm_handler.rangefinder_data_log = 1;
     }
 
     // FMS_step();
     APM_loop();
 
-    control_out_msg.timestamp = timestamp;
-    mcn_publish(MCN_HUB(control_output), &control_out_msg);
-    fms_out_msg.timestamp = timestamp;
-    mcn_publish(MCN_HUB(fms_output), &fms_out_msg);
+    apm_handler.control_out_msg.timestamp = timestamp;
+    mcn_publish(MCN_HUB(control_output), &apm_handler.control_out_msg);
+    apm_handler.fms_out_msg.timestamp = timestamp;
+    mcn_publish(MCN_HUB(fms_output), &apm_handler.fms_out_msg);
 
-    if (apm_pilot_cmd_log) {
-        apm_pilot_cmd_log = 0;
+    if (apm_handler.pilot_cmd_log) {
+        apm_handler.pilot_cmd_log = 0;
     //     /* Log pilot command */
     //     mlog_push_msg((uint8_t*)&FMS_U.Pilot_Cmd, Pilot_Cmd_ID, sizeof(Pilot_Cmd_Bus));
     }
 
-    if (apm_gcs_cmd_log) {
-        apm_gcs_cmd_log = 0;
+    if (apm_handler.gcs_cmd_log) {
+        apm_handler.gcs_cmd_log = 0;
     //     /* Log gcs command */
     //     mlog_push_msg((uint8_t*)&FMS_U.GCS_Cmd, GCS_Cmd_ID, sizeof(GCS_Cmd_Bus));
     }
 
-    if (apm_mission_data_log) {
-        apm_mission_data_log = 0;
+    if (apm_handler.mission_data_log) {
+        apm_handler.mission_data_log = 0;
     //     /* Log mission data */
     //     mlog_push_msg((uint8_t*)&FMS_U.Mission_Data, Mission_Data_ID, sizeof(Mission_Data_Bus));
     }
 
-    if (apm_rangefinder_data_log) {
-        apm_rangefinder_data_log = 0;
+    if (apm_handler.rangefinder_data_log) {
+        apm_handler.rangefinder_data_log = 0;
     //     /* Log mission data */
     //     mlog_push_msg((uint8_t*)&FMS_U.Mission_Data, Mission_Data_ID, sizeof(Mission_Data_Bus));
     }
@@ -310,11 +283,11 @@ void apm_interface_init(void)
     // mcn_advertise(MCN_HUB(fms_output), fms_output_echo);
 
     // pilot_cmd_nod = mcn_subscribe(MCN_HUB(pilot_cmd), NULL, NULL);
-    gcs_cmd_nod = mcn_subscribe(MCN_HUB(gcs_cmd), NULL, NULL);
-    mission_data_nod = mcn_subscribe(MCN_HUB(mission_data), NULL, NULL);
-    ins_out_nod = mcn_subscribe(MCN_HUB(ins_output), NULL, NULL);
-    rc_channels_nod = mcn_subscribe(MCN_HUB(rc_channels), NULL, NULL);
-    rangefinder_data_nod = mcn_subscribe(MCN_HUB(sensor_rangefinder), NULL, NULL);
+    apm_handler.gcs_cmd_nod          = mcn_subscribe(MCN_HUB(gcs_cmd), NULL, NULL);
+    apm_handler.mission_data_nod     = mcn_subscribe(MCN_HUB(mission_data), NULL, NULL);
+    apm_handler.ins_out_nod          = mcn_subscribe(MCN_HUB(ins_output), NULL, NULL);
+    apm_handler.rc_channels_nod      = mcn_subscribe(MCN_HUB(rc_channels), NULL, NULL);
+    apm_handler.rangefinder_data_nod = mcn_subscribe(MCN_HUB(sensor_rangefinder), NULL, NULL);
 
     // Pilot_Cmd_ID = mlog_get_bus_id("Pilot_Cmd");
     // GCS_Cmd_ID = mlog_get_bus_id("GCS_Cmd");
@@ -331,7 +304,7 @@ void apm_interface_init(void)
     // FMT_CHECK(mcn_advertise(MCN_HUB(rc_channels), echo_my_radio_in)); // should be advertised in pilot_cmd, put here for SIL
 
     mcn_advertise(MCN_HUB(control_output), control_out_echo);
-    mcn_advertise(MCN_HUB(fms_output), fms_output_echo);
+    mcn_advertise(MCN_HUB(fms_output),     fms_output_echo);
 
 
     APM_init();
