@@ -174,7 +174,7 @@
 
 // missing terrain data failsafe
 #ifndef FS_TERRAIN_TIMEOUT_MS
- #define FS_TERRAIN_TIMEOUT_MS          5000     // 5 seconds of missing terrain data will trigger failsafe (RTL)
+ #define FS_TERRAIN_TIMEOUT_MS          5000     // 5 seconds of missing terrain data will trigger failsafe (control_mode_t::RTL)
 #endif
 
 #ifndef PREARM_DISPLAY_PERIOD
@@ -274,22 +274,22 @@
 //
 
 #ifndef FLIGHT_MODE_1
- # define FLIGHT_MODE_1                  STABILIZE
+ # define FLIGHT_MODE_1                  int(control_mode_t::STABILIZE)
 #endif
 #ifndef FLIGHT_MODE_2
- # define FLIGHT_MODE_2                  STABILIZE
+ # define FLIGHT_MODE_2                  int(control_mode_t::STABILIZE)
 #endif
 #ifndef FLIGHT_MODE_3
- # define FLIGHT_MODE_3                  STABILIZE
+ # define FLIGHT_MODE_3                  int(control_mode_t::STABILIZE)
 #endif
 #ifndef FLIGHT_MODE_4
- # define FLIGHT_MODE_4                  STABILIZE
+ # define FLIGHT_MODE_4                  int(control_mode_t::STABILIZE)
 #endif
 #ifndef FLIGHT_MODE_5
- # define FLIGHT_MODE_5                  STABILIZE
+ # define FLIGHT_MODE_5                  int(control_mode_t::STABILIZE)
 #endif
 #ifndef FLIGHT_MODE_6
- # define FLIGHT_MODE_6                  STABILIZE
+ # define FLIGHT_MODE_6                  int(control_mode_t::STABILIZE)
 #endif
 
 
@@ -398,7 +398,7 @@
  #define ACRO_THR_MID_DEFAULT       0.0f
 #endif
 
-// RTL Mode
+// control_mode_t::RTL Mode
 #ifndef RTL_ALT_FINAL
  # define RTL_ALT_FINAL             0       // the altitude the vehicle will move to as the final stage of Returning to Launch.  Set to zero to land.
 #endif
@@ -408,11 +408,11 @@
 #endif
 
 #ifndef RTL_ALT_MIN
- # define RTL_ALT_MIN               200     // min height above ground for RTL (i.e 2m)
+ # define RTL_ALT_MIN               200     // min height above ground for control_mode_t::RTL (i.e 2m)
 #endif
 
 #ifndef RTL_CLIMB_MIN_DEFAULT
- # define RTL_CLIMB_MIN_DEFAULT     0       // vehicle will always climb this many cm as first stage of RTL
+ # define RTL_CLIMB_MIN_DEFAULT     0       // vehicle will always climb this many cm as first stage of control_mode_t::RTL
 #endif
 
 #ifndef RTL_ABS_MIN_CLIMB
@@ -420,7 +420,7 @@
 #endif
 
 #ifndef RTL_CONE_SLOPE_DEFAULT
- # define RTL_CONE_SLOPE_DEFAULT    3.0f    // slope of RTL cone (height / distance). 0 = No cone
+ # define RTL_CONE_SLOPE_DEFAULT    3.0f    // slope of control_mode_t::RTL cone (height / distance). 0 = No cone
 #endif
 
 #ifndef RTL_MIN_CONE_SLOPE
@@ -431,7 +431,7 @@
  # define RTL_LOITER_TIME           5000    // Time (in milliseconds) to loiter above home before beginning final descent
 #endif
 
-// AUTO Mode
+// control_mode_t::AUTO Mode
 #ifndef WP_YAW_BEHAVIOR_DEFAULT
  # define WP_YAW_BEHAVIOR_DEFAULT   WP_YAW_BEHAVIOR_LOOK_AT_NEXT_WP_EXCEPT_RTL
 #endif

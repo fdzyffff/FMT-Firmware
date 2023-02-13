@@ -26,17 +26,17 @@ void Copter::calc_wp_distance()
 {
     // get target from loiter or wpinav controller
     switch (control_mode) {
-    case LOITER:
-    case CIRCLE:
+    case control_mode_t::LOITER:
+    case control_mode_t::CIRCLE:
         wp_distance = wp_nav->get_loiter_distance_to_target();
         break;
 
-    case AUTO:
-    case RTL:
+    case control_mode_t::AUTO:
+    case control_mode_t::RTL:
         wp_distance = wp_nav->get_wp_distance_to_destination();
         break;
 
-    case GUIDED:
+    case control_mode_t::GUIDED:
         if (guided_mode == Guided_WP) {
             wp_distance = wp_nav->get_wp_distance_to_destination();
             break;
@@ -53,17 +53,17 @@ void Copter::calc_wp_bearing()
 {
     // get target from loiter or wpinav controller
     switch (control_mode) {
-    case LOITER:
-    case CIRCLE:
+    case control_mode_t::LOITER:
+    case control_mode_t::CIRCLE:
         wp_bearing = wp_nav->get_loiter_bearing_to_target();
         break;
 
-    case AUTO:
-    case RTL:
+    case control_mode_t::AUTO:
+    case control_mode_t::RTL:
         wp_bearing = wp_nav->get_wp_bearing_to_destination();
         break;
 
-    case GUIDED:
+    case control_mode_t::GUIDED:
         if (guided_mode == Guided_WP) {
             wp_bearing = wp_nav->get_wp_bearing_to_destination();
             break;
@@ -93,7 +93,7 @@ void Copter::navigation_init() {
 
 void Copter::navigation_update()
 {
-    if (control_mode != AUTO)
+    if (control_mode != control_mode_t::AUTO)
     {
         return;
     }
@@ -182,12 +182,12 @@ void Copter::navigation_next() {
 Vector3f Copter::get_destination() {
     Vector3f dest_pos = Vector3f(0.0f, 0.0f, 0.0f);
     switch (control_mode) {
-    case AUTO:
-    case RTL:
+    case control_mode_t::AUTO:
+    case control_mode_t::RTL:
         dest_pos = wp_nav->get_wp_destination();
         break;
 
-    case GUIDED:
+    case control_mode_t::GUIDED:
         if (guided_mode == Guided_WP) {
             dest_pos = wp_nav->get_wp_destination();
         } else {
@@ -196,8 +196,8 @@ Vector3f Copter::get_destination() {
         break;
         // no break
 
-    case LOITER:
-    case CIRCLE:
+    case control_mode_t::LOITER:
+    case control_mode_t::CIRCLE:
         dest_pos = pos_control->get_pos_target();
         break;
 

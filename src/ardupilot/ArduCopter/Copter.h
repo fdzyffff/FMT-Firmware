@@ -366,7 +366,7 @@ public:
     int8_t flight_modes[6];
 
     // This is the state of the flight control system
-    // There are multiple states defined such as STABILIZE, ACRO,
+    // There are multiple states defined such as control_mode_t::STABILIZE, control_mode_t::ACRO,
     control_mode_t control_mode;
     mode_reason_t control_mode_reason = MODE_REASON_UNKNOWN;
 
@@ -540,7 +540,7 @@ public:
     // Guided
     GuidedMode guided_mode;  // controls which controller is run (pos or vel)
 
-    // RTL
+    // control_mode_t::RTL
     RTLState rtl_state;  // records state of rtl (initial climb, returning home, etc)
     bool rtl_state_complete; // set to true if the current state is completed
 

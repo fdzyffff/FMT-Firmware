@@ -369,7 +369,7 @@ void Copter::auto_land_run()
     land_run_vertical_control();
 }
 
-// auto_rtl_start - initialises RTL in AUTO flight mode
+// auto_rtl_start - initialises control_mode_t::RTL in control_mode_t::AUTO flight mode
 void Copter::auto_rtl_start()
 {
     auto_mode = Auto_RTL;
@@ -378,7 +378,7 @@ void Copter::auto_rtl_start()
     rtl_init(true);
 }
 
-// auto_rtl_run - rtl in AUTO flight mode
+// auto_rtl_run - rtl in control_mode_t::AUTO flight mode
 //      called by auto_run at 100hz or more
 void Copter::auto_rtl_run()
 {
@@ -439,7 +439,7 @@ void Copter::auto_circle_movetoedge_start(const Location_Class &circle_center, f
     }
 }
 
-// auto_circle_start - initialises controller to fly a circle in AUTO flight mode
+// auto_circle_start - initialises controller to fly a circle in control_mode_t::AUTO flight mode
 //   assumes that circle_nav object has already been initialised with circle center and radius
 void Copter::auto_circle_start()
 {
@@ -449,7 +449,7 @@ void Copter::auto_circle_start()
     circle_nav->init(circle_nav->get_center());
 }
 
-// auto_circle_run - circle in AUTO flight mode
+// auto_circle_run - circle in control_mode_t::AUTO flight mode
 //      called by auto_run at 100hz or more
 void Copter::auto_circle_run()
 {
@@ -486,7 +486,7 @@ bool Copter::auto_loiter_start()
     return true;
 }
 
-// auto_loiter_run - loiter in AUTO flight mode
+// auto_loiter_run - loiter in control_mode_t::AUTO flight mode
 //      called by auto_run at 100hz or more
 void Copter::auto_loiter_run()
 {
@@ -515,7 +515,7 @@ void Copter::auto_loiter_run()
 }
 
 // get_default_auto_yaw_mode - returns auto_yaw_mode based on WP_YAW_BEHAVIOR parameter
-// set rtl parameter to true if this is during an RTL
+// set rtl parameter to true if this is during an control_mode_t::RTL
 uint8_t Copter::get_default_auto_yaw_mode(bool rtl)
 {
     switch (g.wp_yaw_behavior) {

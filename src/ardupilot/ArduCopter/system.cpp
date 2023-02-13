@@ -46,7 +46,7 @@ void Copter::init_ardupilot()
     ap.pre_arm_rc_check = true;
     enable_motor_output();
 
-    set_mode(AUTO, MODE_REASON_TX_COMMAND);
+    set_mode(control_mode_t::AUTO, MODE_REASON_TX_COMMAND);
     // flag that initialisation has completed
 
     console_printf(THIS_APM_FIRMWARE);
@@ -105,7 +105,7 @@ void Copter::update_auto_armed()
         // arm checks
         // if motors are armed and throttle is above zero auto_armed should be true
         // if motors are armed and we are in throw mode, then auto_ermed should be true
-        if(motors->armed() && (!ap.throttle_zero || control_mode == THROW)) {
+        if(motors->armed() && (!ap.throttle_zero || control_mode == control_mode_t::THROW)) {
             set_auto_armed(true);
         }
     }

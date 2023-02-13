@@ -310,7 +310,7 @@ typedef enum FENCE_ACTION
    FENCE_ACTION_GUIDED=1, /* Switched to guided mode to return point (fence point 0) | */
    FENCE_ACTION_REPORT=2, /* Report fence breach, but don't take action | */
    FENCE_ACTION_GUIDED_THR_PASS=3, /* Switched to guided mode to return point (fence point 0) with manual throttle control | */
-   FENCE_ACTION_RTL=4, /* Switch to RTL (return to launch) mode and head for the return point. | */
+   FENCE_ACTION_RTL=4, /* Switch to control_mode_t::RTL (return to launch) mode and head for the return point. | */
    FENCE_ACTION_ENUM_END=5, /*  | */
 } FENCE_ACTION;
 #endif
@@ -635,7 +635,7 @@ typedef enum MAV_MISSION_TYPE
 {
    MAV_MISSION_TYPE_MISSION=0, /* Items are mission commands for main mission. | */
    MAV_MISSION_TYPE_FENCE=1, /* Specifies GeoFence area(s). Items are MAV_CMD_FENCE_ GeoFence items. | */
-   MAV_MISSION_TYPE_RALLY=2, /* Specifies the rally points for the vehicle. Rally points are alternative RTL points. Items are MAV_CMD_RALLY_POINT rally point items. | */
+   MAV_MISSION_TYPE_RALLY=2, /* Specifies the rally points for the vehicle. Rally points are alternative control_mode_t::RTL points. Items are MAV_CMD_RALLY_POINT rally point items. | */
    MAV_MISSION_TYPE_ALL=255, /* Only used in MISSION_CLEAR_ALL to clear all mission types. | */
    MAV_MISSION_TYPE_ENUM_END=256, /*  | */
 } MAV_MISSION_TYPE;

@@ -10,12 +10,12 @@
 bool Copter::current_mode_has_user_takeoff(bool must_navigate)
 {
     switch (control_mode) {
-        case GUIDED:
-        case LOITER:
-        case POSHOLD:
+        case control_mode_t::GUIDED:
+        case control_mode_t::LOITER:
+        case control_mode_t::POSHOLD:
             return true;
-        case ALT_HOLD:
-        case SPORT:
+        case control_mode_t::ALT_HOLD:
+        case control_mode_t::SPORT:
             return !must_navigate;
         default:
             return false;
@@ -28,16 +28,16 @@ bool Copter::do_user_takeoff(float takeoff_alt_cm, bool must_navigate)
     if (motors->armed() && ap.land_complete && current_mode_has_user_takeoff(must_navigate) && takeoff_alt_cm > current_loc.alt) {
 
         switch(control_mode) {
-            case GUIDED:
+            case control_mode_t::GUIDED:
                 if (guided_takeoff_start(takeoff_alt_cm)) {
                     set_auto_armed(true);
                     return true;
                 }
                 return false;
-            case LOITER:
-            case POSHOLD:
-            case ALT_HOLD:
-            case SPORT:
+            case control_mode_t::LOITER:
+            case control_mode_t::POSHOLD:
+            case control_mode_t::ALT_HOLD:
+            case control_mode_t::SPORT:
                 set_auto_armed(true);
                 takeoff_timer_start(takeoff_alt_cm);
                 return true;
@@ -166,7 +166,7 @@ void Copter::auto_takeoff_attitude_run(float target_yaw_rate)
         nav_pitch = wp_nav->get_pitch();
     }
     
-    if (control_mode == AUTO || control_mode == TESTSTAR)
+    if (control_mode == control_mode_t::AUTO || control_mode == control_mode_t::TESTSTAR)
     {
         if (!is_zero(target_yaw_rate)) {
             set_auto_yaw_mode(AUTO_YAW_HOLD);

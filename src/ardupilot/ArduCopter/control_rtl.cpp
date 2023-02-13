@@ -1,9 +1,9 @@
 #include "Copter.h"
 
 /*
- * Init and run calls for RTL flight mode
+ * Init and run calls for control_mode_t::RTL flight mode
  *
- * There are two parts to RTL, the high level decision making which controls which state we are in
+ * There are two parts to control_mode_t::RTL, the high level decision making which controls which state we are in
  * and the lower implementation of the waypoint or landing controllers within those states
  */
 
@@ -21,7 +21,7 @@ bool Copter::rtl_init(bool ignore_checks)
     }
 }
 
-// re-start RTL with terrain following disabled
+// re-start control_mode_t::RTL with terrain following disabled
 void Copter::rtl_restart_without_terrain()
 {
     // log an error
@@ -86,7 +86,7 @@ void Copter::rtl_run()
     }
 }
 
-// rtl_climb_start - initialise climb to RTL altitude
+// rtl_climb_start - initialise climb to control_mode_t::RTL altitude
 void Copter::rtl_climb_start()
 {
     rtl_state = RTL_InitialClimb;
@@ -101,7 +101,7 @@ void Copter::rtl_climb_start()
     if (!wp_nav->set_wp_destination(rtl_path.climb_target)) {
         // this should not happen because rtl_build_path will have checked terrain data was available
         // Log_Write_Error(ERROR_SUBSYSTEM_NAVIGATION, ERROR_CODE_FAILED_TO_SET_DESTINATION);
-        set_mode(LAND, MODE_REASON_TERRAIN_FAILSAFE);
+        set_mode(control_mode_t::LAND, MODE_REASON_TERRAIN_FAILSAFE);
         return;
     }
     wp_nav->set_fast_waypoint(true);
@@ -118,7 +118,7 @@ void Copter::rtl_return_start()
     rtl_state_complete = false;
 
     if (!wp_nav->set_wp_destination(rtl_path.return_target)) {
-        // failure must be caused by missing terrain data, restart RTL
+        // failure must be caused by missing terrain data, restart control_mode_t::RTL
         rtl_restart_without_terrain();
     }
 
@@ -126,7 +126,7 @@ void Copter::rtl_return_start()
     set_auto_yaw_mode(get_default_auto_yaw_mode(true));
 }
 
-// rtl_climb_return_run - implements the initial climb, return home and descent portions of RTL which all rely on the wp controller
+// rtl_climb_return_run - implements the initial climb, return home and descent portions of control_mode_t::RTL which all rely on the wp controller
 //      called by rtl_run at 100hz or more
 void Copter::rtl_climb_return_run()
 {
@@ -168,7 +168,7 @@ void Copter::rtl_climb_return_run()
         attitude_control->input_euler_angle_roll_pitch_yaw(wp_nav->get_roll(), wp_nav->get_pitch(), get_auto_heading(),true, get_smoothing_gain());
     }
 
-    // check if we've completed this stage of RTL
+    // check if we've completed this stage of control_mode_t::RTL
     rtl_state_complete = wp_nav->reached_wp_destination();
 }
 
@@ -187,7 +187,7 @@ void Copter::rtl_loiterathome_start()
     }
 }
 
-// rtl_climb_return_descent_run - implements the initial climb, return home and descent portions of RTL which all rely on the wp controller
+// rtl_climb_return_descent_run - implements the initial climb, return home and descent portions of control_mode_t::RTL which all rely on the wp controller
 //      called by rtl_run at 100hz or more
 void Copter::rtl_loiterathome_run()
 {
@@ -229,7 +229,7 @@ void Copter::rtl_loiterathome_run()
         attitude_control->input_euler_angle_roll_pitch_yaw(wp_nav->get_roll(), wp_nav->get_pitch(), get_auto_heading(),true, get_smoothing_gain());
     }
 
-    // check if we've completed this stage of RTL
+    // check if we've completed this stage of control_mode_t::RTL
     if ((millis() - rtl_loiter_start_time) >= (uint32_t)g.rtl_loiter_time) {
         if (auto_yaw_mode == AUTO_YAW_RESETTOARMEDYAW) {
             // check if heading is within 2 degrees of heading when vehicle was armed
@@ -282,8 +282,8 @@ void Copter::rtl_descent_run()
         if ((g.throttle_behavior & THR_BEHAVE_HIGH_THROTTLE_CANCELS_LAND) != 0 && rc_throttle_control_in_filter.get() > LAND_CANCEL_TRIGGER_THR){
             // Log_Write_Event(DATA_LAND_CANCELLED_BY_PILOT);
             // exit land if throttle is high
-            if (!set_mode(LOITER, MODE_REASON_THROTTLE_LAND_ESCAPE)) {
-                set_mode(ALT_HOLD, MODE_REASON_THROTTLE_LAND_ESCAPE);
+            if (!set_mode(control_mode_t::LOITER, MODE_REASON_THROTTLE_LAND_ESCAPE)) {
+                set_mode(control_mode_t::ALT_HOLD, MODE_REASON_THROTTLE_LAND_ESCAPE);
             }
         }
 
@@ -356,7 +356,7 @@ void Copter::rtl_land_run()
             init_disarm_motors();
         }
 
-        // check if we've completed this stage of RTL
+        // check if we've completed this stage of control_mode_t::RTL
         rtl_state_complete = ap.land_complete;
         return;
     }
@@ -367,7 +367,7 @@ void Copter::rtl_land_run()
     land_run_horizontal_control();
     land_run_vertical_control();
 
-    // check if we've completed this stage of RTL
+    // check if we've completed this stage of control_mode_t::RTL
     rtl_state_complete = ap.land_complete;
 }
 

@@ -22,8 +22,6 @@
 #include "AP_RCMapper.h"
 #include "ap_hal.h"
 
-extern AP_HAL hal;
-
 /// map a function to a servo channel and output it
 void SRV_Channel::output_ch(void)
 {

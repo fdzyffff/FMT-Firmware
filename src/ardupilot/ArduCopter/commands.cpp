@@ -7,7 +7,7 @@
  *   HOME_SET_AND_LOCKED    = home has been set by user, cannot be moved except by user initiated do-set-home command
  */
 
-// checks if we should update ahrs/RTL home position from the EKF
+// checks if we should update ahrs/control_mode_t::RTL home position from the EKF
 /*void Copter::update_home_from_EKF()
 {
     // exit immediately if home already set
@@ -45,7 +45,7 @@ bool Copter::set_home_to_current_location() {
     return false;
 }
 
-// set_home - sets ahrs home (used for RTL) to specified location
+// set_home - sets ahrs home (used for control_mode_t::RTL) to specified location
 //  initialises inertial nav and compass on first call
 //  returns true if home location set successfully
 bool Copter::set_home(const Location& loc)
@@ -66,7 +66,7 @@ bool Copter::set_home(const Location& loc)
         return false;
     }
 
-    // set ahrs home (used for RTL)
+    // set ahrs home (used for control_mode_t::RTL)
     ahrs.set_home(loc);
 
     // init inav and compass declination
@@ -96,7 +96,7 @@ bool Copter::far_from_EKF_origin(const Location& loc)
     return false;
 }
 
-// checks if we should update ahrs/RTL home position from GPS
+// checks if we should update ahrs/control_mode_t::RTL home position from GPS
 void Copter::set_system_time_from_GPS()
 {
     // exit immediately if system time already set

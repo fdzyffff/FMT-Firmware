@@ -75,7 +75,7 @@ public:
 	float               cross_offset;
 	float               fore_offset;
 	float               stall_high;    
-    int8_t              rangefinder_gain;
+    float               rangefinder_gain;
     int8_t              flight_mode1;
     int8_t              flight_mode2;
     int8_t              flight_mode3;

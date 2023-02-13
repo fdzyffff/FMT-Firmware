@@ -162,7 +162,7 @@ void Copter::ten_hz_loop()
 void Copter::one_hz_loop()
 {
     // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
-    // printf(" hal.rcin._rc_in_data[0,1,2,3,4]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[4]);
+    printf(" hal.rcin._rc_in_data[0,1,2,3,4]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[4]);
     // printf(" hal.rcout._rc_out_data[0,1,2,3]: [%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3]);
     // printf(" channel_throttle->get_radio_min(): %d\n", channel_throttle->get_radio_min());
     // printf(" motors->get_pwm_output_min(): %d\n", motors->get_pwm_output_min());
@@ -170,7 +170,8 @@ void Copter::one_hz_loop()
     // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
     // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
-    console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
+    // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
+
 }
 
 void Copter::read_AHRS(void)
@@ -179,7 +180,7 @@ void Copter::read_AHRS(void)
     ahrs.update(true);
 }
 
-// checks if we should update ahrs/RTL home position from the EKF
+// checks if we should update ahrs/control_mode_t::RTL home position from the EKF
 void Copter::update_home_from_EKF()
 {
     // exit immediately if home already set
@@ -221,11 +222,11 @@ void Copter::update_gcs_cmd()
                     break;
                 case FMS_Cmd_Land:
                     printf ("Do Land\n");
-                    set_mode(LAND, MODE_REASON_GCS_COMMAND);
+                    set_mode(control_mode_t::LAND, MODE_REASON_GCS_COMMAND);
                     break;
                 case FMS_Cmd_Return:
-                    printf ("Do RTL\n");
-                    set_mode(RTL, MODE_REASON_GCS_COMMAND);
+                    printf ("Do control_mode_t::RTL\n");
+                    set_mode(control_mode_t::RTL, MODE_REASON_GCS_COMMAND);
                     break;
                 case FMS_Cmd_Pause:
                     printf ("[no]Do Pause\n");
@@ -248,23 +249,23 @@ void Copter::update_gcs_cmd()
                     break;
                 case PilotMode_Acro:
                     printf ("[no]APM Acro mode\n");
-                    // set_mode(ACRO, MODE_REASON_GCS_COMMAND);
+                    // set_mode(control_mode_t::ACRO, MODE_REASON_GCS_COMMAND);
                     break;
                 case PilotMode_Stabilize:
                     printf ("APM Stabilize mode\n");
-                    set_mode(STABILIZE, MODE_REASON_GCS_COMMAND);
+                    set_mode(control_mode_t::STABILIZE, MODE_REASON_GCS_COMMAND);
                     break;
                 case PilotMode_Altitude:
                     printf ("APM Alt_hold mode\n");
-                    set_mode(ALT_HOLD, MODE_REASON_GCS_COMMAND);
+                    set_mode(control_mode_t::ALT_HOLD, MODE_REASON_GCS_COMMAND);
                     break;
                 case PilotMode_Position:
                     printf ("APM Loiter mode\n");
-                    set_mode(LOITER, MODE_REASON_GCS_COMMAND);
+                    set_mode(control_mode_t::LOITER, MODE_REASON_GCS_COMMAND);
                     break;
                 case PilotMode_Mission:
                     printf ("APM Auto mode\n");
-                    set_mode(AUTO, MODE_REASON_GCS_COMMAND);
+                    set_mode(control_mode_t::AUTO, MODE_REASON_GCS_COMMAND);
                     break;        
             }
             last_ctrl_mode = hal.gcs_cmd_msg.mode;
@@ -286,9 +287,9 @@ void Copter::update_fmt_bus()
     } else {
         hal.fms_out_msg.status = VehicleStatus_Disarm;
     }
-    hal.fms_out_msg.ctrl_mode = control_mode;
+    hal.fms_out_msg.ctrl_mode = int(control_mode);
     switch (control_mode) {
-        case AUTO:
+        case control_mode_t::AUTO:
             hal.fms_out_msg.mode = PilotMode_Mission;
             switch (auto_mode) {
                 case Auto_TakeOff:
@@ -317,31 +318,31 @@ void Copter::update_fmt_bus()
                     break;
             }
             break;
-        case STABILIZE:
+        case control_mode_t::STABILIZE:
             hal.fms_out_msg.mode = PilotMode_Stabilize;
             hal.fms_out_msg.state = VehicleState_Stabilize;
             break;
-        case ALT_HOLD:
+        case control_mode_t::ALT_HOLD:
             hal.fms_out_msg.mode = PilotMode_Altitude;
             hal.fms_out_msg.state = VehicleState_Altitude;
             break;
-        case LOITER:
+        case control_mode_t::LOITER:
             hal.fms_out_msg.mode = PilotMode_Position;
             hal.fms_out_msg.state = VehicleState_Position;
             break;
-        case RTL:
+        case control_mode_t::RTL:
             hal.fms_out_msg.mode = PilotMode_Mission;
             hal.fms_out_msg.state = VehicleState_Return;
             break;
-        case LAND:
+        case control_mode_t::LAND:
             hal.fms_out_msg.mode = PilotMode_Mission;
             hal.fms_out_msg.state = VehicleState_Land;
             break;
-        case ACRO:
+        case control_mode_t::ACRO:
             hal.fms_out_msg.mode = PilotMode_Acro;
             hal.fms_out_msg.state = VehicleState_Acro;
             break;
-        case GUIDED:
+        case control_mode_t::GUIDED:
             hal.fms_out_msg.mode = PilotMode_Offboard;
             hal.fms_out_msg.state = VehicleState_Offboard;
             break;

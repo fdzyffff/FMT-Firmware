@@ -25,6 +25,8 @@
 
 extern AP_HAL hal;
 
+#include <board.h>
+
 // Constructor
 AP_MotorsMulticopter::AP_MotorsMulticopter(uint16_t loop_rate, uint16_t speed_hz) :
     AP_Motors(loop_rate, speed_hz),
@@ -73,6 +75,7 @@ AP_MotorsMulticopter::AP_MotorsMulticopter(uint16_t loop_rate, uint16_t speed_hz
 };
 
 // output - sends commands to the motors
+_EXT_DTCM0
 void AP_MotorsMulticopter::output()
 {
     // update throttle filter
@@ -89,6 +92,7 @@ void AP_MotorsMulticopter::output()
 };
 
 // sends minimum values out to the motors
+_EXT_DTCM0
 void AP_MotorsMulticopter::output_min()
 {
     set_desired_spool_state(DESIRED_SHUT_DOWN);
@@ -97,6 +101,7 @@ void AP_MotorsMulticopter::output_min()
 }
 
 // update the throttle input filter
+_EXT_DTCM0
 void AP_MotorsMulticopter::update_throttle_filter()
 {
     if (armed()) {
@@ -114,6 +119,7 @@ void AP_MotorsMulticopter::update_throttle_filter()
 }
 
 // return current_limit as a number from 0 ~ 1 in the range throttle_min to throttle_max
+_EXT_DTCM0
 float AP_MotorsMulticopter::get_current_limit_max_throttle()
 {
     // return maximum if current limiting is disabled
@@ -122,6 +128,7 @@ float AP_MotorsMulticopter::get_current_limit_max_throttle()
 }
 
 // apply_thrust_curve_and_volt_scaling - returns throttle in the range 0 ~ 1
+_EXT_DTCM0
 float AP_MotorsMulticopter::apply_thrust_curve_and_volt_scaling(float thrust) const
 {
     float throttle_ratio = thrust;
@@ -134,6 +141,7 @@ float AP_MotorsMulticopter::apply_thrust_curve_and_volt_scaling(float thrust) co
 }
 
 // update_lift_max from battery voltage - used for voltage compensation
+_EXT_DTCM0
 void AP_MotorsMulticopter::update_lift_max_from_batt_voltage()
 {
     // sanity check battery_voltage_min is not too small
@@ -144,6 +152,7 @@ void AP_MotorsMulticopter::update_lift_max_from_batt_voltage()
 }
 
 // update_battery_resistance - calculate battery resistance when throttle is above hover_out
+_EXT_DTCM0
 void AP_MotorsMulticopter::update_battery_resistance()
 {
     // if disarmed reset resting voltage and current
@@ -171,6 +180,7 @@ void AP_MotorsMulticopter::update_battery_resistance()
     }
 }
 
+_EXT_DTCM0
 float AP_MotorsMulticopter::get_compensation_gain() const
 {
     // avoid divide by zero
@@ -189,17 +199,20 @@ float AP_MotorsMulticopter::get_compensation_gain() const
     return ret;
 }
 
+_EXT_DTCM0
 int16_t AP_MotorsMulticopter::calc_thrust_to_pwm(float thrust_in) const
 {
     thrust_in = apm_constrain_float(thrust_in, 0.0f, 1.0f);
     return get_pwm_output_min() + (get_pwm_output_max()-get_pwm_output_min()) * (_spin_min + (_spin_max-_spin_min)*apply_thrust_curve_and_volt_scaling(thrust_in));
 }
 
+_EXT_DTCM0
 int16_t AP_MotorsMulticopter::calc_spin_up_to_pwm() const
 {
     return get_pwm_output_min() + apm_constrain_float(_spin_up_ratio, 0.0f, 1.0f) * _spin_min * (get_pwm_output_max()-get_pwm_output_min());
 }
 // get minimum or maximum pwm value that can be output to motors
+_EXT_DTCM0
 int16_t AP_MotorsMulticopter::get_pwm_output_min() const
 {
     // return _pwm_min if both PWM_MIN and PWM_MAX parameters are defined and valid
@@ -210,6 +223,7 @@ int16_t AP_MotorsMulticopter::get_pwm_output_min() const
 }
 
 // get maximum pwm value that can be output to motors
+_EXT_DTCM0
 int16_t AP_MotorsMulticopter::get_pwm_output_max() const
 {
     // return _pwm_max if both PWM_MIN and PWM_MAX parameters are defined and valid
@@ -221,6 +235,7 @@ int16_t AP_MotorsMulticopter::get_pwm_output_max() const
 
 // set_throttle_range - sets the minimum throttle that will be sent to the engines when they're not off (i.e. to prevents issues with some motors spinning and some not at very low throttle)
 // also sets throttle channel minimum and maximum pwm
+_EXT_DTCM0
 void AP_MotorsMulticopter::set_throttle_range(int16_t radio_min, int16_t radio_max)
 {
     // sanity check
@@ -235,6 +250,7 @@ void AP_MotorsMulticopter::set_throttle_range(int16_t radio_min, int16_t radio_m
 }
 
 // update the throttle input filter.  should be called at 100hz
+_EXT_DTCM0
 void AP_MotorsMulticopter::update_throttle_hover(float dt)
 {
 /*    if (_throttle_hover_learn != HOVER_LEARN_DISABLED) {
@@ -245,6 +261,7 @@ void AP_MotorsMulticopter::update_throttle_hover(float dt)
 }
 
 // run spool logic
+_EXT_DTCM0
 void AP_MotorsMulticopter::output_logic()
 {
     if (_flags.armed) {
@@ -407,6 +424,7 @@ void AP_MotorsMulticopter::output_logic()
 
 // passes throttle directly to all motors for ESC calibration.
 //   throttle_input is in the range of 0 ~ 1 where 0 will send get_pwm_output_min() and 1 will send get_pwm_output_max()
+_EXT_DTCM0
 void AP_MotorsMulticopter::set_throttle_passthrough_for_esc_calibration(float throttle_input)
 {
     if (armed()) {
@@ -423,6 +441,7 @@ void AP_MotorsMulticopter::set_throttle_passthrough_for_esc_calibration(float th
 // output a thrust to all motors that match a given motor mask. This
 // is used to control tiltrotor motors in forward flight. Thrust is in
 // the range 0 to 1
+_EXT_DTCM0
 void AP_MotorsMulticopter::output_motor_mask(float thrust, uint8_t mask)
 {
     for (uint8_t i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++) {
@@ -439,6 +458,7 @@ void AP_MotorsMulticopter::output_motor_mask(float thrust, uint8_t mask)
 }
 
 // save parameters as part of disarming
+_EXT_DTCM0
 void AP_MotorsMulticopter::save_params_on_disarm()
 {
     // save hover throttle

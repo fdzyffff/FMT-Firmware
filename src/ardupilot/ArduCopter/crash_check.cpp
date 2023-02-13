@@ -19,7 +19,7 @@ void Copter::crash_check()
     }
 
     // return immediately if we are not in an angle stabilize flight mode or we are flipping
-    if (control_mode == ACRO || control_mode == FLIP) {
+    if (control_mode == control_mode_t::ACRO || control_mode == control_mode_t::FLIP) {
         crash_counter = 0;
         return;
     }

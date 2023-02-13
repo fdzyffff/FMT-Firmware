@@ -252,7 +252,7 @@ public:
     // passthrough_bf_roll_pitch_rate_yaw - roll and pitch are passed through directly, body-frame rate target for yaw
     virtual void passthrough_bf_roll_pitch_rate_yaw(float roll_passthrough, float pitch_passthrough, float yaw_rate_bf_cds) {};
 
-    // Maximum rate the yaw target can be updated in Loiter, RTL, Auto flight modes
+    // Maximum rate the yaw target can be updated in Loiter, control_mode_t::RTL, Auto flight modes
     float            _slew_yaw; //para
 
     // Maximum rotation acceleration for earth-frame roll axis

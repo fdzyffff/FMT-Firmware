@@ -197,7 +197,7 @@ typedef enum LIMITS_STATE
    LIMITS_DISABLED=1, /* disabled | */
    LIMITS_ENABLED=2, /* checking limits | */
    LIMITS_TRIGGERED=3, /* a limit has been breached | */
-   LIMITS_RECOVERING=4, /* taking action eg. RTL | */
+   LIMITS_RECOVERING=4, /* taking action eg. control_mode_t::RTL | */
    LIMITS_RECOVERED=5, /* we're no longer in breach of a limit | */
    LIMITS_STATE_ENUM_END=6, /*  | */
 } LIMITS_STATE;

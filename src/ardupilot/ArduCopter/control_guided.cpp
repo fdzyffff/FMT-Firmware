@@ -1,5 +1,7 @@
 #include "Copter.h"
 
+#include <board.h>
+
 /*
  * Init and run calls for guided flight mode
  */
@@ -39,6 +41,7 @@ struct Guided_Limit {
 } guided_limit;
 
 // guided_init - initialise guided controller
+_EXT_DTCM0
 bool Copter::guided_init(bool ignore_checks)
 {
     guided_yaw_base_angle_filt.set_cutoff_frequency(RANGEFINDER_WPNAV_FILT_HZ);
@@ -61,6 +64,7 @@ bool Copter::guided_init(bool ignore_checks)
 
 
 // guided_takeoff_start - initialises waypoint controller to implement take-off
+_EXT_DTCM0
 bool Copter::guided_takeoff_start(float final_alt_above_home)
 {
     guided_mode = Guided_TakeOff;
@@ -88,6 +92,7 @@ bool Copter::guided_takeoff_start(float final_alt_above_home)
 }
 
 // initialise guided mode's position controller
+_EXT_DTCM0
 void Copter::guided_pos_control_start()
 {
     // set to position control mode
@@ -112,6 +117,7 @@ void Copter::guided_pos_control_start()
 }
 
 // initialise guided mode's velocity controller
+_EXT_DTCM0
 void Copter::guided_vel_control_start()
 {
     // set guided_mode to velocity controller
@@ -131,6 +137,7 @@ void Copter::guided_vel_control_start()
 }
 
 // initialise guided mode's posvel controller
+_EXT_DTCM0
 void Copter::guided_posvel_control_start()
 {
     // set guided_mode to velocity controller
@@ -159,6 +166,7 @@ void Copter::guided_posvel_control_start()
 }
 
 // initialise guided mode's angle controller
+_EXT_DTCM0
 void Copter::guided_angle_control_start()
 {
     // set guided_mode to velocity controller
@@ -189,6 +197,7 @@ void Copter::guided_angle_control_start()
 }
 
 // initialise guided mode's angle controller
+_EXT_DTCM0
 void Copter::guided_angle_stab_start()
 {
     // set guided_mode to velocity controller
@@ -210,6 +219,7 @@ void Copter::guided_angle_stab_start()
 // guided_set_destination - sets guided mode's target destination
 // Returns true if the fence is enabled and guided waypoint is within the fence
 // else return false if the waypoint is outside the fence
+_EXT_DTCM0
 bool Copter::guided_set_destination(const Vector3f& destination, bool use_vel_z, float target_z, bool use_yaw, float yaw_cd, bool use_yaw_rate, float yaw_rate_cds, bool relative_yaw)
 {
     // ensure we are in position control mode
@@ -231,6 +241,7 @@ bool Copter::guided_set_destination(const Vector3f& destination, bool use_vel_z,
 // sets guided mode's target from a Location object
 // returns false if destination could not be set (probably caused by missing terrain data)
 // or if the fence is enabled and guided waypoint is outside the fence
+_EXT_DTCM0
 bool Copter::guided_set_destination(const Location_Class& dest_loc, bool use_yaw, float yaw_cd, bool use_yaw_rate, float yaw_rate_cds, bool relative_yaw)
 {
     // ensure we are in position control mode
@@ -249,6 +260,7 @@ bool Copter::guided_set_destination(const Location_Class& dest_loc, bool use_yaw
 }
 
 // guided_set_velocity - sets guided mode's target velocity
+_EXT_DTCM0
 void Copter::guided_set_velocity(const Vector3f& velocity, bool use_yaw, float yaw_cd, bool use_yaw_rate, float yaw_rate_cds, bool relative_yaw)
 {
     // check we are in velocity control mode
@@ -266,6 +278,7 @@ void Copter::guided_set_velocity(const Vector3f& velocity, bool use_yaw, float y
 
 // set guided mode posvel target
 // set guided mode posvel target
+_EXT_DTCM0
 void Copter::guided_set_destination_posvel(const Vector3f& destination, const Vector3f& velocity, bool use_yaw, float yaw_cd, bool use_yaw_rate, float yaw_rate_cds, bool relative_yaw)
 {
     // check we are in velocity control mode
@@ -284,6 +297,7 @@ void Copter::guided_set_destination_posvel(const Vector3f& destination, const Ve
 }
 
 // set guided mode angle target
+_EXT_DTCM0
 void Copter::guided_set_angle(const float roll, const float pitch, const float yaw, float climb_rate_cms, bool use_yaw_rate, float yaw_rate_rads)
 {
     // check we are in velocity control mode
@@ -309,6 +323,7 @@ void Copter::guided_set_angle(const float roll, const float pitch, const float y
 
 
 // set guided mode angle target
+_EXT_DTCM0
 void Copter::guided_set_angle_stab(const float roll, const float pitch, const float yaw, float thr_in, bool use_yaw_rate, float yaw_rate_rads)
 {
     // check we are in velocity control mode
@@ -334,6 +349,7 @@ void Copter::guided_set_angle_stab(const float roll, const float pitch, const fl
 }
 // guided_run - runs the guided controller
 // should be called at 100hz or more
+_EXT_DTCM0
 void Copter::guided_run()
 {
     // call the correct auto controller
@@ -373,6 +389,7 @@ void Copter::guided_run()
 
 // guided_takeoff_run - takeoff in guided mode
 //      called by guided_run at 100hz or more
+_EXT_DTCM0
 void Copter::guided_takeoff_run()
 {
     // if not auto armed or motor interlock not enabled set throttle to zero and exit immediately
@@ -412,6 +429,7 @@ void Copter::guided_takeoff_run()
 
 // guided_pos_control_run - runs the guided position controller
 // called from guided_run
+_EXT_DTCM0
 void Copter::guided_pos_control_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
@@ -460,6 +478,7 @@ void Copter::guided_pos_control_run()
 
 // guided_vel_control_run - runs the guided velocity controller
 // called from guided_run
+_EXT_DTCM0
 void Copter::guided_vel_control_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
@@ -517,6 +536,7 @@ void Copter::guided_vel_control_run()
 
 // guided_posvel_control_run - runs the guided spline controller
 // called from guided_run
+_EXT_DTCM0
 void Copter::guided_posvel_control_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
@@ -593,6 +613,7 @@ void Copter::guided_posvel_control_run()
 
 // guided_angle_control_run - runs the guided angle controller
 // called from guided_run
+_EXT_DTCM0
 void Copter::guided_angle_control_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
@@ -651,6 +672,7 @@ void Copter::guided_angle_control_run()
 
 // guided_angle_control_run - runs the guided angle controller
 // called from guided_run
+_EXT_DTCM0
 void Copter::guided_angle_stab_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
@@ -707,6 +729,7 @@ void Copter::guided_angle_stab_run()
 }
 
 // helper function to update position controller's desired velocity while respecting acceleration limits
+_EXT_DTCM0
 void Copter::guided_set_desired_velocity_with_accel_and_fence_limits(const Vector3f& vel_des)
 {
     // get current desired velocity
@@ -739,6 +762,7 @@ void Copter::guided_set_desired_velocity_with_accel_and_fence_limits(const Vecto
 }
 
 // helper function to set yaw state and targets
+_EXT_DTCM0
 void Copter::guided_set_yaw_state(bool use_yaw, float yaw_cd, bool use_yaw_rate, float yaw_rate_cds, bool relative_angle)
 {
     if (use_yaw) {
@@ -751,6 +775,7 @@ void Copter::guided_set_yaw_state(bool use_yaw, float yaw_cd, bool use_yaw_rate,
 // Guided Limit code
 
 // guided_limit_clear - clear/turn off guided limits
+_EXT_DTCM0
 void Copter::guided_limit_clear()
 {
     guided_limit.timeout_ms = 0;
@@ -760,6 +785,7 @@ void Copter::guided_limit_clear()
 }
 
 // guided_limit_set - set guided timeout and movement limits
+_EXT_DTCM0
 void Copter::guided_limit_set(uint32_t timeout_ms, float alt_min_cm, float alt_max_cm, float horiz_max_cm)
 {
     guided_limit.timeout_ms = timeout_ms;
@@ -769,7 +795,8 @@ void Copter::guided_limit_set(uint32_t timeout_ms, float alt_min_cm, float alt_m
 }
 
 // guided_limit_init_time_and_pos - initialise guided start time and position as reference for limit checking
-//  only called from AUTO mode's auto_nav_guided_start function
+//  only called from control_mode_t::AUTO mode's auto_nav_guided_start function
+_EXT_DTCM0
 void Copter::guided_limit_init_time_and_pos()
 {
     // initialise start time
@@ -781,6 +808,7 @@ void Copter::guided_limit_init_time_and_pos()
 
 // guided_limit_check - returns true if guided mode has breached a limit
 //  used when guided is invoked from the NAV_GUIDED_ENABLE mission command
+_EXT_DTCM0
 bool Copter::guided_limit_check()
 {
     // check if we have passed the timeout
@@ -813,6 +841,7 @@ bool Copter::guided_limit_check()
     return false;
 }
 
+_EXT_DTCM0
 void Copter::guided_cal_posvel(const Vector3f base_pos, const float base_vel_xy, const float base_yaw_angle, const bool do_land)
 {
     static uint32_t last_update_ms = 0;
@@ -984,6 +1013,7 @@ void Copter::guided_cal_posvel(const Vector3f base_pos, const float base_vel_xy,
     guided_set_yaw_state(use_yaw, yaw_cd, use_yaw_rate, yaw_rate_cds, relative_yaw);
 }
 
+_EXT_DTCM0
 Vector3f Copter::guided_L1_xy(Vector3f pos_p, const float L1_length ) {
     bool xp_limit = (fabsf(pos_p.x) < L1_length);
     bool yp_limit = (fabsf(pos_p.y) < L1_length);
@@ -1005,6 +1035,7 @@ Vector3f Copter::guided_L1_xy(Vector3f pos_p, const float L1_length ) {
     return pos_p;
 }
 
+_EXT_DTCM0
 float Copter::guided_max_speed(float distance, float p, float accel_cmss) {
     return AC_AttitudeControl::sqrt_controller(distance, p, accel_cmss);
 }

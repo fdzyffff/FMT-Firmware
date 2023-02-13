@@ -77,7 +77,7 @@ void Copter::auto_disarm_check()
 
     // exit immediately if we are already disarmed, or if auto
     // disarming is disabled
-    if (!motors->armed() || disarm_delay_ms == 0 || control_mode == THROW) {
+    if (!motors->armed() || disarm_delay_ms == 0 || control_mode == control_mode_t::THROW) {
         auto_disarm_begin = tnow_ms;
         return;
     }
@@ -213,7 +213,7 @@ void Copter::init_disarm_motors()
 void Copter::motors_output()
 {
     // Update arming delay state
-    if (ap.in_arming_delay && (!motors->armed() || millis()-arm_time_ms > ARMING_DELAY_SEC*1.0e3f || control_mode == THROW)) {
+    if (ap.in_arming_delay && (!motors->armed() || millis()-arm_time_ms > ARMING_DELAY_SEC*1.0e3f || control_mode == control_mode_t::THROW)) {
         ap.in_arming_delay = false;
     }
 

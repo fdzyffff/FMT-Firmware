@@ -8,7 +8,7 @@
 // set_mode - change flight mode and perform any necessary initialisation
 // optional force parameter used to force the flight mode change (used only first time mode is set)
 // returns true if mode was successfully set
-// ACRO, STABILIZE, ALTHOLD, LAND, DRIFT and SPORT can always be set successfully but the return state of other flight modes should be checked and the caller should deal with failures appropriately
+// control_mode_t::ACRO, control_mode_t::STABILIZE, ALTHOLD, control_mode_t::LAND, control_mode_t::DRIFT and control_mode_t::SPORT can always be set successfully but the return state of other flight modes should be checked and the caller should deal with failures appropriately
 bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
 {
     // boolean to record if flight mode could be set
@@ -25,68 +25,68 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
     }
 
     switch (mode) {
-//        case ACRO:
+//        case control_mode_t::ACRO:
 //            success = acro_init(ignore_checks);
 //            break;
 
-        case STABILIZE:
+        case control_mode_t::STABILIZE:
             success = stabilize_init(ignore_checks);
             break;
 
-        case ALT_HOLD:
+        case control_mode_t::ALT_HOLD:
             success = althold_init(ignore_checks);
             break;
 
-        case AUTO:
-        case TESTSTAR:
+        case control_mode_t::AUTO:
+        case control_mode_t::TESTSTAR:
             success = auto_init(ignore_checks);
             break;
 
-        case CIRCLE:
+        case control_mode_t::CIRCLE:
             success = circle_init(ignore_checks);
             break;
 
-        case LOITER:
+        case control_mode_t::LOITER:
             success = loiter_init(ignore_checks);
             break;
 
-        case GUIDED:
+        case control_mode_t::GUIDED:
             success = guided_init(ignore_checks);
             break;
 
-        case LAND:
+        case control_mode_t::LAND:
            success = land_init(ignore_checks);
            break;
 
-        case RTL:
+        case control_mode_t::RTL:
            success = rtl_init(ignore_checks);
            break;
 //
-//        case DRIFT:
+//        case control_mode_t::DRIFT:
 //            success = drift_init(ignore_checks);
 //            break;
 //
-//        case SPORT:
+//        case control_mode_t::SPORT:
 //            success = sport_init(ignore_checks);
 //            break;
 //
-//        case FLIP:
+//        case control_mode_t::FLIP:
 //            success = flip_init(ignore_checks);
 //            break;
 //
-//        case BRAKE:
+//        case control_mode_t::BRAKE:
 //            success = brake_init(ignore_checks);
 //            break;
 //
-//        case THROW:
+//        case control_mode_t::THROW:
 //            success = throw_init(ignore_checks);
 //            break;
 //
-//        case AVOID_ADSB:
+//        case control_mode_t::AVOID_ADSB:
 //            success = avoid_adsb_init(ignore_checks);
 //            break;
 //
-//        case GUIDED_NOGPS:
+//        case control_mode_t::GUIDED_NOGPS:
 //            success = guided_nogps_init(ignore_checks);
 //            break;
 
@@ -128,68 +128,68 @@ void Copter::update_flight_mode()
     ahrs.getEkfControlLimits(ekfGndSpdLimit, ekfNavVelGainScaler);
 
     switch (control_mode) {
-//        case ACRO:
+//        case control_mode_t::ACRO:
 //            acro_run();
 //            break;
 //
-        case STABILIZE:
+        case control_mode_t::STABILIZE:
             stabilize_run();
             break;
 
-        case ALT_HOLD:
+        case control_mode_t::ALT_HOLD:
             althold_run();
             break;
 
-        case AUTO:
-        case TESTSTAR:
+        case control_mode_t::AUTO:
+        case control_mode_t::TESTSTAR:
             auto_run();
             break;
 
-        case CIRCLE:
+        case control_mode_t::CIRCLE:
             circle_run();
             break;
 
-        case LOITER:
+        case control_mode_t::LOITER:
             loiter_run();
             break;
 
-        case GUIDED:
+        case control_mode_t::GUIDED:
             guided_run();
             break;
 
-        case LAND:
+        case control_mode_t::LAND:
             land_run();
             break;
 
-        case RTL:
+        case control_mode_t::RTL:
             rtl_run();
             break;
 
-//        case DRIFT:
+//        case control_mode_t::DRIFT:
 //            drift_run();
 //            break;
 //
-//        case SPORT:
+//        case control_mode_t::SPORT:
 //            sport_run();
 //            break;
 //
-//        case FLIP:
+//        case control_mode_t::FLIP:
 //            flip_run();
 //            break;
 //
-//        case BRAKE:
+//        case control_mode_t::BRAKE:
 //            brake_run();
 //            break;
 //
-//        case THROW:
+//        case control_mode_t::THROW:
 //            throw_run();
 //            break;
 //
-//        case AVOID_ADSB:
+//        case control_mode_t::AVOID_ADSB:
 //            avoid_adsb_run();
 //            break;
 //
-//        case GUIDED_NOGPS:
+//        case control_mode_t::GUIDED_NOGPS:
 //            guided_nogps_run();
 //            break;
             
@@ -207,7 +207,7 @@ void Copter::exit_mode(control_mode_t old_control_mode, control_mode_t new_contr
         set_accel_throttle_I_from_pilot_throttle();
     }
 
-    if (old_control_mode == GUIDED) {
+    if (old_control_mode == control_mode_t::GUIDED) {
         guided_mode = Guided_TakeOff;
     }
 
@@ -219,17 +219,17 @@ void Copter::exit_mode(control_mode_t old_control_mode, control_mode_t new_contr
 bool Copter::mode_requires_GPS(control_mode_t mode)
 {
     switch (mode) {
-        case AUTO:
-        case GUIDED:
-        case LOITER:
-        case RTL:
-        case CIRCLE:
-        case DRIFT:
-        case POSHOLD:
-        case BRAKE:
-        case AVOID_ADSB:
-        case THROW:
-        case TESTSTAR:
+        case control_mode_t::AUTO:
+        case control_mode_t::GUIDED:
+        case control_mode_t::LOITER:
+        case control_mode_t::RTL:
+        case control_mode_t::CIRCLE:
+        case control_mode_t::DRIFT:
+        case control_mode_t::POSHOLD:
+        case control_mode_t::BRAKE:
+        case control_mode_t::AVOID_ADSB:
+        case control_mode_t::THROW:
+        case control_mode_t::TESTSTAR:
             return true;
         default:
             return false;
@@ -240,8 +240,8 @@ bool Copter::mode_requires_GPS(control_mode_t mode)
 bool Copter::mode_has_manual_throttle(control_mode_t mode)
 {
     switch (mode) {
-        case ACRO:
-        case STABILIZE:
+        case control_mode_t::ACRO:
+        case control_mode_t::STABILIZE:
             return true;
         default:
             return false;
@@ -252,7 +252,7 @@ bool Copter::mode_has_manual_throttle(control_mode_t mode)
 //  arming_from_gcs should be set to true if the arming request comes from the ground station
 bool Copter::mode_allows_arming(control_mode_t mode, bool arming_from_gcs)
 {
-    if (mode_has_manual_throttle(mode) || mode == LOITER || mode == ALT_HOLD || mode == POSHOLD || mode == DRIFT || mode == SPORT || mode == THROW || (arming_from_gcs && (mode == GUIDED || mode == GUIDED_NOGPS))) {
+    if (mode_has_manual_throttle(mode) || mode == control_mode_t::LOITER || mode == control_mode_t::ALT_HOLD || mode == control_mode_t::POSHOLD || mode == control_mode_t::DRIFT || mode == control_mode_t::SPORT || mode == control_mode_t::THROW || (arming_from_gcs && (mode == control_mode_t::GUIDED || mode == control_mode_t::GUIDED_NOGPS))) {
         return true;
     }
     return false;
@@ -261,17 +261,17 @@ bool Copter::mode_allows_arming(control_mode_t mode, bool arming_from_gcs)
 // notify_flight_mode - sets notify object based on flight mode.  Only used for OreoLED notify device
 void Copter::notify_flight_mode(control_mode_t mode)
 {
-    AP_Notify::flags.flight_mode = mode;
+    AP_Notify::flags.flight_mode = int(mode);
 
     switch (mode) {
-        case AUTO:
-        case GUIDED:
-        case RTL:
-        case CIRCLE:
-        case AVOID_ADSB:
-        case GUIDED_NOGPS:
-        case LAND:
-        case TESTSTAR:
+        case control_mode_t::AUTO:
+        case control_mode_t::GUIDED:
+        case control_mode_t::RTL:
+        case control_mode_t::CIRCLE:
+        case control_mode_t::AVOID_ADSB:
+        case control_mode_t::GUIDED_NOGPS:
+        case control_mode_t::LAND:
+        case control_mode_t::TESTSTAR:
             // autopilot modes
             AP_Notify::flags.autopilot_mode = true;
             break;
@@ -283,58 +283,58 @@ void Copter::notify_flight_mode(control_mode_t mode)
 /*
     // set flight mode string
     switch (mode) {
-        case STABILIZE:
+        case control_mode_t::STABILIZE:
             notify.set_flight_mode_str("STAB");
             break;
-        case ACRO:
-            notify.set_flight_mode_str("ACRO");
+        case control_mode_t::ACRO:
+            notify.set_flight_mode_str("control_mode_t::ACRO");
             break;
-        case ALT_HOLD:
+        case control_mode_t::ALT_HOLD:
             notify.set_flight_mode_str("ALTH");
             break;
-        case AUTO:
-            notify.set_flight_mode_str("AUTO");
+        case control_mode_t::AUTO:
+            notify.set_flight_mode_str("control_mode_t::AUTO");
             break;
-        case GUIDED:
+        case control_mode_t::GUIDED:
             notify.set_flight_mode_str("GUID");
             break;
-        case LOITER:
+        case control_mode_t::LOITER:
             notify.set_flight_mode_str("LOIT");
             break;
-        case RTL:
-            notify.set_flight_mode_str("RTL ");
+        case control_mode_t::RTL:
+            notify.set_flight_mode_str("control_mode_t::RTL ");
             break;
-        case CIRCLE:
+        case control_mode_t::CIRCLE:
             notify.set_flight_mode_str("CIRC");
             break;
-        case LAND:
-            notify.set_flight_mode_str("LAND");
+        case control_mode_t::LAND:
+            notify.set_flight_mode_str("control_mode_t::LAND");
             break;
-        case DRIFT:
+        case control_mode_t::DRIFT:
             notify.set_flight_mode_str("DRIF");
             break;
-        case SPORT:
+        case control_mode_t::SPORT:
             notify.set_flight_mode_str("SPRT");
             break;
-        case FLIP:
-            notify.set_flight_mode_str("FLIP");
+        case control_mode_t::FLIP:
+            notify.set_flight_mode_str("control_mode_t::FLIP");
             break;
-        case AUTOTUNE:
+        case control_mode_t::AUTOTUNE:
             notify.set_flight_mode_str("ATUN");
             break;
-        case POSHOLD:
+        case control_mode_t::POSHOLD:
             notify.set_flight_mode_str("PHLD");
             break;
-        case BRAKE:
+        case control_mode_t::BRAKE:
             notify.set_flight_mode_str("BRAK");
             break;
-        case THROW:
+        case control_mode_t::THROW:
             notify.set_flight_mode_str("THRW");
             break;
-        case AVOID_ADSB:
+        case control_mode_t::AVOID_ADSB:
             notify.set_flight_mode_str("AVOI");
             break;
-        case GUIDED_NOGPS:
+        case control_mode_t::GUIDED_NOGPS:
             notify.set_flight_mode_str("GNGP");
             break;
         default:

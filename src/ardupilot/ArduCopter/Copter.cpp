@@ -3,7 +3,7 @@
   constructor for main Copter class
  */
 Copter::Copter(void) :
-    control_mode(STABILIZE),
+    control_mode(control_mode_t::STABILIZE),
     scaleLongDown(1),
     wp_bearing(0),
     home_bearing(0),

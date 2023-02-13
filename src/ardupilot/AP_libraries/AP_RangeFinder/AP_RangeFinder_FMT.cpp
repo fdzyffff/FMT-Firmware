@@ -35,7 +35,7 @@ void AP_RangeFinder_FMT::update(void)
     uint32_t t_last = hal.rangefinder_data_msg.timestamp_ms;
     uint32_t tnow = millis();
 
-    console_printf("TT hal.rangefinder_data_msg.distance_m %f", hal.rangefinder_data_msg.distance_m);
+    // console_printf("TT hal.rangefinder_data_msg.distance_m %f\n", hal.rangefinder_data_msg.distance_m);
 
     if (tnow - t_last < 1000) {
         state.distance_cm = (hal.rangefinder_data_msg.distance_m*100.f);

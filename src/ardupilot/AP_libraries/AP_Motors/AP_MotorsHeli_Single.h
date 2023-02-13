@@ -123,10 +123,10 @@ public:
     int16_t        _tail_type;                 // Tail type used: Servo, Servo with external gyro, direct drive variable pitch or direct drive fixed pitch
     int8_t         _swash_type;                // Swash Type Setting - either 3-servo CCPM or H1 Mechanical Mixing
     int16_t        _ext_gyro_gain_std;         // PWM sent to external gyro on ch7 when tail type is Servo w/ ExtGyro
-    int16_t        _ext_gyro_gain_acro;        // PWM sent to external gyro on ch7 when tail type is Servo w/ ExtGyro in ACRO
+    int16_t        _ext_gyro_gain_acro;        // PWM sent to external gyro on ch7 when tail type is Servo w/ ExtGyro in control_mode_t::ACRO
     int16_t        _phase_angle;               // Phase angle correction for rotor head.  If pitching the swash forward induces a roll, this can be correct the problem
     float          _collective_yaw_effect;     // Feed-forward compensation to automatically add rudder input when collective pitch is increased. Can be positive or negative depending on mechanics.
-    int8_t         _flybar_mode;               // Flybar present or not.  Affects attitude controller used during ACRO flight mode
+    int8_t         _flybar_mode;               // Flybar present or not.  Affects attitude controller used during control_mode_t::ACRO flight mode
     int16_t        _direct_drive_tailspeed;    // Direct Drive VarPitch Tail ESC speed (0 ~ 1000)
 
     SRV_Channel    *_swash_servo_1;

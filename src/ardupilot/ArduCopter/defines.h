@@ -35,9 +35,9 @@ enum aux_sw_func {
     AUXSW_DO_NOTHING =           0, // aux switch disabled
     AUXSW_FLIP =                 2, // flip
     AUXSW_SIMPLE_MODE =          3, // change to simple mode
-    AUXSW_RTL =                  4, // change to RTL flight mode
+    AUXSW_RTL =                  4, // change to control_mode_t::RTL flight mode
     AUXSW_SAVE_TRIM =            5, // save current position as level
-    AUXSW_SAVE_WP =              7, // save mission waypoint or RTL if in auto mode
+    AUXSW_SAVE_WP =              7, // save mission waypoint or control_mode_t::RTL if in auto mode
     AUXSW_CAMERA_TRIGGER =       9, // trigger camera servo or relay
     AUXSW_RANGEFINDER =         10, // allow enabling or disabling rangefinder in flight which helps avoid surface tracking when you are far above the ground
     AUXSW_FENCE =               11, // allow enabling or disabling fence in flight
@@ -47,7 +47,7 @@ enum aux_sw_func {
     AUXSW_SPRAYER =             15, // enable/disable the crop sprayer
     AUXSW_AUTO =                16, // change to auto flight mode
     AUXSW_AUTOTUNE =            17, // auto tune
-    AUXSW_LAND =                18, // change to LAND flight mode
+    AUXSW_LAND =                18, // change to control_mode_t::LAND flight mode
     AUXSW_GRIPPER =             19, // Operate cargo grippers low=off, middle=neutral, high=on
     AUXSW_PARACHUTE_ENABLE  =   21, // Parachute enable/disable
     AUXSW_PARACHUTE_RELEASE =   22, // Parachute release
@@ -65,7 +65,7 @@ enum aux_sw_func {
 	AUXSW_RELAY2 =              34, // Relay2 pin on/off (in Mission planner set CH8_OPT  = 34)
     AUXSW_RELAY3 =              35, // Relay3 pin on/off (in Mission planner set CH9_OPT  = 35)
     AUXSW_RELAY4 =              36, // Relay4 pin on/off (in Mission planner set CH10_OPT = 36)
-    AUXSW_THROW =               37,  // change to THROW flight mode
+    AUXSW_THROW =               37,  // change to control_mode_t::THROW flight mode
     AUXSW_AVOID_ADSB =          38,  // enable AP_Avoidance library
     AUXSW_PRECISION_LOITER =    39,  // enable precision loiter
     AUXSW_AVOID_PROXIMITY =     40,  // enable object avoidance using proximity sensors (ie. horizontal lidar)
@@ -83,7 +83,7 @@ enum aux_sw_func {
 #define HIL_MODE_SENSORS                1
 
 // Auto Pilot Modes enumeration
-enum control_mode_t {
+enum class control_mode_t {
     STABILIZE =     0,  // manual airframe angle with manual throttle
     ACRO =          1,  // manual body-frame angular rate with manual throttle
     ALT_HOLD =      2,  // manual airframe angle with automatic throttle
@@ -186,7 +186,7 @@ enum tuning_func {
 // Yaw behaviours during missions - possible values for WP_YAW_BEHAVIOR parameter
 #define WP_YAW_BEHAVIOR_NONE                          0   // auto pilot will never control yaw during missions or rtl (except for DO_CONDITIONAL_YAW command received)
 #define WP_YAW_BEHAVIOR_LOOK_AT_NEXT_WP               1   // auto pilot will face next waypoint or home during rtl
-#define WP_YAW_BEHAVIOR_LOOK_AT_NEXT_WP_EXCEPT_RTL    2   // auto pilot will face next waypoint except when doing RTL at which time it will stay in it's last
+#define WP_YAW_BEHAVIOR_LOOK_AT_NEXT_WP_EXCEPT_RTL    2   // auto pilot will face next waypoint except when doing control_mode_t::RTL at which time it will stay in it's last
 #define WP_YAW_BEHAVIOR_LOOK_AHEAD                    3   // auto pilot will look ahead during missions and rtl (primarily meant for traditional helicotpers)
 
 // Auto modes
@@ -213,7 +213,7 @@ enum GuidedMode {
     Guided_Angle_Stab,
 };
 
-// RTL states
+// control_mode_t::RTL states
 enum RTLState {
     RTL_InitialClimb,
     RTL_ReturnHome,
@@ -481,8 +481,8 @@ enum DevOptions {
 
 // Battery failsafe definitions (FS_BATT_ENABLE parameter)
 #define FS_BATT_DISABLED                    0       // battery failsafe disabled
-#define FS_BATT_LAND                        1       // switch to LAND mode on battery failsafe
-#define FS_BATT_RTL                         2       // switch to RTL mode on battery failsafe
+#define FS_BATT_LAND                        1       // switch to control_mode_t::LAND mode on battery failsafe
+#define FS_BATT_RTL                         2       // switch to control_mode_t::RTL mode on battery failsafe
 
 // GCS failsafe definitions (FS_GCS_ENABLE parameter)
 #define FS_GCS_DISABLED                     0
@@ -490,7 +490,7 @@ enum DevOptions {
 #define FS_GCS_ENABLED_CONTINUE_MISSION     2
 
 // EKF failsafe definitions (FS_EKF_ACTION parameter)
-#define FS_EKF_ACTION_LAND                  1       // switch to LAND mode on EKF failsafe
+#define FS_EKF_ACTION_LAND                  1       // switch to control_mode_t::LAND mode on EKF failsafe
 #define FS_EKF_ACTION_ALTHOLD               2       // switch to ALTHOLD mode on EKF failsafe
 #define FS_EKF_ACTION_LAND_EVEN_STABILIZE   3       // switch to Land mode on EKF failsafe even if in a manual flight mode like stabilize
 

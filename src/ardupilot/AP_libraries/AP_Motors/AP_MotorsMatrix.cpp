@@ -20,6 +20,8 @@
  */
 #include "AP_MotorsMatrix.h"
 
+#include <board.h>
+
 
 // init
 void AP_MotorsMatrix::init(motor_frame_class frame_class, motor_frame_type frame_type)
@@ -37,6 +39,7 @@ void AP_MotorsMatrix::init(motor_frame_class frame_class, motor_frame_type frame
 }
 
 // set update rate to motors - a value in hertz
+_EXT_DTCM0
 void AP_MotorsMatrix::set_update_rate( uint16_t speed_hz )
 {
     uint8_t i;
@@ -55,6 +58,7 @@ void AP_MotorsMatrix::set_update_rate( uint16_t speed_hz )
 }
 
 // set frame class (i.e. quad, hexa, heli) and type (i.e. x, plus)
+_EXT_DTCM0
 void AP_MotorsMatrix::set_frame_class_and_type(motor_frame_class frame_class, motor_frame_type frame_type)
 {
     // exit immediately if armed or no change
@@ -72,6 +76,7 @@ void AP_MotorsMatrix::set_frame_class_and_type(motor_frame_class frame_class, mo
 }
 
 // enable - starts allowing signals to be sent to motors
+_EXT_DTCM0
 void AP_MotorsMatrix::enable()
 {
     int8_t i;
@@ -84,6 +89,7 @@ void AP_MotorsMatrix::enable()
     }
 }
 
+_EXT_DTCM0
 void AP_MotorsMatrix::output_to_motors()
 {
     int8_t i;
@@ -135,6 +141,7 @@ void AP_MotorsMatrix::output_to_motors()
 
 // get_motor_mask - returns a bitmask of which outputs are being used for motors (1 means being used)
 //  this can be used to ensure other pwm outputs (i.e. for servos) do not conflict
+_EXT_DTCM0
 uint16_t AP_MotorsMatrix::get_motor_mask()
 {
     uint16_t mask = 0;
@@ -148,6 +155,7 @@ uint16_t AP_MotorsMatrix::get_motor_mask()
 
 // output_armed - sends commands to the motors
 // includes new scaling stability patch
+_EXT_DTCM0
 void AP_MotorsMatrix::output_armed_stabilizing()
 {
     uint8_t i;                          // general purpose counter
@@ -291,6 +299,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
 // output_test - spin a motor at the pwm value specified
 //  motor_seq is the motor's sequence number from 1 to the number of motors on the frame
 //  pwm value is an actual pwm value that will be output, normally in the range of 1000 ~ 2000
+_EXT_DTCM0
 void AP_MotorsMatrix::output_test(uint8_t motor_seq, int16_t pwm)
 {
     // exit immediately if not armed
@@ -308,6 +317,7 @@ void AP_MotorsMatrix::output_test(uint8_t motor_seq, int16_t pwm)
 }
 
 // add_motor
+_EXT_DTCM0
 void AP_MotorsMatrix::add_motor_raw(int8_t motor_num, float roll_fac, float pitch_fac, float yaw_fac, uint8_t testing_order)
 {
     // ensure valid motor number is provided
@@ -332,12 +342,14 @@ void AP_MotorsMatrix::add_motor_raw(int8_t motor_num, float roll_fac, float pitc
 }
 
 // add_motor using just position and prop direction - assumes that for each motor, roll and pitch factors are equal
+_EXT_DTCM0
 void AP_MotorsMatrix::add_motor(int8_t motor_num, float angle_degrees, float yaw_factor, uint8_t testing_order)
 {
     add_motor(motor_num, angle_degrees, angle_degrees, yaw_factor, testing_order);
 }
 
 // add_motor using position and prop direction. Roll and Pitch factors can differ (for asymmetrical frames)
+_EXT_DTCM0
 void AP_MotorsMatrix::add_motor(int8_t motor_num, float roll_factor_in_degrees, float pitch_factor_in_degrees, float yaw_factor, uint8_t testing_order)
 {
     add_motor_raw(
@@ -349,6 +361,7 @@ void AP_MotorsMatrix::add_motor(int8_t motor_num, float roll_factor_in_degrees, 
 }
 
 // remove_motor - disabled motor and clears all roll, pitch, throttle factors for this motor
+_EXT_DTCM0
 void AP_MotorsMatrix::remove_motor(int8_t motor_num)
 {
     // ensure valid motor number is provided
@@ -361,6 +374,7 @@ void AP_MotorsMatrix::remove_motor(int8_t motor_num)
     }
 }
 
+_EXT_DTCM0
 void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_type frame_type)
 {
     // remove existing motors
@@ -628,6 +642,7 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
 }
 
 // normalizes the roll, pitch and yaw factors so maximum magnitude is 0.5
+_EXT_DTCM0
 void AP_MotorsMatrix::normalise_rpy_factors()
 {
     float roll_fac = 0.0f;
@@ -671,6 +686,7 @@ void AP_MotorsMatrix::normalise_rpy_factors()
   vehicle code to compensate for vehicle specific motor arrangements
   such as tiltrotors or tiltwings
 */
+// _EXT_DTCM0
 /*void AP_MotorsMatrix::thrust_compensation(void)
 {
     if (_thrust_compensation_callback) {

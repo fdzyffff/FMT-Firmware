@@ -14,7 +14,9 @@
  * limitations under the License.
  *****************************************************************************/
 #include <firmament.h>
+#include <board.h>
 
+_EXT_DTCM0
 static param_t __param_list_apm[] = {
 //     /* Param here*/
     // PARAM_FLOAT(USER_TEST_P1, 0.15),

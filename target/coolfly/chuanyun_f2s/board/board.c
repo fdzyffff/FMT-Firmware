@@ -37,7 +37,8 @@
 #include "driver/range_finder/tfmini_s.h"
 #include "driver/rgb_led/ncp5623c.h"
 // #include "driver/vision_flow/lc307.h"
-#include "driver/vision_flow/pmw3901_fl04.h"
+// #include "driver/vision_flow/pmw3901_fl04.h"
+#include "driver/range_finder/tf_luna.h"
 
 #include "drv_adc.h"
 #include "drv_gpio.h"
@@ -493,11 +494,11 @@ void bsp_initialize(void)
     //     FMT_CHECK(advertise_sensor_optflow(0));
     // }
 
-    if (pmw3901_fl04_drv_init("serial5") != FMT_EOK) {
-        console_println("!!!!!!pmw3901_fl04 serial5 faild~!!!!");
+    if (tf_luna_drv_init("serial5") != FMT_EOK) {
+        console_println("!!!!!!BenWeak serial5 faild~!!!!");
     } else {
         // console_println("======> pmw3901_xx serial4 success !!!!");
-        FMT_CHECK(advertise_sensor_rangefinder(0));
+        // FMT_CHECK(advertise_sensor_rangefinder(0));
         FMT_CHECK(advertise_sensor_optflow(0));
     }
 

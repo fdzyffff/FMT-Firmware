@@ -26,6 +26,7 @@
 
 extern AP_HAL hal;
 
+#include <board.h>
 // Constructor
 AP_Motors::AP_Motors(uint16_t loop_rate, uint16_t speed_hz) :
     _pwm_type(0),
@@ -60,6 +61,7 @@ AP_Motors::AP_Motors(uint16_t loop_rate, uint16_t speed_hz) :
     limit.throttle_upper = true;
 };
 
+_EXT_DTCM0
 void AP_Motors::armed(bool arm)
 {
     if (_flags.armed != arm) {
@@ -72,6 +74,7 @@ void AP_Motors::armed(bool arm)
 };
 
 // pilot input in the -1 ~ +1 range for roll, pitch and yaw. 0~1 range for throttle
+_EXT_DTCM0
 void AP_Motors::set_radio_passthrough(float roll_input, float pitch_input, float throttle_input, float yaw_input)
 {
     _roll_radio_passthrough = roll_input;
@@ -83,6 +86,7 @@ void AP_Motors::set_radio_passthrough(float roll_input, float pitch_input, float
 /*
   write to an output channel
  */
+_EXT_DTCM0
 void AP_Motors::rc_write(uint8_t chan, uint16_t pwm)
 {
     if (_motor_map_mask & (1U<<chan)) {
@@ -96,6 +100,7 @@ void AP_Motors::rc_write(uint8_t chan, uint16_t pwm)
 /*
   set frequency of a set of channels
  */
+_EXT_DTCM0
 void AP_Motors::rc_set_freq(uint32_t mask, uint16_t freq_hz)
 {
     mask = rc_map_mask(mask);
@@ -104,6 +109,7 @@ void AP_Motors::rc_set_freq(uint32_t mask, uint16_t freq_hz)
     }
 }
 
+_EXT_DTCM0
 void AP_Motors::rc_enable_ch(uint8_t chan)
 {
     if (_motor_map_mask & (1U<<chan)) {
@@ -116,6 +122,7 @@ void AP_Motors::rc_enable_ch(uint8_t chan)
 /*
   map an internal motor mask to real motor mask
  */
+_EXT_DTCM0
 uint32_t AP_Motors::rc_map_mask(uint32_t mask) const
 {
     uint32_t mask2 = 0;
@@ -134,6 +141,7 @@ uint32_t AP_Motors::rc_map_mask(uint32_t mask) const
 }
 
 // convert input in -1 to +1 range to pwm output
+_EXT_DTCM0
 int16_t AP_Motors::calc_pwm_output_1to1(float input, const SRV_Channel *servo)
 {
     int16_t ret;
@@ -154,6 +162,7 @@ int16_t AP_Motors::calc_pwm_output_1to1(float input, const SRV_Channel *servo)
 }
 
 // convert input in 0 to +1 range to pwm output
+_EXT_DTCM0
 int16_t AP_Motors::calc_pwm_output_0to1(float input, const SRV_Channel *servo)
 {
     int16_t ret;
@@ -172,6 +181,7 @@ int16_t AP_Motors::calc_pwm_output_0to1(float input, const SRV_Channel *servo)
 /*
   add a motor, setting up _motor_map and _motor_map_mask as needed
  */
+_EXT_DTCM0
 void AP_Motors::add_motor_num(int8_t motor_num)
 {
     // ensure valid motor number is provided

@@ -99,7 +99,7 @@ public:
     void set_throttle_out(float throttle_in, bool apply_angle_boost, float filt_cutoff) override;
 
     // parameters
-    int8_t         _piro_comp_enabled;             // Flybar present or not.  Affects attitude controller used during ACRO flight mode
+    int8_t         _piro_comp_enabled;             // Flybar present or not.  Affects attitude controller used during control_mode_t::ACRO flight mode
     int16_t        _hover_roll_trim;               // Angle in centi-degrees used to counter tail rotor thrust in hover
     AC_HELI_PID     _pid_rate_roll;
     AC_HELI_PID     _pid_rate_pitch;

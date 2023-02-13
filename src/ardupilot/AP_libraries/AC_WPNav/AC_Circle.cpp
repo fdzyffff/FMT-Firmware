@@ -1,6 +1,7 @@
 #include "AC_Circle.h"
 #include "AP_Math.h"
 
+#include <board.h>
 // Default constructor.
 // Note that the Vector/Matrix constructors already implicitly zero
 // their values.
@@ -26,6 +27,7 @@ AC_Circle::AC_Circle(const AP_InertialNav& inav, const AP_AHRS_View& ahrs, AC_Po
 
 /// init - initialise circle controller setting center specifically
 ///     caller should set the position controller's x,y and z speeds and accelerations before calling this
+_EXT_DTCM0
 void AC_Circle::init(const Vector3f& center)
 {
     _center = center;
@@ -46,6 +48,7 @@ void AC_Circle::init(const Vector3f& center)
 
 /// init - initialise circle controller setting center using stopping point and projecting out based on the copter's heading
 ///     caller should set the position controller's x,y and z speeds and accelerations before calling this
+_EXT_DTCM0
 void AC_Circle::init()
 {
     // initialise position controller (sets target roll angle, pitch angle and I terms based on vehicle current lean angles)
@@ -71,6 +74,7 @@ void AC_Circle::init()
 }
 
 /// set_circle_rate - set circle rate in degrees per second
+_EXT_DTCM0
 void AC_Circle::set_rate(float deg_per_sec)
 {
     if (!is_equal(deg_per_sec, _rate)) {
@@ -80,6 +84,7 @@ void AC_Circle::set_rate(float deg_per_sec)
 }
 
 /// update - update circle controller
+_EXT_DTCM0
 void AC_Circle::update()
 {
     // calculate dt
@@ -146,6 +151,7 @@ void AC_Circle::update()
 //  closest point on the circle will be placed in result
 //  result's altitude (i.e. z) will be set to the circle_center's altitude
 //  if vehicle is at the center of the circle, the edge directly behind vehicle will be returned
+_EXT_DTCM0
 void AC_Circle::get_closest_point_on_circle(Vector3f &result)
 {
     // return center if radius is zero
@@ -180,6 +186,7 @@ void AC_Circle::get_closest_point_on_circle(Vector3f &result)
 // calc_velocities - calculate angular velocity max and acceleration based on radius and rate
 //      this should be called whenever the radius or rate are changed
 //      initialises the yaw and current position around the circle
+_EXT_DTCM0
 void AC_Circle::calc_velocities(bool init_velocity)
 {
     // if we are doing a panorama set the circle_angle to the current heading
@@ -207,6 +214,7 @@ void AC_Circle::calc_velocities(bool init_velocity)
 // init_start_angle - sets the starting angle around the circle and initialises the angle_total
 //  if use_heading is true the vehicle's heading will be used to init the angle causing minimum yaw movement
 //  if use_heading is false the vehicle's position from the center will be used to initialise the angle
+_EXT_DTCM0
 void AC_Circle::init_start_angle(bool use_heading)
 {
     // initialise angle total
