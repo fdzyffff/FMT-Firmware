@@ -55,5 +55,5 @@ protected:
     AP_AHRS_NavEKF &get_ahrs(void) { return frontend._ahrs; }
 
     // get ADDR parameter value
-    uint8_t get_address(void) const { return frontend._address; }
+    // uint8_t get_address(void) const { return frontend._address; }
 };

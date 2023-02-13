@@ -78,7 +78,7 @@ public:
     int16_t _flowScalerY;          // Y axis flow scale factor correction - parts per thousand
     int16_t _yawAngle_cd;          // yaw angle of sensor X axis with respect to vehicle X axis - centi degrees
     Vector3f _pos_offset;          // position offset of the flow sensor in the body frame
-    int8_t  _address;              // address on the bus (allows selecting between 8 possible I2C addresses for px4flow)
+    // int8_t  _address;              // address on the bus (allows selecting between 8 possible I2C addresses for px4flow)
 
 private:
     AP_AHRS_NavEKF &_ahrs;

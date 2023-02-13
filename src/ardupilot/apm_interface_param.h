@@ -94,11 +94,24 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(MOT_SPIN_MAX, 0.95),            //copter->motors->_spin_max
     PARAM_FLOAT(MOT_SPIN_MIN, 0.15),            //copter->motors->_spin_min
     PARAM_FLOAT(MOT_SPOOL_TIME, 0.5),           //copter->motors->_spool_up_time
-    PARAM_FLOAT(MOT_THST_EXPO, 0.0f),            //copter->motors->_thrust_curve_expo
-    PARAM_FLOAT(MOT_THST_HOVER, 0.3223571),     //copter->motors->_throttle_hover
+    PARAM_FLOAT(MOT_THST_EXPO, 0.0f),           //copter->motors->_thrust_curve_expo
+    PARAM_FLOAT(MOT_THST_HOVER, 0.35),          //copter->motors->_throttle_hover
     PARAM_INT16(MOT_YAW_HEADROOM, 200),         //copter->motors->_yaw_headroom
     PARAM_INT16(PHLD_BRAKE_ANGLE, 3000),        //copter->g.poshold_brake_angle_max
     PARAM_INT16(PHLD_BRAKE_RATE, 8),            //copter->g.poshold_brake_rate
+    PARAM_INT8(FLOW_ENABLE,0),                  //copter->optflow._enabled
+    PARAM_INT16(FLOW_FXSCALER,0),               //copter->optflow._flowScalerX
+    PARAM_INT16(FLOW_FYSCALER,0),               //copter->optflow._flowScalerY
+    PARAM_INT16(FLOW_ORIENT_YAW,0),             //copter->optflow._yawAngle_cd
+    PARAM_FLOAT(FLOW_POS_X,0),                  //copter->optflow._pos_offset.x
+    PARAM_FLOAT(FLOW_POS_Y,0),                  //copter->optflow._pos_offset.y
+    PARAM_FLOAT(FLOW_POS_Z,0),                  //copter->optflow._pos_offset.z
+    PARAM_FLOAT(FLOW_XY_P, 0.2f),               //copter->flowhold_t.flow_pi_xy._kp
+    PARAM_FLOAT(FLOW_XY_I, 0.3f),               //copter->flowhold_t.flow_pi_xy._ki
+    PARAM_FLOAT(FLOW_FLOW_MAX, 0.6f),           //copter->flowhold_t.flow_max
+    PARAM_FLOAT(FLOW_FILT_HZ, 20.f),            //copter->flowhold_t.flow_filter_hz
+    PARAM_INT8(FLOW_QUAL_MIN, 10),              //copter->flowhold_t.flow_min_quality
+    PARAM_INT8(FLOW_BRAKE_RATE, 8),             //copter->flowhold_t.brake_rate_dps
     PARAM_INT16(PILOT_ACCEL_Z, 150),            //copter->g.pilot_accel_z
     PARAM_INT16(PILOT_THR_BHV, 0),              //copter->g.throttle_behavior
     PARAM_FLOAT(PILOT_THR_FILT, 0),             //copter->g.throttle_filt
