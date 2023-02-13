@@ -184,16 +184,19 @@ public:
     Control_Out_Bus control_out_msg;
     GCS_Cmd_Bus gcs_cmd_msg;
     Rangefinder_Data_bus rangefinder_data_msg;
+    Opticalflow_Data_bus optflow_data_msg;
 
     uint8_t pilot_cmd_updated;
     uint8_t gcs_cmd_updated;
     uint8_t mission_data_updated;
     uint8_t rangefinder_data_updated;
+    uint8_t optflow_data_updated;
     
     uint8_t pilot_cmd_log;
     uint8_t gcs_cmd_log;
     uint8_t mission_data_log;
     uint8_t rangefinder_data_log;
+    uint8_t optflow_data_log;
 
     bool get_soft_armed() {return false;}
     uint32_t micros() {return (uint32_t)micro64();}

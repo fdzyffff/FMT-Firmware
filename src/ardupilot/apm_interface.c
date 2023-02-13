@@ -30,6 +30,7 @@ MCN_DECLARE(ins_output);
 MCN_DECLARE(control_output);
 MCN_DECLARE(rc_channels);
 MCN_DECLARE(sensor_rangefinder);
+MCN_DECLARE(sensor_optflow);
 
 
 /* controller output topic */
@@ -214,6 +215,12 @@ void apm_interface_step(uint32_t timestamp)
         apm_handler.rangefinder_data_log = 1;
     }
 
+    if (mcn_poll(apm_handler.optflow_data_nod)) {
+        mcn_copy(MCN_HUB(sensor_optflow), apm_handler.optflow_data_nod, &apm_handler.optflow_data_msg);
+        apm_handler.optflow_data_updated = 1;
+        apm_handler.optflow_data_log = 1;
+    }
+
     // FMS_step();
     APM_loop();
 
@@ -242,6 +249,12 @@ void apm_interface_step(uint32_t timestamp)
 
     if (apm_handler.rangefinder_data_log) {
         apm_handler.rangefinder_data_log = 0;
+    //     /* Log mission data */
+    //     mlog_push_msg((uint8_t*)&FMS_U.Mission_Data, Mission_Data_ID, sizeof(Mission_Data_Bus));
+    }
+
+    if (apm_handler.optflow_data_log) {
+        apm_handler.optflow_data_log = 0;
     //     /* Log mission data */
     //     mlog_push_msg((uint8_t*)&FMS_U.Mission_Data, Mission_Data_ID, sizeof(Mission_Data_Bus));
     }

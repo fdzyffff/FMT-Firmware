@@ -1,7 +1,6 @@
 #include "OpticalFlow.h"
 #include "AP_OpticalFlow_FMT.h"
 
-
 // default constructor
 OpticalFlow::OpticalFlow(AP_AHRS_NavEKF &ahrs)
     : _ahrs(ahrs),

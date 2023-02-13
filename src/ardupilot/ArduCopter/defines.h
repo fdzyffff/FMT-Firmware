@@ -107,6 +107,14 @@ enum class control_mode_t {
     // FOLLOW_VEL =   23,
 };
 
+// FlowHold states
+enum FlowHoldModeState {
+    FlowHold_MotorStopped,
+    FlowHold_Takeoff,
+    FlowHold_Flying,
+    FlowHold_Landed
+};
+
 enum mode_reason_t {
     MODE_REASON_UNKNOWN=0,
     MODE_REASON_TX_COMMAND,

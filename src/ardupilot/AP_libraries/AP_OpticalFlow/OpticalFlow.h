@@ -19,8 +19,8 @@
  *       Code by Randy Mackay. DIYDrones.com
  */
 
-#include <AP_HAL/AP_HAL.h>
-#include <AP_Math/AP_Math.h>
+#include "AP_Math.h"
+#include "ap_hal.h"
 
 class OpticalFlow_backend;
 class AP_AHRS_NavEKF;

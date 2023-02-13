@@ -130,7 +130,6 @@ void Copter::allocate_motors(void)
             break;
     }
 
-
     AP_AHRS_View *ahrs_view = ahrs.create_view(ROTATION_NONE);
 
     attitude_control = new AC_AttitudeControl_Multi(*ahrs_view, aparm, *motors, MAIN_LOOP_SECONDS);

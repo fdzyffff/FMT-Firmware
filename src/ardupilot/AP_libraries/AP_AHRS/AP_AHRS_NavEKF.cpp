@@ -513,6 +513,20 @@ uint8_t AP_AHRS_NavEKF::get_primary_gyro_index(void)
     return 0;
 }
 
+// rotate a 2D vector from earth frame to body frame
+Vector2f AP_AHRS_NavEKF::rotate_earth_to_body2D(const Vector2f &ef) const
+{
+    return Vector2f(ef.x * _cos_yaw + ef.y * _sin_yaw,
+                    -ef.x * _sin_yaw + ef.y * _cos_yaw);
+}
+
+// rotate a 2D vector from earth frame to body frame
+Vector2f AP_AHRS_NavEKF::rotate_body_to_earth2D(const Vector2f &bf) const
+{
+    return Vector2f(bf.x * _cos_yaw - bf.y * _sin_yaw,
+                    bf.x * _sin_yaw + bf.y * _cos_yaw);
+}
+
 /*
   create a rotated view of AP_AHRS
  */

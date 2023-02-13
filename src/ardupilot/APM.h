@@ -306,6 +306,17 @@ typedef struct {
 
 #endif
 
+#ifndef DEFINED_TYPEDEF_FOR_OPTICALFLOW_Data_Bus_
+    #define DEFINED_TYPEDEF_FOR_OPTICALFLOW_Data_Bus_
+typedef struct {
+    uint32_t timestamp_ms;
+    float vx_mPs;
+    float vy_mPs;
+    uint8_t quality;
+} Opticalflow_Data_bus;
+
+#endif
+
 // enum defination
 #ifndef DEFINED_TYPEDEF_FOR_VehicleStatus_
     #define DEFINED_TYPEDEF_FOR_VehicleStatus_
@@ -427,12 +438,14 @@ typedef struct {
     McnNode_t pilot_cmd_nod;
     McnNode_t gcs_cmd_nod;
     McnNode_t rangefinder_data_nod;
+    McnNode_t optflow_data_nod;
 
     int16_t rcChannel_msg[16];
     INS_Out_Bus ins_out_msg;
     Mission_Data_Bus mission_data_msg;
     GCS_Cmd_Bus gcs_cmd_msg;
     Rangefinder_Data_bus rangefinder_data_msg;
+    Opticalflow_Data_bus optflow_data_msg;
 
     FMS_Out_Bus fms_out_msg;
     Control_Out_Bus control_out_msg;
@@ -441,11 +454,13 @@ typedef struct {
     uint8_t gcs_cmd_updated;
     uint8_t mission_data_updated;
     uint8_t rangefinder_data_updated;
+    uint8_t optflow_data_updated;
 
     uint8_t pilot_cmd_log;
     uint8_t gcs_cmd_log;
     uint8_t mission_data_log;
     uint8_t rangefinder_data_log;
+    uint8_t optflow_data_log;
 } APM_Handler;
 
 extern APM_Handler apm_handler;

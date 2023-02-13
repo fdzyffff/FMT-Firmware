@@ -33,20 +33,22 @@ void AP_OpticalFlow_FMT::init(void)
 
 void AP_OpticalFlow_FMT::update(void)
 {
-    if (hal.optflow_out_msg_update) {
+    if (hal.optflow_data_updated) {
+        hal.optflow_data_updated = false;
+
         OpticalFlow::OpticalFlow_state state;
 
         state.device_id = 1;
-        state.surface_quality = hal.optflow_out_msg.quality;
+        state.surface_quality = hal.optflow_data_msg.quality;
 
         // poll to provide a delta angle across the interface
-        state.flowRate.x =   hal.optflow_out_msg.vx_mPs;
-        state.flowRate.y =   hal.optflow_out_msg.vy_mPs;
+        state.flowRate.x =   hal.optflow_data_msg.vx_mPs;
+        state.flowRate.y =   hal.optflow_data_msg.vy_mPs;
 
         // The flow sensors body rates are assumed to be the same as the vehicle body rates (ie no misalignment)
         // Note - these are instantaneous values. The sensor sums these values across the interval from the last
         // poll to provide a delta angle across the interface.
-        state.bodyRate = Vector2f(hal.ins_out_msg.p, ins_out_msg.q); // in radians
+        state.bodyRate = Vector2f(hal.ins_out_msg.p, hal.ins_out_msg.q); // in radians
 
         _applyYaw(state.flowRate);
         

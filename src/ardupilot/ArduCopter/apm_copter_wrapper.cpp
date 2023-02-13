@@ -33,7 +33,7 @@ void APM_Copter_Init(void)  //飞控初始化
 void APM_Copter_Setup(void)  //飞控初始化
 {
     copter->setup();
-    copter->test_value_p1 = 100.f;
+    // copter->test_value_p1 = 100.f;
     // memset(RC_in_data, 0, sizeof(RC_in_data));
     // memset(RC_out_data, 0, sizeof(RC_out_data));
     printf("----------------------------------------------------------------------------------------------------\n");
@@ -48,11 +48,13 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     memcpy(&hal.mission_data_msg,        &apm_handler.mission_data_msg,       sizeof(apm_handler.mission_data_msg));
     memcpy(&hal.gcs_cmd_msg,             &apm_handler.gcs_cmd_msg,            sizeof(apm_handler.gcs_cmd_msg));
     memcpy(&hal.rangefinder_data_msg,    &apm_handler.rangefinder_data_msg,   sizeof(apm_handler.rangefinder_data_msg));
+    memcpy(&hal.optflow_data_msg,        &apm_handler.optflow_data_msg,       sizeof(apm_handler.optflow_data_msg));
 
     hal.pilot_cmd_updated                = apm_handler.pilot_cmd_updated;
     hal.gcs_cmd_updated                  = apm_handler.gcs_cmd_updated;
     hal.mission_data_updated             = apm_handler.mission_data_updated;
     hal.rangefinder_data_updated         = apm_handler.rangefinder_data_updated;
+    hal.optflow_data_updated             = apm_handler.optflow_data_updated;
 
     // update hal
     hal.update();
@@ -68,11 +70,13 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     apm_handler.gcs_cmd_updated          = hal.gcs_cmd_updated;
     apm_handler.mission_data_updated     = hal.mission_data_updated;
     apm_handler.rangefinder_data_updated = hal.rangefinder_data_updated;
+    apm_handler.optflow_data_updated     = hal.optflow_data_updated;
 
     apm_handler.pilot_cmd_log            = hal.pilot_cmd_log;
     apm_handler.gcs_cmd_log              = hal.gcs_cmd_log;
     apm_handler.mission_data_log         = hal.mission_data_log;
     apm_handler.rangefinder_data_log     = hal.rangefinder_data_log;
+    apm_handler.optflow_data_log         = hal.optflow_data_log;
 }
 
 _EXT_DTCM0

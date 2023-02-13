@@ -28,17 +28,17 @@ bool Copter::flowhold_init(bool ignore_checks)
         pos_control->set_desired_velocity_z(inertial_nav.get_velocity_z());
     }
 
-    flow_filter.set_cutoff_frequency(scheduler.get_loop_rate_hz(), flow_filter_hz);
+    flowhold_t.flow_filter.set_cutoff_frequency(scheduler.get_loop_rate_hz(), flowhold_t.flow_filter_hz);
 
-    quality_filtered = 0;
-    flow_pi_xy.reset_I();
-    limited = false;
+    flowhold_t.quality_filtered = 0;
+    flowhold_t.flow_pi_xy.reset_I();
+    flowhold_t.limited = false;
 
-    flow_pi_xy.set_dt(1.0/scheduler.get_loop_rate_hz());
+    flowhold_t.flow_pi_xy.set_dt(1.0/scheduler.get_loop_rate_hz());
 
     // start with INS height
-    last_ins_height = copter.inertial_nav.get_altitude() * 0.01;
-    height_offset = 0;
+    // flowhold_t.last_ins_height = inertial_nav.get_altitude() * 0.01;
+    // flowhold_t.height_offset = 0;
 
     console_printf("Flow-hold Mode\n");
 
@@ -56,76 +56,86 @@ void Copter::flowhold_flow_to_angle(Vector2f &bf_angles, float rngfnd_height, bo
     Vector2f raw_flow = optflow.flowRate() - optflow.bodyRate();
 
     // limit sensor flow, this prevents oscillation at low altitudes
-    raw_flow.x = constrain_float(raw_flow.x, -flow_max, flow_max);
-    raw_flow.y = constrain_float(raw_flow.y, -flow_max, flow_max);
+    raw_flow.x = constrain_float(raw_flow.x, -flowhold_t.flow_max, flowhold_t.flow_max);
+    raw_flow.y = constrain_float(raw_flow.y, -flowhold_t.flow_max, flowhold_t.flow_max);
 
     // filter the flow rate
-    Vector2f sensor_flow = flow_filter.apply(raw_flow);
+    Vector2f sensor_flow = flowhold_t.flow_filter.apply(raw_flow);
 
     // compensate for height, this converts to (approx) m/s
     sensor_flow *= rngfnd_height;
 
     // rotate controller input to earth frame
-    Vector2f input_ef = copter.ahrs.rotate_body_to_earth2D(sensor_flow);
+    Vector2f input_ef = ahrs.rotate_body_to_earth2D(sensor_flow);
 
     // run PI controller
-    flow_pi_xy.set_input(input_ef);
+    flowhold_t.flow_pi_xy.set_input(input_ef);
 
     // get earth frame controller attitude in centi-degrees
     Vector2f ef_output;
 
     // get P term
-    ef_output = flow_pi_xy.get_p();
+    ef_output = flowhold_t.flow_pi_xy.get_p();
 
     if (stick_input) {
-        last_stick_input_ms = now;
-        braking = true;
+        flowhold_t.last_stick_input_ms = now;
+        flowhold_t.braking = true;
     }
-    if (!stick_input && braking) {
-        // stop braking if either 3s has passed, or we have slowed below 0.3m/s
-        if (now - last_stick_input_ms > 3000 || sensor_flow.length() < 0.3) {
-            braking = false;
+    if (!stick_input && flowhold_t.braking) {
+        // stop flowhold_t.braking if either 3s has passed, or we have slowed below 0.3m/s
+        if (now - flowhold_t.last_stick_input_ms > 3000 || sensor_flow.length() < 0.3) {
+            flowhold_t.braking = false;
 #if 0
-            printf("braking done at %u vel=%f\n", now - last_stick_input_ms,
+            printf("flowhold_t.braking done at %u vel=%f\n", now - flowhold_t.last_stick_input_ms,
                    (double)sensor_flow.length());
 #endif
         }
     }
 
-    if (!stick_input && !braking) {
+    if (!stick_input && !flowhold_t.braking) {
         // get I term
-        if (limited) {
+        if (flowhold_t.limited) {
             // only allow I term to shrink in length
-            xy_I = flow_pi_xy.get_i_shrink();
+            flowhold_t.xy_I = flowhold_t.flow_pi_xy.get_i_shrink();
         } else {
             // normal I term operation
-            xy_I = flow_pi_xy.get_pi();
+            flowhold_t.xy_I = flowhold_t.flow_pi_xy.get_pi();
         }
     }
 
-    if (!stick_input && braking) {
+    if (!stick_input && flowhold_t.braking) {
         // calculate brake angle for each axis separately
-        for (uint8_t i=0; i<2; i++) {
-            float &velocity = sensor_flow[i];
+        if (true) {
+            float velocity = sensor_flow.x;
             float abs_vel_cms = fabsf(velocity)*100;
-            const float brake_gain = (15.0f * brake_rate_dps.get() + 95.0f) / 100.0f;
+            const float brake_gain = (15.0f * flowhold_t.brake_rate_dps + 95.0f) / 100.0f;
             float lean_angle_cd = brake_gain * abs_vel_cms * (1.0f+500.0f/(abs_vel_cms+60.0f));
             if (velocity < 0) {
                 lean_angle_cd = -lean_angle_cd;
             }
-            bf_angles[i] = lean_angle_cd;
+            bf_angles.x = lean_angle_cd;
+        }
+        if (true) {
+            float velocity = sensor_flow.y;
+            float abs_vel_cms = fabsf(velocity)*100;
+            const float brake_gain = (15.0f * flowhold_t.brake_rate_dps + 95.0f) / 100.0f;
+            float lean_angle_cd = brake_gain * abs_vel_cms * (1.0f+500.0f/(abs_vel_cms+60.0f));
+            if (velocity < 0) {
+                lean_angle_cd = -lean_angle_cd;
+            }
+            bf_angles.y = lean_angle_cd;
         }
         ef_output.zero();
     }
 
-    ef_output += xy_I;
+    ef_output += flowhold_t.xy_I;
     ef_output *= aparm.angle_max;
 
     // convert to body frame
     bf_angles += ahrs.rotate_earth_to_body2D(ef_output);
 
-    // set limited flag to prevent integrator windup
-    limited = fabsf(bf_angles.x) > aparm.angle_max || fabsf(bf_angles.y) > aparm.angle_max;
+    // set flowhold_t.limited flag to prevent integrator windup
+    flowhold_t.limited = fabsf(bf_angles.x) > aparm.angle_max || fabsf(bf_angles.y) > aparm.angle_max;
 
     // constrain to angle limit
     bf_angles.x = constrain_float(bf_angles.x, -aparm.angle_max, aparm.angle_max);
@@ -144,8 +154,8 @@ void Copter::flowhold_run()
     pos_control->set_accel_z(g.pilot_accel_z);
 
     // check for filter change
-    if (!is_equal(flow_filter.get_cutoff_freq(), flow_filter_hz)) {
-        flow_filter.set_cutoff_frequency(flow_filter_hz);
+    if (!is_equal(flowhold_t.flow_filter.get_cutoff_freq(), flowhold_t.flow_filter_hz)) {
+        flowhold_t.flow_filter.set_cutoff_frequency(flowhold_t.flow_filter_hz);
     }
 
     // get pilot desired climb rate
@@ -154,6 +164,8 @@ void Copter::flowhold_run()
 
     // get pilot's desired yaw rate
     float target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw->get_control_in());
+
+    bool takeoff_triggered = ap.land_complete && (target_climb_rate > 0.0f);
 
     if (!motors->armed() || !motors->get_interlock()) {
         flowhold_state = FlowHold_MotorStopped;
@@ -167,9 +179,9 @@ void Copter::flowhold_run()
 
     if (optflow.healthy()) {
         const float filter_constant = 0.95;
-        quality_filtered = filter_constant * quality_filtered + (1-filter_constant) * optflow.quality();
+        flowhold_t.quality_filtered = filter_constant * flowhold_t.quality_filtered + (1-filter_constant) * optflow.quality();
     } else {
-        quality_filtered = 0;
+        flowhold_t.quality_filtered = 0;
     }
 
     Vector2f bf_angles;
@@ -178,15 +190,15 @@ void Copter::flowhold_run()
     int16_t roll_in = channel_roll->get_control_in();
     int16_t pitch_in = channel_pitch->get_control_in();
     float angle_max = attitude_control->get_althold_lean_angle_max();
-    flowhold_get_desired_lean_angles(bf_angles.x, 0.01f*(float)rangefinder_state.alt_cm, bf_angles.y, angle_max, attitude_control->get_althold_lean_angle_max());
+    flowhold_get_desired_lean_angles(bf_angles.x, bf_angles.y, angle_max, attitude_control->get_althold_lean_angle_max());
 
-    if (quality_filtered >= flow_min_quality &&
-        millis() - copter.arm_time_ms > 3000 &&
+    if (flowhold_t.quality_filtered >= flowhold_t.flow_min_quality &&
+        millis() - arm_time_ms > 3000 &&
         rangefinder_alt_ok()) {
         // don't use for first 3s when we are just taking off
         Vector2f flow_angles;
 
-        flowhold_flow_to_angle(flow_angles, (roll_in != 0) || (pitch_in != 0));
+        flowhold_flow_to_angle(flow_angles, 0.01f*(float)rangefinder_state.alt_cm, (roll_in != 0) || (pitch_in != 0));
         flow_angles.x = constrain_float(flow_angles.x, -angle_max/2, angle_max/2);
         flow_angles.y = constrain_float(flow_angles.y, -angle_max/2, angle_max/2);
         bf_angles += flow_angles;
@@ -200,7 +212,7 @@ void Copter::flowhold_run()
     case FlowHold_MotorStopped:
 
         motors->set_desired_spool_state(AP_Motors::DESIRED_SHUT_DOWN);
-        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate);
+        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate, get_smoothing_gain());
 // #if FRAME_CONFIG == HELI_FRAME    
 //         // force descent rate and call position controller
 //         pos_control->set_alt_target_from_climb_rate(-abs(g.land_speed), G_Dt, false);
@@ -209,7 +221,7 @@ void Copter::flowhold_run()
         attitude_control->set_yaw_target_to_current_heading();
         pos_control->relax_alt_hold_controllers(0.0f);   // forces throttle output to go to zero
 // #endif
-        flow_pi_xy.reset_I();
+        flowhold_t.flow_pi_xy.reset_I();
         pos_control->update_z_controller();
         break;
 
@@ -252,7 +264,7 @@ void Copter::flowhold_run()
 
         attitude_control->reset_rate_controller_I_terms();
         attitude_control->set_yaw_target_to_current_heading();
-        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate);
+        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate, get_smoothing_gain());
         pos_control->relax_alt_hold_controllers(0.0f);   // forces throttle output to go to zero
         pos_control->update_z_controller();
         break;
@@ -266,7 +278,7 @@ void Copter::flowhold_run()
 // #endif
 
         // call attitude controller
-        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate);
+        attitude_control->input_euler_angle_roll_pitch_euler_rate_yaw(bf_angles.x, bf_angles.y, target_yaw_rate, get_smoothing_gain());
 
         // adjust climb rate using rangefinder
         target_climb_rate = get_surface_tracking_climb_rate(target_climb_rate, pos_control->get_alt_target(), G_Dt);
