@@ -143,6 +143,18 @@ void AP_HAL::update_rc(void)
     hal.pilot_cmd_updated = 0;
 }
 
+void AP_HAL::print_rc(void)
+{
+    // trans rc value to copter instance
+    // console_printf("hal.pilot_cmd_updated : %d\n", hal.pilot_cmd_updated);
+    console_printf("rcChannel_msg:\n");
+    for (uint8_t i = 0; i < sizeof(rcChannel_msg)/2; i++){
+        console_printf("   ch %d: %d\n",i, rcChannel_msg[i]);
+    }
+    rcin._new_input = hal.pilot_cmd_updated;
+    hal.pilot_cmd_updated = 0;
+}
+
 void AP_HAL::update_mission(void)
 {
     // reset consume

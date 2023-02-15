@@ -76,6 +76,7 @@ public:
 	float               fore_offset;
 	float               stall_high;    
     float               rangefinder_gain;
+    int8_t              debug_info;
     int8_t              flight_mode1;
     int8_t              flight_mode2;
     int8_t              flight_mode3;
@@ -141,6 +142,7 @@ public:
 		fore_offset(300.f),
 		stall_high(50.f),
         rangefinder_gain(1.5f),
+        debug_info(0),
         flight_mode1(0),
         flight_mode2(0),
         flight_mode3(0),

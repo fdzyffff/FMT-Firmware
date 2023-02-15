@@ -38,6 +38,7 @@ void Copter::setup()
         SCHED_TASK(read_rangefinder,       20,    100),
         SCHED_TASK(arm_motors_check,       10,     50),
         SCHED_TASK(ten_hz_loop,            10,    100),
+        SCHED_TASK(user_ten_hz_loop,       10,    100),
         SCHED_TASK(one_hz_loop,            1,     100),
     };
     scheduler.init(&copter_scheduler_tasks[0], ARRAY_SIZE(copter_scheduler_tasks));
@@ -161,16 +162,19 @@ void Copter::ten_hz_loop()
 // one_hz_loop - runs at 10Hz
 void Copter::one_hz_loop()
 {
-    // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
-    printf(" hal.rcin._rc_in_data[0,1,2,3,4]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[4]);
-    // printf(" hal.rcout._rc_out_data[0,1,2,3]: [%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3]);
-    // printf(" channel_throttle->get_radio_min(): %d\n", channel_throttle->get_radio_min());
-    // printf(" motors->get_pwm_output_min(): %d\n", motors->get_pwm_output_min());
-    // printf(" ap.rc_receiver_present: %d\n", ap.rc_receiver_present);
-    // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
+    if (g.debug_info) {
+        // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
+        printf(" hal.rcin._rc_in_data[0,1,2,3,7]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[7]);
+        printf(" hal.rcout._rc_out_data[0,1,2,3,4,5]: [%d,%d,%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3],hal.rcout._rc_out_data[4],hal.rcout._rc_out_data[5]);
+        // hal.print_rc();
+        // printf(" copter->g2.servo_channels.srv_channel(5)->ch_num: %d\n", copter->g2.servo_channels.srv_channel(5)->ch_num);
+        // printf(" motors->get_pwm_output_min(): %d\n", motors->get_pwm_output_min());
+        // printf(" ap.rc_receiver_present: %d\n", ap.rc_receiver_present);
+        // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
-    // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
-    // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
+        // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
+        // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
+    }
 
 }
 

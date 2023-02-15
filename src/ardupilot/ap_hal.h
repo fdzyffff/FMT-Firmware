@@ -203,6 +203,7 @@ public:
     void info();
     void update();
     void update_rc();
+    void print_rc();
     void update_mission();
     void update_inertial();
     void update_sensors();

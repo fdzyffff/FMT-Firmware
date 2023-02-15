@@ -301,6 +301,7 @@ void apm_interface_init(void)
     apm_handler.ins_out_nod          = mcn_subscribe(MCN_HUB(ins_output), NULL, NULL);
     apm_handler.rc_channels_nod      = mcn_subscribe(MCN_HUB(rc_channels), NULL, NULL);
     apm_handler.rangefinder_data_nod = mcn_subscribe(MCN_HUB(sensor_rangefinder), NULL, NULL);
+    apm_handler.optflow_data_nod     = mcn_subscribe(MCN_HUB(sensor_optflow), NULL, NULL);
 
     // Pilot_Cmd_ID = mlog_get_bus_id("Pilot_Cmd");
     // GCS_Cmd_ID = mlog_get_bus_id("GCS_Cmd");

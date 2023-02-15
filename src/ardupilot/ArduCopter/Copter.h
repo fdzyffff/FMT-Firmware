@@ -354,6 +354,8 @@ public:
     void fv_cal_posvel(const Vector3f base_pos, const float base_vel_xy, const float base_yaw_angle, const bool do_land);
     float fv_max_speed(float distance, float kp, float accel_cmss, float offset=1.0f);
 
+    void user_ten_hz_loop();
+
     int8_t follow_yaw_state;
     Vector3f follow_pos_base_cm;       // position target (used by posvel controller only)
     LowPassFilterFloat follow_yaw_base_angle_filt;		

@@ -32,7 +32,7 @@ target = "Pixhawk FMUv2"
     type = "rc"
     name = "rc"
     protocol = "sbus"           # sbus or ppm
-    channel-num = 6             # max supported channel: sbus:16, ppm:8
+    channel-num = 16             # max supported channel: sbus:16, ppm:8
     sample-time = 0.05          # sample time in second (-1 for inherit)
     range = [1000,2000]
 

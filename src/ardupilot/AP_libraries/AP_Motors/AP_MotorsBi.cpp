@@ -94,10 +94,10 @@ void AP_MotorsBi::output_to_motors()
             break;
         case SPIN_WHEN_ARMED:
             // sends output to motors when armed but not flying
-            rc_write(AP_MOTORS_MOT_1, calc_spin_up_to_pwm());
-            rc_write(AP_MOTORS_MOT_2, calc_spin_up_to_pwm());
-            rc_write(AP_MOTORS_CH_BI_1, _yaw_servo_left->get_trim());
-            rc_write(AP_MOTORS_CH_BI_2, _yaw_servo_right->get_trim());
+            rc_write(AP_MOTORS_MOT_1, calc_thrust_to_pwm(_thrust_right));
+            rc_write(AP_MOTORS_MOT_2, calc_thrust_to_pwm(_thrust_left));
+            rc_write(AP_MOTORS_CH_BI_1, calc_servo_radio_output(_yaw_servo_left, degrees(_servo_angle_left), _yaw_servo_angle_max_deg)); 
+            rc_write(AP_MOTORS_CH_BI_2, calc_servo_radio_output(_yaw_servo_right, degrees(_servo_angle_right), _yaw_servo_angle_max_deg)); 
             break;
         case SPOOL_UP:
         case THROTTLE_UNLIMITED:
@@ -105,8 +105,8 @@ void AP_MotorsBi::output_to_motors()
             // set motor output based on thrust requests
             rc_write(AP_MOTORS_MOT_1, calc_thrust_to_pwm(_thrust_right));
             rc_write(AP_MOTORS_MOT_2, calc_thrust_to_pwm(_thrust_left));
-            rc_write(AP_MOTORS_CH_BI_1, calc_servo_radio_output(_yaw_servo_left, degrees(_servo_angle_right), _yaw_servo_angle_max_deg)); 
-            rc_write(AP_MOTORS_CH_BI_2, calc_servo_radio_output(_yaw_servo_right, degrees(_servo_angle_left), _yaw_servo_angle_max_deg)); 
+            rc_write(AP_MOTORS_CH_BI_1, calc_servo_radio_output(_yaw_servo_left, degrees(_servo_angle_left), _yaw_servo_angle_max_deg)); 
+            rc_write(AP_MOTORS_CH_BI_2, calc_servo_radio_output(_yaw_servo_right, degrees(_servo_angle_right), _yaw_servo_angle_max_deg)); 
             break;
     }
 }
