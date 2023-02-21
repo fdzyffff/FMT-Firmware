@@ -1,0 +1,1304 @@
+<?xml version="1.0"?>
+<param_list>
+  <group name="APM">
+    <param name="APM_INFO">
+      <value>0</value>
+    </param>
+    <param name="ATC_ACCEL_P_MAX">
+      <value>110000.000000</value>
+    </param>
+    <param name="ATC_ACCEL_R_MAX">
+      <value>110000.000000</value>
+    </param>
+    <param name="ATC_ACCEL_Y_MAX">
+      <value>27000.000000</value>
+    </param>
+    <param name="ATC_ANG_LIM_TC">
+      <value>1.000000</value>
+    </param>
+    <param name="ATC_ANG_PIT_P">
+      <value>4.500000</value>
+    </param>
+    <param name="ATC_ANG_RLL_P">
+      <value>4.500000</value>
+    </param>
+    <param name="ATC_ANG_YAW_P">
+      <value>4.500000</value>
+    </param>
+    <param name="ATC_ANGLE_BOOST">
+      <value>1</value>
+    </param>
+    <param name="ATC_RAT_PIT_D">
+      <value>0.003000</value>
+    </param>
+    <param name="ATC_RAT_PIT_FF">
+      <value>0.000000</value>
+    </param>
+    <param name="ATC_RAT_PIT_FILT">
+      <value>20.000000</value>
+    </param>
+    <param name="ATC_RAT_PIT_I">
+      <value>0.100000</value>
+    </param>
+    <param name="ATC_RAT_PIT_IMAX">
+      <value>0.500000</value>
+    </param>
+    <param name="ATC_RAT_PIT_P">
+      <value>0.135000</value>
+    </param>
+    <param name="ATC_RAT_RLL_D">
+      <value>0.003000</value>
+    </param>
+    <param name="ATC_RAT_RLL_FF">
+      <value>0.000000</value>
+    </param>
+    <param name="ATC_RAT_RLL_FILT">
+      <value>20.000000</value>
+    </param>
+    <param name="ATC_RAT_RLL_I">
+      <value>0.100000</value>
+    </param>
+    <param name="ATC_RAT_RLL_IMAX">
+      <value>0.500000</value>
+    </param>
+    <param name="ATC_RAT_RLL_P">
+      <value>0.120000</value>
+    </param>
+    <param name="ATC_RAT_YAW_D">
+      <value>0.000000</value>
+    </param>
+    <param name="ATC_RAT_YAW_FF">
+      <value>0.000000</value>
+    </param>
+    <param name="ATC_RAT_YAW_FILT">
+      <value>2.500000</value>
+    </param>
+    <param name="ATC_RAT_YAW_I">
+      <value>0.005000</value>
+    </param>
+    <param name="ATC_RAT_YAW_IMAX">
+      <value>0.500000</value>
+    </param>
+    <param name="ATC_RAT_YAW_P">
+      <value>0.050000</value>
+    </param>
+    <param name="ATC_RATE_FF_ENAB">
+      <value>1</value>
+    </param>
+    <param name="ATC_SLEW_YAW">
+      <value>1500.000000</value>
+    </param>
+    <param name="ATC_THR_MIX_MAN">
+      <value>0.500000</value>
+    </param>
+    <param name="ATC_THR_MIX_MAX">
+      <value>0.500000</value>
+    </param>
+    <param name="ATC_THR_MIX_MIN">
+      <value>0.100000</value>
+    </param>
+    <param name="CH7_OPT">
+      <value>0</value>
+    </param>
+    <param name="CH8_OPT">
+      <value>0</value>
+    </param>
+    <param name="CH9_OPT">
+      <value>0</value>
+    </param>
+    <param name="CH10_OPT">
+      <value>0</value>
+    </param>
+    <param name="CH11_OPT">
+      <value>0</value>
+    </param>
+    <param name="CH12_OPT">
+      <value>0</value>
+    </param>
+    <param name="CIRCLE_RADIUS">
+      <value>1000.000000</value>
+    </param>
+    <param name="CIRCLE_RATE">
+      <value>20.000000</value>
+    </param>
+    <param name="DISARM_DELAY">
+      <value>10.000000</value>
+    </param>
+    <param name="FLTMODE1">
+      <value>0</value>
+    </param>
+    <param name="FLTMODE2">
+      <value>0</value>
+    </param>
+    <param name="FLTMODE3">
+      <value>0</value>
+    </param>
+    <param name="FLTMODE4">
+      <value>2</value>
+    </param>
+    <param name="FLTMODE5">
+      <value>2</value>
+    </param>
+    <param name="FLTMODE6">
+      <value>2</value>
+    </param>
+    <param name="FLOW_FXSCALER">
+      <value>0</value>
+    </param>
+    <param name="FLOW_FYSCALER">
+      <value>0</value>
+    </param>
+    <param name="FLOW_ORIENT_YAW">
+      <value>0</value>
+    </param>
+    <param name="FLOW_POS_X">
+      <value>0.000000</value>
+    </param>
+    <param name="FLOW_POS_Y">
+      <value>0.000000</value>
+    </param>
+    <param name="FLOW_POS_Z">
+      <value>0.000000</value>
+    </param>
+    <param name="FLOW_XY_P">
+      <value>0.200000</value>
+    </param>
+    <param name="FLOW_XY_I">
+      <value>0.300000</value>
+    </param>
+    <param name="FLOW_FLOW_MAX">
+      <value>0.600000</value>
+    </param>
+    <param name="FLOW_FILT_HZ">
+      <value>20.000000</value>
+    </param>
+    <param name="FLOW_QUAL_MIN">
+      <value>10</value>
+    </param>
+    <param name="FLOW_BRAKE_RATE">
+      <value>8</value>
+    </param>
+    <param name="FRAME_CLASS">
+      <value>12</value>
+    </param>
+    <param name="FRAME_TYPE">
+      <value>1</value>
+    </param>
+    <param name="FS_BATT_ENABLE">
+      <value>0.000000</value>
+    </param>
+    <param name="FS_BATT_ENABLE2">
+      <value>0.000000</value>
+    </param>
+    <param name="FS_BATT_MAH">
+      <value>0.000000</value>
+    </param>
+    <param name="FS_BATT_VOLT2">
+      <value>10.500000</value>
+    </param>
+    <param name="FS_BATT_VOLTAGE">
+      <value>38.310001</value>
+    </param>
+    <param name="FS_CRASH_CHECK">
+      <value>0</value>
+    </param>
+    <param name="FS_GCS_ENABLE">
+      <value>0</value>
+    </param>
+    <param name="FS_THR_ENABLE">
+      <value>0</value>
+    </param>
+    <param name="FS_THR_VALUE">
+      <value>975</value>
+    </param>
+    <param name="MIS_RESTART">
+      <value>0</value>
+    </param>
+    <param name="MIS_TOTAL">
+      <value>50</value>
+    </param>
+    <param name="MOT_HOVER_LEARN">
+      <value>2.000000</value>
+    </param>
+    <param name="MOT_PWM_MAX">
+      <value>0</value>
+    </param>
+    <param name="MOT_PWM_MIN">
+      <value>0</value>
+    </param>
+    <param name="MOT_SAFE_DISARM">
+      <value>0</value>
+    </param>
+    <param name="MOT_SPIN_ARM">
+      <value>0.100000</value>
+    </param>
+    <param name="MOT_SPIN_MAX">
+      <value>0.950000</value>
+    </param>
+    <param name="MOT_SPIN_MIN">
+      <value>0.150000</value>
+    </param>
+    <param name="MOT_SPOOL_TIME">
+      <value>0.500000</value>
+    </param>
+    <param name="MOT_THST_EXPO">
+      <value>0.600000</value>
+    </param>
+    <param name="MOT_THST_HOVER">
+      <value>0.322357</value>
+    </param>
+    <param name="MOT_YAW_HEADROOM">
+      <value>200</value>
+    </param>
+    <param name="PHLD_BRAKE_ANGLE">
+      <value>3000</value>
+    </param>
+    <param name="PHLD_BRAKE_RATE">
+      <value>8</value>
+    </param>
+    <param name="FLOW_ENABLE">
+      <value>0</value>
+    </param>
+    <param name="PILOT_ACCEL_Z">
+      <value>250</value>
+    </param>
+    <param name="PILOT_THR_BHV">
+      <value>0</value>
+    </param>
+    <param name="PILOT_THR_FILT">
+      <value>0.000000</value>
+    </param>
+    <param name="PILOT_TKOFF_ALT">
+      <value>200.000000</value>
+    </param>
+    <param name="PILOT_TKOFF_DZ">
+      <value>100</value>
+    </param>
+    <param name="PILOT_VELZ_MAX">
+      <value>250</value>
+    </param>
+    <param name="POS_XY_P">
+      <value>0.850000</value>
+    </param>
+    <param name="POS_Z_P">
+      <value>1.200000</value>
+    </param>
+    <param name="RC_FEEL_RP">
+      <value>60</value>
+    </param>
+    <param name="RADIO1_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO1_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO1_MIN">
+      <value>1094</value>
+    </param>
+    <param name="RADIO1_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO1_TRIM">
+      <value>1515</value>
+    </param>
+    <param name="RADIO2_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO2_MAX">
+      <value>1934</value>
+    </param>
+    <param name="RADIO2_MIN">
+      <value>1100</value>
+    </param>
+    <param name="RADIO2_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO2_TRIM">
+      <value>1515</value>
+    </param>
+    <param name="RADIO3_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO3_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO3_MIN">
+      <value>1100</value>
+    </param>
+    <param name="RADIO3_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO3_TRIM">
+      <value>1094</value>
+    </param>
+    <param name="RADIO4_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO4_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO4_MIN">
+      <value>1094</value>
+    </param>
+    <param name="RADIO4_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO4_TRIM">
+      <value>1515</value>
+    </param>
+    <param name="RADIO5_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO5_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO5_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO5_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO5_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO6_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO6_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO6_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO6_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO6_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO7_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO7_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO7_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO7_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO7_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO8_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO8_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO8_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO8_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO8_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO9_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO9_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO9_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO9_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO9_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO10_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO10_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO10_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO10_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO10_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO11_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO11_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO11_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO11_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO11_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO12_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO12_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO12_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO12_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO12_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO13_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO13_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO13_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO13_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO13_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO14_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO14_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO14_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO14_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO14_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO15_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO15_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO15_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO15_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO15_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RADIO16_DZ">
+      <value>20</value>
+    </param>
+    <param name="RADIO16_MAX">
+      <value>1950</value>
+    </param>
+    <param name="RADIO16_MIN">
+      <value>1051</value>
+    </param>
+    <param name="RADIO16_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="RADIO16_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="RNGFND_GAIN">
+      <value>0.800000</value>
+    </param>
+    <param name="RNGFND_GNDCLEAR">
+      <value>10</value>
+    </param>
+    <param name="RNGFND_MAX_CM">
+      <value>800</value>
+    </param>
+    <param name="RNGFND_MIN_CM">
+      <value>10</value>
+    </param>
+    <param name="RNGFND_ORIENT">
+      <value>25</value>
+    </param>
+    <param name="RNGFND_TYPE">
+      <value>1</value>
+    </param>
+    <param name="SERVO1_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO1_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO1_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO1_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO1_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO2_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO2_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO2_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO2_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO2_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO3_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO3_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO3_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO3_REVERSED">
+      <value>1</value>
+    </param>
+    <param name="SERVO3_TRIM">
+      <value>1470</value>
+    </param>
+    <param name="SERVO4_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO4_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO4_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO4_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO4_TRIM">
+      <value>1520</value>
+    </param>
+    <param name="SERVO5_FUNCTION">
+      <value>81</value>
+    </param>
+    <param name="SERVO5_MAX">
+      <value>2000</value>
+    </param>
+    <param name="SERVO5_MIN">
+      <value>1000</value>
+    </param>
+    <param name="SERVO5_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO5_TRIM">
+      <value>1100</value>
+    </param>
+    <param name="SERVO6_FUNCTION">
+      <value>81</value>
+    </param>
+    <param name="SERVO6_MAX">
+      <value>1950</value>
+    </param>
+    <param name="SERVO6_MIN">
+      <value>1000</value>
+    </param>
+    <param name="SERVO6_REVERSED">
+      <value>1</value>
+    </param>
+    <param name="SERVO6_TRIM">
+      <value>1950</value>
+    </param>
+    <param name="SERVO7_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO7_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO7_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO7_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO7_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO8_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO8_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO8_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO8_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO8_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO9_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO9_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO9_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO9_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO9_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO10_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO10_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO10_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO10_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO10_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO11_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO11_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO11_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO11_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO11_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO12_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO12_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO12_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO12_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO12_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO13_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO13_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO13_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO13_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO13_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO14_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO14_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO14_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO14_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO14_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO15_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO15_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO15_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO15_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO15_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SERVO16_FUNCTION">
+      <value>0</value>
+    </param>
+    <param name="SERVO16_MAX">
+      <value>1900</value>
+    </param>
+    <param name="SERVO16_MIN">
+      <value>1100</value>
+    </param>
+    <param name="SERVO16_REVERSED">
+      <value>0</value>
+    </param>
+    <param name="SERVO16_TRIM">
+      <value>1500</value>
+    </param>
+    <param name="SYSID_THISMAV">
+      <value>1</value>
+    </param>
+    <param name="VEL_XY_FILT_HZ">
+      <value>5.000000</value>
+    </param>
+    <param name="VEL_XY_I">
+      <value>0.500000</value>
+    </param>
+    <param name="VEL_XY_IMAX">
+      <value>1000.000000</value>
+    </param>
+    <param name="VEL_XY_P">
+      <value>0.950000</value>
+    </param>
+    <param name="VEL_Z_P">
+      <value>5.000000</value>
+    </param>
+    <param name="WP_NAVALT_MIN">
+      <value>0.000000</value>
+    </param>
+    <param name="WP_YAW_BEHAVIOR">
+      <value>0</value>
+    </param>
+    <param name="WPNAV_ACCEL">
+      <value>200.000000</value>
+    </param>
+    <param name="WPNAV_ACCEL_Z">
+      <value>100.000000</value>
+    </param>
+    <param name="WPNAV_LOIT_JERK">
+      <value>1200.000000</value>
+    </param>
+    <param name="WPNAV_LOIT_MAXA">
+      <value>600.000000</value>
+    </param>
+    <param name="WPNAV_LOIT_MINA">
+      <value>150.000000</value>
+    </param>
+    <param name="WPNAV_LOIT_SPEED">
+      <value>1000.000000</value>
+    </param>
+    <param name="WPNAV_RADIUS">
+      <value>200.000000</value>
+    </param>
+    <param name="WPNAV_RFND_USE">
+      <value>1</value>
+    </param>
+    <param name="WPNAV_SPEED">
+      <value>590.000000</value>
+    </param>
+    <param name="WPNAV_SPEED_DN">
+      <value>50.000000</value>
+    </param>
+    <param name="WPNAV_SPEED_UP">
+      <value>150.000000</value>
+    </param>
+  </group>
+  <group name="INS">
+    <param name="GPS_HOR_Q_BIAS">
+      <value>2.500000</value>
+    </param>
+    <param name="GPS_HOR_Q_SCALE">
+      <value>0.400000</value>
+    </param>
+    <param name="GPS_VER_Q_BIAS">
+      <value>4.500000</value>
+    </param>
+    <param name="GPS_VER_Q_SCALE">
+      <value>0.250000</value>
+    </param>
+    <param name="GPS_VEL_Q_BIAS">
+      <value>1.000000</value>
+    </param>
+    <param name="GPS_VEL_Q_SCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="ATT_GAIN">
+      <value>0.200000</value>
+    </param>
+    <param name="HEADING_GAIN">
+      <value>0.050000</value>
+    </param>
+    <param name="MAG_GAIN">
+      <value>0.200000</value>
+    </param>
+    <param name="BIAS_G_GAIN">
+      <value>0.250000</value>
+    </param>
+    <param name="GPS_POS_GAIN">
+      <value>0.000000</value>
+    </param>
+    <param name="GPS_ALT_GAIN">
+      <value>0.000000</value>
+    </param>
+    <param name="GPS_VEL_GAIN">
+      <value>2.000000</value>
+    </param>
+    <param name="GPS_BIAS_A_GAIN">
+      <value>1.000000</value>
+    </param>
+    <param name="GPS_POS_DELAY">
+      <value>150</value>
+    </param>
+    <param name="GPS_VEL_DELAY">
+      <value>100</value>
+    </param>
+    <param name="OPF_VEL_GAIN">
+      <value>2.000000</value>
+    </param>
+    <param name="OPF_BIAS_A_GAIN">
+      <value>1.000000</value>
+    </param>
+    <param name="OPF_VEL_DELAY">
+      <value>5</value>
+    </param>
+    <param name="BARO_H_GAIN">
+      <value>2.000000</value>
+    </param>
+    <param name="BARO_VZ_GAIN">
+      <value>1.000000</value>
+    </param>
+    <param name="BARO_BIAS_AZ_GAIN">
+      <value>0.200000</value>
+    </param>
+    <param name="BARO_H_DELAY">
+      <value>10</value>
+    </param>
+    <param name="RF_H_GAIN">
+      <value>2.000000</value>
+    </param>
+    <param name="RF_VZ_GAIN">
+      <value>1.000000</value>
+    </param>
+    <param name="RF_BIAS_AZ_GAIN">
+      <value>0.200000</value>
+    </param>
+    <param name="RF_H_DELAY">
+      <value>5</value>
+    </param>
+  </group>
+  <group name="CALIB">
+    <param name="GYRO0_XOFF">
+      <value>0.016827</value>
+    </param>
+    <param name="GYRO0_YOFF">
+      <value>0.086702</value>
+    </param>
+    <param name="GYRO0_ZOFF">
+      <value>-0.007148</value>
+    </param>
+    <param name="ACC0_XOFF">
+      <value>-0.052479</value>
+    </param>
+    <param name="ACC0_YOFF">
+      <value>-0.622175</value>
+    </param>
+    <param name="ACC0_ZOFF">
+      <value>0.021623</value>
+    </param>
+    <param name="ACC0_XXSCALE">
+      <value>0.999457</value>
+    </param>
+    <param name="ACC0_YYSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="ACC0_ZZSCALE">
+      <value>0.989586</value>
+    </param>
+    <param name="ACC0_XYSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC0_XZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC0_YZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG0_XOFF">
+      <value>0.002602</value>
+    </param>
+    <param name="MAG0_YOFF">
+      <value>0.000178</value>
+    </param>
+    <param name="MAG0_ZOFF">
+      <value>0.045900</value>
+    </param>
+    <param name="MAG0_XXSCALE">
+      <value>0.996420</value>
+    </param>
+    <param name="MAG0_YYSCALE">
+      <value>0.978822</value>
+    </param>
+    <param name="MAG0_ZZSCALE">
+      <value>0.982623</value>
+    </param>
+    <param name="MAG0_XYSCALE">
+      <value>-0.004625</value>
+    </param>
+    <param name="MAG0_XZSCALE">
+      <value>0.007409</value>
+    </param>
+    <param name="MAG0_YZSCALE">
+      <value>0.003993</value>
+    </param>
+    <param name="GYRO1_XOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="GYRO1_YOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="GYRO1_ZOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_XOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_YOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_ZOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_XXSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="ACC1_YYSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="ACC1_ZZSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="ACC1_XYSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_XZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="ACC1_YZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_XOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_YOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_ZOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_XXSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="MAG1_YYSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="MAG1_ZZSCALE">
+      <value>1.000000</value>
+    </param>
+    <param name="MAG1_XYSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_XZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="MAG1_YZSCALE">
+      <value>0.000000</value>
+    </param>
+    <param name="LEVEL_XOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="LEVEL_YOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="LEVEL_ZOFF">
+      <value>0.000000</value>
+    </param>
+    <param name="DIFF_PRESS_OFFSET">
+      <value>0.000000</value>
+    </param>
+  </group>
+  <group name="RC">
+    <param name="RC1_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC1_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC1_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC1_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC2_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC2_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC2_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC2_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC3_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC3_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC3_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC3_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC4_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC4_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC4_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC4_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC5_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC5_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC5_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC5_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC6_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC6_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC6_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC6_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC7_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC7_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC7_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC7_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC8_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC8_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC8_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC8_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC9_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC9_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC9_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC9_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC10_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC10_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC10_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC10_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC11_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC11_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC11_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC11_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC12_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC12_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC12_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC12_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC13_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC13_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC13_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC13_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC14_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC14_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC14_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC14_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC15_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC15_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC15_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC15_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC16_MAX">
+      <value>2000.000000</value>
+    </param>
+    <param name="RC16_MIN">
+      <value>1000.000000</value>
+    </param>
+    <param name="RC16_REV">
+      <value>1.000000</value>
+    </param>
+    <param name="RC16_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC_CHAN_CNT">
+      <value>0</value>
+    </param>
+  </group>
+  <group name="SYSTEM">
+    <param name="MAV_SYS_ID">
+      <value>1</value>
+    </param>
+    <param name="MAV_COMP_ID">
+      <value>1</value>
+    </param>
+    <param name="MLOG_MODE">
+      <value>0</value>
+    </param>
+    <param name="LOOP_MISSION">
+      <value>0</value>
+    </param>
+  </group>
+</param_list>
+.000000</value>
+    </param>
+    <param name="RC16_TRIM">
+      <value>1500.000000</value>
+    </param>
+    <param name="RC_CHAN_CNT">
+      <value>0</value>
+    </param>
+  </group>
+  <group name="SYSTEM">
+    <param name="MAV_SYS_ID">
+      <value>1</value>
+    </param>
+    <param name="MAV_COMP_ID">
+      <value>1</value>
+    </param>
+    <param name="MLOG_MODE">
+      <value>0</value>
+    </param>
+    <param name="LOOP_MISSION">
+      <value>0</value>
+    </param>
+  </group>
+</param_list>
+

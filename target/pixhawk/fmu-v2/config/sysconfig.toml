@@ -72,4 +72,4 @@ target = "Pixhawk FMUv2"
     [[actuator.mappings]]
     from = "control_out"
     to = "main_out"
-    chan-map = [[1,2,3,4],[1,2,3,4]]
+    chan-map = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8]]

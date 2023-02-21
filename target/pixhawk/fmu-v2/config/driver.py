@@ -10,6 +10,7 @@ DRIVERS = [
     # 'vision_flow/pmw3901_xx.c',
     'rgb_led/tca62724.c',
     'range_finder/tf_luna.c',
+    'vision_flow/mtf_01.c',
 ]
 
 DRIVERS_CPPPATH = []

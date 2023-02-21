@@ -211,7 +211,7 @@ static struct WorkItem work_item = {
     .run = start_thread
 };
 
-rt_err_t pmw3901_xx_drv_init(const char* uart_dev_name)
+rt_err_t mtf01_drv_init(const char* uart_dev_name)
 {
     dev = rt_device_find(uart_dev_name);
 
