@@ -102,7 +102,8 @@ enum class control_mode_t {
     THROW =        18,  // throw to launch mode using inertial/GPS system, no pilot input
     AVOID_ADSB =   19,  // automatic avoidance of obstacles in the macro scale - e.g. full-sized aircraft
     GUIDED_NOGPS = 20,  // guided mode but only accepts attitude and altitude
-    TESTSTAR =     21,
+    FLOW_HOLD =    21, 
+    TESTSTAR =     22,
     // FOLLOW_POS =   22,
     // FOLLOW_VEL =   23,
 };

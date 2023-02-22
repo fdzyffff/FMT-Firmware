@@ -210,8 +210,8 @@ static void thread_entry(void* args)
 
                     /* actual optical flow velocity = raw_vel * distance, we just publish raw data,
                            leave it to upper layer to handle it. */
-                    optflow_report.vx_mPs = -data.vx * 0.01f;
-                    optflow_report.vy_mPs = -data.vy * 0.01f;
+                    optflow_report.vx_mPs = data.vx * 0.01f; //Important! it is negtive in official FMT firmware!
+                    optflow_report.vy_mPs = data.vy * 0.01f; //Important! it is negtive in official FMT firmware!
                     optflow_report.quality = data.quality * data.status;
 
                     /* publish mtf01 data */

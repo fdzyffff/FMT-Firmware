@@ -34,13 +34,13 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(ATC_RAT_PIT_FILT, 20),          //copter->attitude_control->_pid_rate_pitch._filt_hz
     PARAM_FLOAT(ATC_RAT_PIT_I, 0.09),           //copter->attitude_control->_pid_rate_pitch._ki
     PARAM_FLOAT(ATC_RAT_PIT_IMAX, 0.5),         //copter->attitude_control->_pid_rate_pitch._imax
-    PARAM_FLOAT(ATC_RAT_PIT_P, 0.135),          //copter->attitude_control->_pid_rate_pitch._kp
+    PARAM_FLOAT(ATC_RAT_PIT_P, 0.12),           //copter->attitude_control->_pid_rate_pitch._kp
     PARAM_FLOAT(ATC_RAT_RLL_D, 0.0036),         //copter->attitude_control->_pid_rate_roll._kd
     PARAM_FLOAT(ATC_RAT_RLL_FF, 0),             //copter->attitude_control->_pid_rate_roll._ff
     PARAM_FLOAT(ATC_RAT_RLL_FILT, 20),          //copter->attitude_control->_pid_rate_roll._filt_hz
     PARAM_FLOAT(ATC_RAT_RLL_I, 0.09),           //copter->attitude_control->_pid_rate_roll._ki
     PARAM_FLOAT(ATC_RAT_RLL_IMAX, 0.5),         //copter->attitude_control->_pid_rate_roll._imax
-    PARAM_FLOAT(ATC_RAT_RLL_P, 0.135),          //copter->attitude_control->_pid_rate_roll._kp
+    PARAM_FLOAT(ATC_RAT_RLL_P, 0.12),           //copter->attitude_control->_pid_rate_roll._kp
     PARAM_FLOAT(ATC_RAT_YAW_D, 0.0),            //copter->attitude_control->_pid_rate_yaw._kd
     PARAM_FLOAT(ATC_RAT_YAW_FF, 0),             //copter->attitude_control->_pid_rate_yaw._ff
     PARAM_FLOAT(ATC_RAT_YAW_FILT, 2.5),         //copter->attitude_control->_pid_rate_yaw._filt_hz

@@ -90,6 +90,10 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
 //            success = guided_nogps_init(ignore_checks);
 //            break;
 
+        case control_mode_t::FLOW_HOLD:
+            success = flowhold_init(ignore_checks);
+            break;
+
         default:
             success = false;
             break;
@@ -192,7 +196,11 @@ void Copter::update_flight_mode()
 //        case control_mode_t::GUIDED_NOGPS:
 //            guided_nogps_run();
 //            break;
-            
+
+        case control_mode_t::FLOW_HOLD:
+            flowhold_run();
+            break;
+
         default:
             break;
     }

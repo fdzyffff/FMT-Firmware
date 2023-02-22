@@ -32,7 +32,7 @@ void Copter::setup()
   and the maximum time they are expected to take (in microseconds)
  */
     static const AP_Scheduler::Task copter_scheduler_tasks[] = {
-        SCHED_TASK(update_optical_flow,    200,    160),
+        SCHED_TASK(update_optical_flow,    200,    80),
         SCHED_TASK(update_throttle_hover,  100,    90),
         SCHED_TASK(throttle_loop,          50,     75),
         SCHED_TASK(run_nav_updates,        50,    100),
@@ -163,9 +163,9 @@ void Copter::ten_hz_loop()
 // one_hz_loop - runs at 10Hz
 void Copter::one_hz_loop()
 {
-    // if (g.debug_info) {
+    if (g.debug_info) {
         // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
-        // printf(" hal.rcin._rc_in_data[0,1,2,3,7]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[7]);
+        printf(" hal.rcin._rc_in_data[0,1,2,3,7]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[7]);
         // printf(" hal.rcout._rc_out_data[0,1,2,3,4,5]: [%d,%d,%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3],hal.rcout._rc_out_data[4],hal.rcout._rc_out_data[5]);
         // hal.print_rc();
         // printf(" copter->g2.servo_channels.srv_channel(5)->ch_num: %d\n", copter->g2.servo_channels.srv_channel(5)->ch_num);
@@ -177,8 +177,8 @@ void Copter::one_hz_loop()
         console_printf("[%f,%f,%d][%f]\n",hal.optflow_data_msg.vx_mPs, hal.optflow_data_msg.vy_mPs, hal.optflow_data_msg.quality, hal.rangefinder_data_msg.distance_m);
         console_printf("%d [%f,%f][%f,%f]\n",optflow.healthy(), optflow.flowRate().x, optflow.flowRate().y,optflow.bodyRate().x,optflow.bodyRate().y);
 
-        // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
-    // }
+        console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
+    }
 
 }
 
@@ -335,6 +335,7 @@ void Copter::update_fmt_bus()
             hal.fms_out_msg.state = VehicleState_Altitude;
             break;
         case control_mode_t::LOITER:
+        case control_mode_t::FLOW_HOLD:
             hal.fms_out_msg.mode = PilotMode_Position;
             hal.fms_out_msg.state = VehicleState_Position;
             break;
