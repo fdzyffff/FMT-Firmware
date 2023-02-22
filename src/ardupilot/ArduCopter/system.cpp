@@ -30,6 +30,9 @@ void Copter::init_ardupilot()
     attitude_control->parameter_sanity_check();
     pos_control->set_dt(MAIN_LOOP_SECONDS);
 
+    // init the optical flow sensor
+    init_optflow();
+
     init_rangefinder();
     // initialise the flight mode and aux switch
     // ---------------------------

@@ -67,6 +67,7 @@ static param_t __param_list_apm[] = {
     PARAM_INT8(FLTMODE4, 0),                    //copter->g.flight_mode4
     PARAM_INT8(FLTMODE5, 0),                    //copter->g.flight_mode5
     PARAM_INT8(FLTMODE6, 0),                    //copter->g.flight_mode6
+    PARAM_INT8(FLOW_ENABLE,0),                  //copter->optflow._enabled
     PARAM_INT16(FLOW_FXSCALER,0),               //copter->optflow._flowScalerX
     PARAM_INT16(FLOW_FYSCALER,0),               //copter->optflow._flowScalerY
     PARAM_INT16(FLOW_ORIENT_YAW,0),             //copter->optflow._yawAngle_cd
@@ -105,7 +106,6 @@ static param_t __param_list_apm[] = {
     PARAM_INT16(MOT_YAW_HEADROOM, 200),         //copter->motors->_yaw_headroom
     PARAM_INT16(PHLD_BRAKE_ANGLE, 3000),        //copter->g.poshold_brake_angle_max
     PARAM_INT16(PHLD_BRAKE_RATE, 8),            //copter->g.poshold_brake_rate
-    PARAM_INT8(FLOW_ENABLE,0),                  //copter->optflow._enabled
     PARAM_INT16(PILOT_ACCEL_Z, 150),            //copter->g.pilot_accel_z
     PARAM_INT16(PILOT_THR_BHV, 0),              //copter->g.throttle_behavior
     PARAM_FLOAT(PILOT_THR_FILT, 0),             //copter->g.throttle_filt

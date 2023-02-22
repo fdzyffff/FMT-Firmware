@@ -96,3 +96,28 @@ bool Copter::rangefinder_alt_ok()
 {
     return (rangefinder_state.enabled && rangefinder_state.alt_healthy);
 }
+
+
+// initialise optical flow sensor
+void Copter::init_optflow()
+{
+#if OPTFLOW == ENABLED
+    // initialise optical flow sensor
+    optflow.init();
+#endif      // OPTFLOW == ENABLED
+}
+
+// called at 200hz
+#if OPTFLOW == ENABLED
+void Copter::update_optical_flow(void)
+{
+    // exit immediately if not enabled
+    // console_printf("optflow.enabled() %d\n",optflow.enabled());
+    if (!optflow.enabled()) {
+        return;
+    }
+
+    // read from sensor
+    optflow.update();
+}
+#endif  // OPTFLOW == ENABLED

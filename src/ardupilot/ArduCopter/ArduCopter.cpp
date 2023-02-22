@@ -32,6 +32,7 @@ void Copter::setup()
   and the maximum time they are expected to take (in microseconds)
  */
     static const AP_Scheduler::Task copter_scheduler_tasks[] = {
+        SCHED_TASK(update_optical_flow,    200,    160),
         SCHED_TASK(update_throttle_hover,  100,    90),
         SCHED_TASK(throttle_loop,          50,     75),
         SCHED_TASK(run_nav_updates,        50,    100),
@@ -172,7 +173,10 @@ void Copter::one_hz_loop()
         // printf(" ap.rc_receiver_present: %d\n", ap.rc_receiver_present);
         // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
-        console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
+        // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
+        console_printf("[%f,%f,%d][%f]\n",hal.optflow_data_msg.vx_mPs, hal.optflow_data_msg.vy_mPs, hal.optflow_data_msg.quality, hal.rangefinder_data_msg.distance_m);
+        console_printf("%d [%f,%f][%f,%f]\n",optflow.healthy(), optflow.flowRate().x, optflow.flowRate().y,optflow.bodyRate().x,optflow.bodyRate().y);
+
         // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
     // }
 

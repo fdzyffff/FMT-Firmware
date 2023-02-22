@@ -16,8 +16,7 @@
 
 #include <firmament.h>
 
-#include "hal/i2c/i2c.h"
-#include "hal/i2c/i2c_dev.h"
+#include "hal/serial/serial.h"
 #include "module/sensor/sensor_hub.h"
 #include "module/workqueue/workqueue_manager.h"
 
@@ -156,6 +155,21 @@ static bool parse_package(uint8_t c)
     return cmplt;
 }
 
+static rt_err_t set_baudrate(rt_device_t dev, uint32_t baudrate)
+{
+    struct serial_device* serial_dev = (struct serial_device*)dev;
+
+    if (serial_dev->config.baud_rate != baudrate) {
+        struct serial_configure pconfig = serial_dev->config;
+
+        pconfig.baud_rate = baudrate;
+
+        return rt_device_control(dev, RT_DEVICE_CTRL_CONFIG, &pconfig);
+    }
+
+    return RT_EOK;
+}
+
 static void thread_entry(void* args)
 {
     rt_err_t res;
@@ -168,6 +182,11 @@ static void thread_entry(void* args)
         printf("mtf01 fail to open device!\n");
         return;
     }
+
+    uint32_t baudrates[] = { 9600, 19200, 38400, 57600, 115200, 230400, 460800 };
+    uint32_t baudrate = baudrates[4];
+
+    set_baudrate(dev, baudrate);
 
     while (1) {
         /* wait event occur */

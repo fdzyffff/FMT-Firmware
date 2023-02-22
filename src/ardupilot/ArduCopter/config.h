@@ -215,7 +215,7 @@
 //////////////////////////////////////////////////////////////////////////////
 //  OPTICAL_FLOW & VISUAL ODOMETRY
 #ifndef OPTFLOW
- # define OPTFLOW       DISABLED
+ # define OPTFLOW       ENABLED
 #endif
 #ifndef VISUAL_ODOMETRY_ENABLED
 # define VISUAL_ODOMETRY_ENABLED DISABLED

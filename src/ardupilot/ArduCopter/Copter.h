@@ -96,6 +96,8 @@ public:
     bool position_ok();
     void set_auto_armed(bool b);
     void failsafe_terrain_set_status(bool data_ok);
+    void init_optflow();
+    void update_optical_flow(void);
 
     bool stabilize_init(bool ignore_checks);
     void stabilize_run();
