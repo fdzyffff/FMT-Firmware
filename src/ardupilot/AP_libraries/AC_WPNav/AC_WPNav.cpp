@@ -1,5 +1,4 @@
 #include "AC_WPNav.h"
-#include <board.h>
 
 // Default constructor.
 // Note that the Vector/Matrix constructors already implicitly zero
@@ -59,7 +58,7 @@ AC_WPNav::AC_WPNav(const AP_InertialNav& inav, const AP_AHRS_View& ahrs, AC_PosC
 ///
 
 /// init_loiter_target in cm from home
-_EXT_DTCM0
+// 
 void AC_WPNav::init_loiter_target(const Vector3f& position, bool reset_I)
 {
     // initialise position controller
@@ -86,7 +85,7 @@ void AC_WPNav::init_loiter_target(const Vector3f& position, bool reset_I)
 }
 
 /// init_loiter_target - initialize's loiter position and feed-forward velocity from current pos and velocity
-_EXT_DTCM0
+// 
 void AC_WPNav::init_loiter_target()
 {
     const Vector3f& curr_pos = _inav.get_position();
@@ -119,7 +118,7 @@ void AC_WPNav::init_loiter_target()
 }
 
 /// loiter_soften_for_landing - reduce response for landing
-_EXT_DTCM0
+// 
 void AC_WPNav::loiter_soften_for_landing()
 {
     const Vector3f& curr_pos = _inav.get_position();
@@ -130,7 +129,7 @@ void AC_WPNav::loiter_soften_for_landing()
 }
 
 /// set_pilot_desired_acceleration - sets pilot desired acceleration from roll and pitch stick input
-_EXT_DTCM0
+// 
 void AC_WPNav::set_pilot_desired_acceleration(float control_roll, float control_pitch)
 {
     // convert pilot input to desired acceleration in cm/s/s
@@ -139,7 +138,7 @@ void AC_WPNav::set_pilot_desired_acceleration(float control_roll, float control_
 }
 
 /// get_loiter_stopping_point_xy - returns vector to stopping point based on a horizontal position and velocity
-_EXT_DTCM0
+// 
 void AC_WPNav::get_loiter_stopping_point_xy(Vector3f& stopping_point) const
 {
 	_pos_control.get_stopping_point_xy(stopping_point);
@@ -147,7 +146,7 @@ void AC_WPNav::get_loiter_stopping_point_xy(Vector3f& stopping_point) const
 
 /// calc_loiter_desired_velocity - updates desired velocity (i.e. feed forward) with pilot requested acceleration and fake wind resistance
 ///		updated velocity sent directly to position controller
-_EXT_DTCM0
+// 
 void AC_WPNav::calc_loiter_desired_velocity(float nav_dt, float ekfGndSpdLimit)
 {
     // calculate a loiter speed limit which is the minimum of the value set by the WPNAV_LOITER_SPEED
@@ -221,14 +220,14 @@ void AC_WPNav::calc_loiter_desired_velocity(float nav_dt, float ekfGndSpdLimit)
 }
 
 /// get_bearing_to_target - get bearing to loiter target in centi-degrees
-_EXT_DTCM0
+// 
 int32_t AC_WPNav::get_loiter_bearing_to_target() const
 {
     return get_bearing_cd(_inav.get_position(), _pos_control.get_pos_target());
 }
 
 // update_loiter - run the loiter controller - gets called at 100hz (APM) or 400hz (PX4)
-_EXT_DTCM0
+// 
 void AC_WPNav::update_loiter(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 {
     // calculate dt
@@ -253,7 +252,7 @@ void AC_WPNav::update_loiter(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 }
 
 // update_loiter - run the loiter controller - gets called at 100hz (APM) or 400hz (PX4)
-_EXT_DTCM0
+// 
 void AC_WPNav::update_loiter_stopping(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 {
     // calculate dt
@@ -279,7 +278,7 @@ void AC_WPNav::update_loiter_stopping(float ekfGndSpdLimit, float ekfNavVelGainS
 }
 
 /// init_brake_target - initializes stop position from current position and velocity
-_EXT_DTCM0
+// 
 void AC_WPNav::init_brake_target(float accel_cmss)
 {
     const Vector3f& curr_vel = _inav.get_velocity();
@@ -301,7 +300,7 @@ void AC_WPNav::init_brake_target(float accel_cmss)
 }
 
 // update_brake - run the stop controller - gets called at 400hz
-_EXT_DTCM0
+// 
 void AC_WPNav::update_brake(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 {
     // calculate dt
@@ -323,7 +322,7 @@ void AC_WPNav::update_brake(float ekfGndSpdLimit, float ekfNavVelGainScaler)
 /// wp_and_spline_init - initialise straight line and spline waypoint controllers
 ///     updates target roll, pitch targets and I terms based on vehicle lean angles
 ///     should be called once before the waypoint controller is used but does not need to be called before subsequent updates to destination
-_EXT_DTCM0
+// 
 void AC_WPNav::wp_and_spline_init()
 {
     // check _wp_accel_cms is reasonable
@@ -357,7 +356,7 @@ void AC_WPNav::wp_and_spline_init()
 }
 
 /// set_speed_xy - allows main code to pass target horizontal velocity for wp navigation
-_EXT_DTCM0
+// 
 void AC_WPNav::set_speed_xy(float speed_cms)
 {
     // range check new target speed and update position controller
@@ -371,7 +370,7 @@ void AC_WPNav::set_speed_xy(float speed_cms)
 
 /// set_wp_destination waypoint using location class
 ///     returns false if conversion from location to vector from ekf origin cannot be calculated
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_wp_destination(const Location_Class& destination)
 {
     bool terr_alt;
@@ -388,7 +387,7 @@ bool AC_WPNav::set_wp_destination(const Location_Class& destination)
 
 /// set_wp_destination waypoint using position vector (distance from home in cm)
 ///     terrain_alt should be true if destination.z is a desired altitude above terrain
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_wp_destination(const Vector3f& destination, bool terrain_alt)
 {
 	Vector3f origin;
@@ -418,7 +417,7 @@ bool AC_WPNav::set_wp_destination(const Vector3f& destination, bool terrain_alt)
 /// set_origin_and_destination - set origin and destination waypoints using position vectors (distance from home in cm)
 ///     terrain_alt should be true if origin.z and destination.z are desired altitudes above terrain (false if these are alt-above-ekf-origin)
 ///     returns false on failure (likely caused by missing terrain data)
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_wp_origin_and_destination(const Vector3f& origin, const Vector3f& destination, bool terrain_alt)
 {
     // store origin and destination locations
@@ -473,7 +472,7 @@ bool AC_WPNav::set_wp_origin_and_destination(const Vector3f& origin, const Vecto
 /// shift_wp_origin_to_current_pos - shifts the origin and destination so the origin starts at the current position
 ///     used to reset the position just before takeoff
 ///     relies on set_wp_destination or set_wp_origin_and_destination having been called first
-_EXT_DTCM0
+// 
 void AC_WPNav::shift_wp_origin_to_current_pos()
 {
     // return immediately if vehicle is not at the origin
@@ -499,14 +498,14 @@ void AC_WPNav::shift_wp_origin_to_current_pos()
 }
 
 /// get_wp_stopping_point_xy - returns vector to stopping point based on a horizontal position and velocity
-_EXT_DTCM0
+// 
 void AC_WPNav::get_wp_stopping_point_xy(Vector3f& stopping_point) const
 {
 	_pos_control.get_stopping_point_xy(stopping_point);
 }
 
 /// get_wp_stopping_point - returns vector to stopping point based on 3D position and velocity
-_EXT_DTCM0
+// 
 void AC_WPNav::get_wp_stopping_point(Vector3f& stopping_point) const
 {
     _pos_control.get_stopping_point_xy(stopping_point);
@@ -514,7 +513,7 @@ void AC_WPNav::get_wp_stopping_point(Vector3f& stopping_point) const
 }
 
 /// advance_wp_target_along_track - move target location along track from origin to destination
-_EXT_DTCM0
+// 
 bool AC_WPNav::advance_wp_target_along_track(float dt)
 {
     float track_covered;        // distance (in cm) along the track that the vehicle has traveled.  Measured by drawing a perpendicular line from the track to the vehicle.
@@ -670,7 +669,7 @@ bool AC_WPNav::advance_wp_target_along_track(float dt)
 }
 
 /// get_wp_distance_to_destination - get horizontal distance to destination in cm
-_EXT_DTCM0
+// 
 float AC_WPNav::get_wp_distance_to_destination() const
 {
     // get current location
@@ -679,14 +678,14 @@ float AC_WPNav::get_wp_distance_to_destination() const
 }
 
 /// get_wp_bearing_to_destination - get bearing to next waypoint in centi-degrees
-_EXT_DTCM0
+// 
 int32_t AC_WPNav::get_wp_bearing_to_destination() const
 {
     return get_bearing_cd(_inav.get_position(), _destination);
 }
 
 /// update_wpnav - run the wp controller - should be called at 100hz or higher
-_EXT_DTCM0
+// 
 bool AC_WPNav::update_wpnav()
 {
     // calculate dt
@@ -731,7 +730,7 @@ bool AC_WPNav::update_wpnav()
 
 // check_wp_leash_length - check if waypoint leash lengths need to be recalculated
 //  should be called after _pos_control.update_xy_controller which may have changed the position controller leash lengths
-_EXT_DTCM0
+// 
 void AC_WPNav::check_wp_leash_length()
 {
     // exit immediately if recalc is not required
@@ -741,7 +740,7 @@ void AC_WPNav::check_wp_leash_length()
 }
 
 /// calculate_wp_leash_length - calculates horizontal and vertical leash lengths for waypoint controller
-_EXT_DTCM0
+// 
 void AC_WPNav::calculate_wp_leash_length()
 {
     // length of the unit direction vector in the horizontal
@@ -785,7 +784,7 @@ void AC_WPNav::calculate_wp_leash_length()
 }
 
 // returns target yaw in centi-degrees (used for wp and spline navigation)
-_EXT_DTCM0
+// 
 float AC_WPNav::get_yaw() const
 {
     if (_flags.wp_yaw_set) {
@@ -797,7 +796,7 @@ float AC_WPNav::get_yaw() const
 }
 
 // set heading used for spline and waypoint navigation
-_EXT_DTCM0
+// 
 void AC_WPNav::set_yaw_cd(float heading_cd)
 {
     _yaw = heading_cd;
@@ -813,7 +812,7 @@ void AC_WPNav::set_yaw_cd(float heading_cd)
 ///     stopped_at_start should be set to true if vehicle is stopped at the origin
 ///     seg_end_type should be set to stopped, straight or spline depending upon the next segment's type
 ///     next_destination should be set to the next segment's destination if the seg_end_type is SEGMENT_END_STRAIGHT or SEGMENT_END_SPLINE
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_spline_destination(const Location_Class& destination, bool stopped_at_start, spline_segment_end_type seg_end_type, Location_Class next_destination)
 {
     // convert destination location to vector
@@ -845,7 +844,7 @@ bool AC_WPNav::set_spline_destination(const Location_Class& destination, bool st
 ///     stopped_at_start should be set to true if vehicle is stopped at the origin
 ///     seg_end_type should be set to stopped, straight or spline depending upon the next segment's type
 ///     next_destination should be set to the next segment's destination if the seg_end_type is SEGMENT_END_STRAIGHT or SEGMENT_END_SPLINE
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_spline_destination(const Vector3f& destination, bool terrain_alt, bool stopped_at_start, spline_segment_end_type seg_end_type, const Vector3f& next_destination)
 {
     Vector3f origin;
@@ -875,7 +874,7 @@ bool AC_WPNav::set_spline_destination(const Vector3f& destination, bool terrain_
 /// set_spline_origin_and_destination - set origin and destination waypoints using position vectors (distance from home in cm)
 ///     terrain_alt should be true if origin.z and destination.z are desired altitudes above terrain (false if desired altitudes above ekf origin)
 ///     seg_type should be calculated by calling function based on the mission
-_EXT_DTCM0
+// 
 bool AC_WPNav::set_spline_origin_and_destination(const Vector3f& origin, const Vector3f& destination, bool terrain_alt, bool stopped_at_start, spline_segment_end_type seg_end_type, const Vector3f& next_destination)
 {
     // mission is "active" if wpnav has been called recently and vehicle reached the previous waypoint
@@ -988,7 +987,7 @@ bool AC_WPNav::set_spline_origin_and_destination(const Vector3f& origin, const V
 }
 
 /// update_spline - update spline controller
-_EXT_DTCM0
+// 
 bool AC_WPNav::update_spline()
 {
     // exit immediately if this is not a spline segment
@@ -1030,7 +1029,7 @@ bool AC_WPNav::update_spline()
 
 /// update_spline_solution - recalculates hermite_spline_solution grid
 ///		relies on _spline_origin_vel, _spline_destination_vel and _origin and _destination
-_EXT_DTCM0
+// 
 void AC_WPNav::update_spline_solution(const Vector3f& origin, const Vector3f& dest, const Vector3f& origin_vel, const Vector3f& dest_vel)
 {
     _hermite_spline_solution[0] = origin;
@@ -1040,7 +1039,7 @@ void AC_WPNav::update_spline_solution(const Vector3f& origin, const Vector3f& de
  }
 
 /// advance_spline_target_along_track - move target location along track from origin to destination
-_EXT_DTCM0
+// 
 bool AC_WPNav::advance_spline_target_along_track(float dt)
 {
     if (!_flags.reached_destination) {
@@ -1145,7 +1144,7 @@ bool AC_WPNav::advance_spline_target_along_track(float dt)
 
 // calc_spline_pos_vel_accel - calculates target position, velocity and acceleration for the given "spline_time"
 /// 	relies on update_spline_solution being called when the segment's origin and destination were set
-_EXT_DTCM0
+// 
 void AC_WPNav::calc_spline_pos_vel(float spline_time, Vector3f& position, Vector3f& velocity)
 {
     float spline_time_sqrd = spline_time * spline_time;
@@ -1162,7 +1161,7 @@ void AC_WPNav::calc_spline_pos_vel(float spline_time, Vector3f& position, Vector
 }
 
 // get terrain's altitude (in cm above the ekf origin) at the current position (+ve means terrain below vehicle is above ekf origin's altitude)
-_EXT_DTCM0
+// 
 bool AC_WPNav::get_terrain_offset(float& offset_cm)
 {
 #if AP_TERRAIN_AVAILABLE
@@ -1181,7 +1180,7 @@ bool AC_WPNav::get_terrain_offset(float& offset_cm)
 
 // convert location to vector from ekf origin.  terrain_alt is set to true if resulting vector's z-axis should be treated as alt-above-terrain
 //      returns false if conversion failed (likely because terrain data was not available)
-_EXT_DTCM0
+// 
 bool AC_WPNav::get_vector_NEU(const Location_Class &loc, Vector3f &vec, bool &terrain_alt)
 {
     // convert location to NEU vector3f
@@ -1221,7 +1220,7 @@ bool AC_WPNav::get_vector_NEU(const Location_Class &loc, Vector3f &vec, bool &te
 
 // get_bearing_cd - return bearing in centi-degrees between two positions
 // To-Do: move this to math library
-_EXT_DTCM0
+// 
 float AC_WPNav::get_bearing_cd(const Vector3f &origin, const Vector3f &destination) const
 {
     float bearing = 9000 + atan2f(-(destination.x-origin.x), destination.y-origin.y) * 5729.57795f;
@@ -1232,7 +1231,7 @@ float AC_WPNav::get_bearing_cd(const Vector3f &origin, const Vector3f &destinati
 }
 
 /// calc_slow_down_distance - calculates distance before waypoint that target point should begin to slow-down assuming it is travelling at full speed
-_EXT_DTCM0
+// 
 void AC_WPNav::calc_slow_down_distance(float speed_cms, float accel_cmss)
 {
 	// protect against divide by zero
@@ -1246,7 +1245,7 @@ void AC_WPNav::calc_slow_down_distance(float speed_cms, float accel_cmss)
 }
 
 /// get_slow_down_speed - returns target speed of target point based on distance from the destination (in cm)
-_EXT_DTCM0
+// 
 float AC_WPNav::get_slow_down_speed(float dist_from_dest_cm, float accel_cmss)
 {
     // return immediately if distance is zero (or less)

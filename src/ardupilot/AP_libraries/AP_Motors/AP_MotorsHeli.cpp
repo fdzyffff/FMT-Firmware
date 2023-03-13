@@ -24,13 +24,12 @@
 #include "ap_hal.h"
 extern AP_HAL hal;
 
-#include <board.h>
 //
 // public methods
 //
 
 // init
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::init(motor_frame_class frame_class, motor_frame_type frame_type)
 {
     // set update rate
@@ -59,14 +58,14 @@ void AP_MotorsHeli::init(motor_frame_class frame_class, motor_frame_type frame_t
 }
 
 // set frame class (i.e. quad, hexa, heli) and type (i.e. x, plus)
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::set_frame_class_and_type(motor_frame_class frame_class, motor_frame_type frame_type)
 {
     _flags.initialised_ok = (frame_class == MOTOR_FRAME_HELI);
 }
 
 // output_min - sets servos to neutral point with motors stopped
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::output_min()
 {
     // move swash to mid
@@ -82,7 +81,7 @@ void AP_MotorsHeli::output_min()
 }
 
 // output - sends commands to the servos
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::output()
 {
     // update throttle filter
@@ -101,7 +100,7 @@ void AP_MotorsHeli::output()
 };
 
 // sends commands to the motors
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::output_armed_stabilizing()
 {
     // if manual override active after arming, deactivate it and reinitialize servos
@@ -115,7 +114,7 @@ void AP_MotorsHeli::output_armed_stabilizing()
 }
 
 // output_armed_zero_throttle - sends commands to the motors
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::output_armed_zero_throttle()
 {
     // if manual override active after arming, deactivate it and reinitialize servos
@@ -129,7 +128,7 @@ void AP_MotorsHeli::output_armed_zero_throttle()
 }
 
 // output_disarmed - sends commands to the motors
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::output_disarmed()
 {
     if (_servo_test_cycle_counter > 0){
@@ -189,7 +188,7 @@ void AP_MotorsHeli::output_disarmed()
 }
 
 // parameter_check - check if helicopter specific parameters are sensible
-_EXT_DTCM0
+// 
 bool AP_MotorsHeli::parameter_check(bool display_msg) const
 {
     // returns false if _rsc_setpoint is not higher than _rsc_critical as this would not allow rotor_runup_complete to ever return true
@@ -229,7 +228,7 @@ bool AP_MotorsHeli::parameter_check(bool display_msg) const
 }
 
 // reset_swash_servo
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::reset_swash_servo(SRV_Channel *servo)
 {
     servo->set_range(1000);
@@ -240,7 +239,7 @@ void AP_MotorsHeli::reset_swash_servo(SRV_Channel *servo)
 }
 
 // update the throttle input filter
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::update_throttle_filter()
 {
     _throttle_filter.apply(_throttle_in, 1.0f/_loop_rate);
@@ -255,7 +254,7 @@ void AP_MotorsHeli::update_throttle_filter()
 }
 
 // reset_flight_controls - resets all controls and scalars to flight status
-_EXT_DTCM0
+// 
 void AP_MotorsHeli::reset_flight_controls()
 {
     _servo_mode = SERVO_CONTROL_MODE_AUTOMATED;
