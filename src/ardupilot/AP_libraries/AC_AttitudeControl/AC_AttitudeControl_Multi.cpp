@@ -1,6 +1,5 @@
 #include "AC_AttitudeControl_Multi.h"
 #include "AP_Math.h"
-#include <board.h>
 
 AC_AttitudeControl_Multi::AC_AttitudeControl_Multi(AP_AHRS_View &ahrs, const AP_Vehicle::MultiCopter &aparm, AP_MotorsMulticopter& motors, float dt) :
     AC_AttitudeControl(ahrs, aparm, motors, dt),
@@ -17,7 +16,7 @@ AC_AttitudeControl_Multi::AC_AttitudeControl_Multi(AP_AHRS_View &ahrs, const AP_
 }
 
 // Update Alt_Hold angle maximum
-_EXT_DTCM0
+// 
 void AC_AttitudeControl_Multi::update_althold_lean_angle_max(float throttle_in)
 {
     // calc maximum tilt angle based on throttle
@@ -33,7 +32,7 @@ void AC_AttitudeControl_Multi::update_althold_lean_angle_max(float throttle_in)
     _althold_lean_angle_max = _althold_lean_angle_max + (_dt/(_dt+_angle_limit_tc))*(althold_lean_angle_max-_althold_lean_angle_max);
 }
 
-_EXT_DTCM0
+// 
 void AC_AttitudeControl_Multi::set_throttle_out(float throttle_in, bool apply_angle_boost, float filter_cutoff)
 {
     _throttle_in = throttle_in;
@@ -52,7 +51,7 @@ void AC_AttitudeControl_Multi::set_throttle_out(float throttle_in, bool apply_an
 
 // returns a throttle including compensation for roll/pitch angle
 // throttle value should be 0 ~ 1
-_EXT_DTCM0
+// 
 float AC_AttitudeControl_Multi::get_throttle_boosted(float throttle_in)
 {
     if (!_angle_boost_enabled) {
@@ -73,7 +72,7 @@ float AC_AttitudeControl_Multi::get_throttle_boosted(float throttle_in)
 
 // returns a throttle including compensation for roll/pitch angle
 // throttle value should be 0 ~ 1
-_EXT_DTCM0
+// 
 float AC_AttitudeControl_Multi::get_throttle_avg_max(float throttle_in)
 {
     throttle_in = apm_constrain_float(throttle_in, 0.0f, 1.0f);
@@ -81,7 +80,7 @@ float AC_AttitudeControl_Multi::get_throttle_avg_max(float throttle_in)
 }
 
 // update_throttle_rpy_mix - slew set_throttle_rpy_mix to requested value
-_EXT_DTCM0
+// 
 void AC_AttitudeControl_Multi::update_throttle_rpy_mix()
 {
     // slew _throttle_rpy_mix to _throttle_rpy_mix_desired
@@ -95,7 +94,7 @@ void AC_AttitudeControl_Multi::update_throttle_rpy_mix()
     _throttle_rpy_mix = apm_constrain_float(_throttle_rpy_mix, 0.1f, AC_ATTITUDE_CONTROL_MAX);
 }
 
-_EXT_DTCM0
+// 
 void AC_AttitudeControl_Multi::rate_controller_run()
 {
     // move throttle vs attitude mixing towards desired (called from here because this is conveniently called on every iteration)
@@ -110,7 +109,7 @@ void AC_AttitudeControl_Multi::rate_controller_run()
 }
 
 // sanity check parameters.  should be called once before takeoff
-_EXT_DTCM0
+// 
 void AC_AttitudeControl_Multi::parameter_sanity_check()
 {
     // sanity check throttle mix parameters

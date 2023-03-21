@@ -1,9 +1,7 @@
 #include "Copter.h"
 
-#include <board.h>
-
 // start_command - this function will be called when the ap_mission lib wishes to start a new command
-// _EXT_DTCM0
+// 
 bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
 {
     if (control_mode != control_mode_t::AUTO) {
@@ -126,7 +124,7 @@ bool Copter::start_command(const AP_Mission::Mission_Command& cmd)
 
 // verify_command_callback - callback function called from ap-mission at 10hz or higher when a command is being run
 //      we double check that the flight mode is control_mode_t::AUTO to avoid the possibility of ap-mission triggering actions while we're not in control_mode_t::AUTO mode
-// _EXT_DTCM0
+// 
 bool Copter::verify_command_callback(const AP_Mission::Mission_Command& cmd)
 {
     if (control_mode == control_mode_t::AUTO || control_mode == control_mode_t::TESTSTAR) {
@@ -145,7 +143,7 @@ should move onto the next mission element.
 Return true if we do not recognize the command so that we move on to the next command
 *******************************************************************************/
 
-// _EXT_DTCM0
+// 
 bool Copter::verify_command(const AP_Mission::Mission_Command& cmd)
 {
     switch(cmd.id) {
@@ -224,7 +222,7 @@ bool Copter::verify_command(const AP_Mission::Mission_Command& cmd)
 /********************************************************************************/
 
 // do_RTL - start Return-to-Launch
-// _EXT_DTCM0
+// 
 void Copter::do_RTL(void)
 {
     // start rtl in auto flight mode
@@ -236,7 +234,7 @@ void Copter::do_RTL(void)
 /********************************************************************************/
 
 // do_takeoff - initiate takeoff navigation command
-// _EXT_DTCM0
+// 
 void Copter::do_takeoff(const AP_Mission::Mission_Command& cmd)
 {
     // Set wp navigation target to safe altitude above current position
@@ -244,7 +242,7 @@ void Copter::do_takeoff(const AP_Mission::Mission_Command& cmd)
 }
 
 // do_nav_wp - initiate move to next waypoint
-// _EXT_DTCM0
+// 
 void Copter::do_nav_wp(const AP_Mission::Mission_Command& cmd)
 {
     Location_Class target_loc(cmd.content.location);
@@ -281,7 +279,7 @@ void Copter::do_nav_wp(const AP_Mission::Mission_Command& cmd)
 
 // terrain_adjusted_location: returns a Location with lat/lon from cmd
 // and altitude from our current altitude adjusted for location
-// _EXT_DTCM0
+// 
 Location_Class Copter::terrain_adjusted_location(const AP_Mission::Mission_Command& cmd) const
 {
     // convert to location class
@@ -302,7 +300,7 @@ Location_Class Copter::terrain_adjusted_location(const AP_Mission::Mission_Comma
 }
 
 // do_land - initiate landing procedure
-// _EXT_DTCM0
+// 
 void Copter::do_land(const AP_Mission::Mission_Command& cmd)
 {
     // To-Do: check if we have already landed
@@ -326,7 +324,7 @@ void Copter::do_land(const AP_Mission::Mission_Command& cmd)
 
 // do_loiter_unlimited - start loitering with no end conditions
 // note: caller should set yaw_mode
-// _EXT_DTCM0
+// 
 void Copter::do_loiter_unlimited(const AP_Mission::Mission_Command& cmd)
 {
     // convert back to location
@@ -360,7 +358,7 @@ void Copter::do_loiter_unlimited(const AP_Mission::Mission_Command& cmd)
 }
 
 // do_circle - initiate moving in a circle
-// _EXT_DTCM0
+// 
 void Copter::do_circle(const AP_Mission::Mission_Command& cmd)
 {
     Location_Class circle_center(cmd.content.location);
@@ -393,7 +391,7 @@ void Copter::do_circle(const AP_Mission::Mission_Command& cmd)
 
 // do_loiter_time - initiate loitering at a point for a given time period
 // note: caller should set yaw_mode
-// _EXT_DTCM0
+// 
 void Copter::do_loiter_time(const AP_Mission::Mission_Command& cmd)
 {
     // re-use loiter unlimited
@@ -406,7 +404,7 @@ void Copter::do_loiter_time(const AP_Mission::Mission_Command& cmd)
 
 
 // do_nav_delay - Delay the next navigation command
-// _EXT_DTCM0
+// 
 void Copter::do_nav_delay(const AP_Mission::Mission_Command& cmd)
 {
     nav_delay_time_start = millis();
@@ -426,7 +424,7 @@ void Copter::do_nav_delay(const AP_Mission::Mission_Command& cmd)
 /********************************************************************************/
 
 // verify_takeoff - check if we have completed the takeoff
-// _EXT_DTCM0
+// 
 bool Copter::verify_takeoff()
 {
     // have we reached our target altitude?
@@ -434,7 +432,7 @@ bool Copter::verify_takeoff()
 }
 
 // verify_land - returns true if landing has been completed
-// _EXT_DTCM0
+// 
 bool Copter::verify_land()
 {
     bool retval = false;
@@ -471,7 +469,7 @@ bool Copter::verify_land()
 }
 
 // verify_nav_wp - check if we have reached the next way point
-// _EXT_DTCM0
+// 
 bool Copter::verify_nav_wp(const AP_Mission::Mission_Command& cmd)
 {
     // check if we have reached the waypoint
@@ -495,14 +493,14 @@ bool Copter::verify_nav_wp(const AP_Mission::Mission_Command& cmd)
     }
 }
 
-// _EXT_DTCM0
+// 
 bool Copter::verify_loiter_unlimited()
 {
     return false;
 }
 
 // verify_loiter_time - check if we have loitered long enough
-// _EXT_DTCM0
+// 
 bool Copter::verify_loiter_time()
 {
     // return immediately if we haven't reached our destination
@@ -520,7 +518,7 @@ bool Copter::verify_loiter_time()
 }
 
 // verify_circle - check if we have circled the point enough
-// _EXT_DTCM0
+// 
 bool Copter::verify_circle(const AP_Mission::Mission_Command& cmd)
 {
     // check if we've reached the edge
@@ -553,14 +551,14 @@ bool Copter::verify_circle(const AP_Mission::Mission_Command& cmd)
 // verify_RTL - handles any state changes required to implement control_mode_t::RTL
 // do_RTL should have been called once first to initialise all variables
 // returns true with control_mode_t::RTL has completed successfully
-// _EXT_DTCM0
+// 
 bool Copter::verify_RTL()
 {
     return (rtl_state_complete && (rtl_state == RTL_FinalDescent || rtl_state == RTL_Land));
 }
 
 // verify_spline_wp - check if we have reached the next way point using spline
-// _EXT_DTCM0
+// 
 bool Copter::verify_spline_wp(const AP_Mission::Mission_Command& cmd)
 {
     // check if we have reached the waypoint
@@ -583,7 +581,7 @@ bool Copter::verify_spline_wp(const AP_Mission::Mission_Command& cmd)
 
 
 // verify_nav_delay - check if we have waited long enough
-// _EXT_DTCM0
+// 
 bool Copter::verify_nav_delay(const AP_Mission::Mission_Command& cmd)
 {
     if (millis() - nav_delay_time_start > (uint32_t)MAX(nav_delay_time_max,0)) {
@@ -598,20 +596,20 @@ bool Copter::verify_nav_delay(const AP_Mission::Mission_Command& cmd)
 //	Condition (May) commands
 /********************************************************************************/
 
-// _EXT_DTCM0
+// 
 void Copter::do_wait_delay(const AP_Mission::Mission_Command& cmd)
 {
     condition_start = millis();
     condition_value = cmd.content.delay.seconds * 1000;     // convert seconds to milliseconds
 }
 
-// _EXT_DTCM0
+// 
 void Copter::do_within_distance(const AP_Mission::Mission_Command& cmd)
 {
     condition_value  = cmd.content.distance.meters * 100;
 }
 
-// _EXT_DTCM0
+// 
 void Copter::do_yaw(const AP_Mission::Mission_Command& cmd)
 {
 	set_auto_yaw_look_at_heading(
@@ -626,7 +624,7 @@ void Copter::do_yaw(const AP_Mission::Mission_Command& cmd)
 // Verify Condition (May) commands
 /********************************************************************************/
 
-// _EXT_DTCM0
+// 
 bool Copter::verify_wait_delay()
 {
     if (millis() - condition_start > (uint32_t)MAX(condition_value,0)) {
@@ -636,7 +634,7 @@ bool Copter::verify_wait_delay()
     return false;
 }
 
-// _EXT_DTCM0
+// 
 bool Copter::verify_within_distance()
 {
     // update distance calculation
@@ -649,7 +647,7 @@ bool Copter::verify_within_distance()
 }
 
 // verify_yaw - return true if we have reached the desired heading
-// _EXT_DTCM0
+// 
 bool Copter::verify_yaw()
 {
     // set yaw mode if it has been changed (the waypoint controller often retakes control of yaw as it executes a new waypoint command)
@@ -671,7 +669,7 @@ bool Copter::verify_yaw()
 /********************************************************************************/
 
 
-// _EXT_DTCM0
+// 
 void Copter::do_change_speed(const AP_Mission::Mission_Command& cmd)
 {
     if (cmd.content.speed.target_ms > 0) {
@@ -679,7 +677,7 @@ void Copter::do_change_speed(const AP_Mission::Mission_Command& cmd)
     }
 }
 
-// _EXT_DTCM0
+// 
 void Copter::do_set_home(const AP_Mission::Mission_Command& cmd)
 {
     if(cmd.p1 == 1 || (cmd.content.location.lat == 0 && cmd.content.location.lng == 0 && cmd.content.location.alt == 0)) {
@@ -693,14 +691,14 @@ void Copter::do_set_home(const AP_Mission::Mission_Command& cmd)
 //          this involves either moving the camera to point at the ROI (region of interest)
 //          and possibly rotating the copter to point at the ROI if our mount type does not support a yaw feature
 //	TO-DO: add support for other features of MAV_CMD_DO_SET_ROI including pointing at a given waypoint
-// _EXT_DTCM0
+// 
 void Copter::do_roi(const AP_Mission::Mission_Command& cmd)
 {
     set_auto_yaw_roi(cmd.content.location);
 }
 
 // point the camera to a specified angle
-// _EXT_DTCM0
+// 
 void Copter::do_mount_control(const AP_Mission::Mission_Command& cmd)
 {
 ;

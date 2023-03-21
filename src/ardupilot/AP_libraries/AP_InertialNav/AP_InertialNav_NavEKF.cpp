@@ -1,6 +1,5 @@
 
 #include "AP_InertialNav_NavEKF.h"
-#include <board.h>
 
 /*
   A wrapper around the AP_InertialNav class which uses the NavEKF

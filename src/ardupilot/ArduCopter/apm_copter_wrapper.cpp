@@ -1,7 +1,6 @@
 #include "Copter.h"
 #include "APM.h"
 
-#include <board.h>
 
 // extern uint32_t APM_millis(void);
 // extern APM_Params_t apm_params;
@@ -79,7 +78,7 @@ void APM_Copter_Main(void)  //飞控主循环，不小于400Hz
     apm_handler.optflow_data_log         = hal.optflow_data_log;
 }
 
-_EXT_DTCM0
+// 
 void APM_Copter_Init_Para_P1(void)
 {
     param_link_variable(PARAM_GET(APM, APM_INFO),           &copter->g.debug_info);
@@ -309,7 +308,7 @@ void APM_Copter_Init_Para_P1(void)
     param_link_variable(PARAM_GET(APM, WP_YAW_BEHAVIOR),    &copter->g.wp_yaw_behavior);
 }
 
-_EXT_DTCM0
+// 
 void APM_Copter_Init_Para_P2(void)
 {
     param_link_variable(PARAM_GET(APM, ATC_ACCEL_P_MAX),    &copter->attitude_control->_accel_pitch_max);

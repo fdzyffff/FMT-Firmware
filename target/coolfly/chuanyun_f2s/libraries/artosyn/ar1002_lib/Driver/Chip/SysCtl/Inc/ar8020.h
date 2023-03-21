@@ -2,7 +2,7 @@
 #define __AR8020_H
 
 
-#define _EXT_DTCM_EKF2  __attribute__((section(".cf_dtcm0_ekf2")))
+// #define _EXT_DTCM_EKF2  __attribute__((section(".cf_dtcm0_ekf2")))
 
 typedef enum
 {
