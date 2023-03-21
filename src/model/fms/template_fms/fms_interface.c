@@ -30,7 +30,7 @@ void fms_interface_init(void)
 {
     /* Fill in the modle information */
     fms_model_info.period = 10;
-    fms_model_info.info = "APM FMS v0.1.0";
+    fms_model_info.info = "Template FMS";
 
     /* advertise fms_output topic */
     // mcn_advertise(MCN_HUB(fms_output), NULL);

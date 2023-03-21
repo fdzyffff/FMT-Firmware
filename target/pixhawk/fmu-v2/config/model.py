@@ -6,10 +6,8 @@ if vehicle_type == '"Quadcopter"':
     MODELS = [
         'plant/multicopter',
         'ins/base_ins',
-        'fms/template_fms',
-        'control/template_controller',
-        # 'fms/base_fms',
-        # 'control/base_controller',
+        'fms/base_fms',
+        'control/base_controller',
     ]
 elif vehicle_type == '"Template"':
     MODELS = [

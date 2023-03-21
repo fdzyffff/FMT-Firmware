@@ -300,7 +300,7 @@ fmt_err_t pilot_cmd_collect(void)
             /* stick value mapping */
             stick_mapping(&pilot_cmd_bus, rcTrimChannel);
             /* pilot mode switch */
-            // mode_switch(&pilot_cmd_bus, rcTrimChannel);
+            mode_switch(&pilot_cmd_bus, rcTrimChannel);
             /* generate pilot command */
             generate_cmd(&pilot_cmd_bus, rcTrimChannel);
             /* publish pilot_cmd topic */

@@ -31,7 +31,7 @@ void control_interface_init(void)
 {
     /* Fill in the modle information */
     control_model_info.period = 10;
-    control_model_info.info = "APM Controller v0.1.0";
+    control_model_info.info = "Template Controller";
 
     /* advertise control_output topic */
     // mcn_advertise(MCN_HUB(control_output), NULL);

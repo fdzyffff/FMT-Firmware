@@ -360,15 +360,15 @@ void ins_interface_step(uint32_t timestamp)
         gps_data_updated = 1;
     }
 
-    /* update rangefinder data */ //APM: Let's comment it out because I don't need it to be envloved in INS level
-    // if (mcn_poll(ins_handle.rf_sub_node_t)) {
-    //     mcn_copy(MCN_HUB(sensor_rangefinder), ins_handle.rf_sub_node_t, &ins_handle.rf_report);
+    /* update rangefinder data */
+    if (mcn_poll(ins_handle.rf_sub_node_t)) {
+        mcn_copy(MCN_HUB(sensor_rangefinder), ins_handle.rf_sub_node_t, &ins_handle.rf_report);
 
-    //     INS_U.Rangefinder.distance = ins_handle.rf_report.distance_m;
-    //     INS_U.Rangefinder.timestamp = timestamp;
+        INS_U.Rangefinder.distance = ins_handle.rf_report.distance_m;
+        INS_U.Rangefinder.timestamp = timestamp;
 
-    //     rf_data_updated = 1;
-    // }
+        rf_data_updated = 1;
+    }
 
     /* update optical flow data */
     if (mcn_poll(ins_handle.optflow_sub_node_t)) {

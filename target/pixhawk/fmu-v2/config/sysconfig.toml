@@ -6,6 +6,12 @@ target = "Pixhawk FMUv2"
 # Console Configuration
 [console]
     [[console.devices]]
+    type = "serial"
+    name = "serial0"
+    baudrate = 57600
+    auto-switch = true
+
+    [[console.devices]]
     type = "mavlink"
     name = "mav_console"
     auto-switch = true
@@ -14,9 +20,8 @@ target = "Pixhawk FMUv2"
 [mavproxy]
     [[mavproxy.devices]]
     type = "serial"
-    name = "serial0"
+    name = "serial1"
     baudrate = 57600
-    auto-switch = true
 
     [[mavproxy.devices]]
     type = "usb"
@@ -32,7 +37,7 @@ target = "Pixhawk FMUv2"
     type = "rc"
     name = "rc"
     protocol = "sbus"           # sbus or ppm
-    channel-num = 16             # max supported channel: sbus:16, ppm:8
+    channel-num = 6             # max supported channel: sbus:16, ppm:8
     sample-time = 0.05          # sample time in second (-1 for inherit)
     range = [1000,2000]
 
@@ -62,14 +67,14 @@ target = "Pixhawk FMUv2"
     [[actuator.devices]]
     protocol = "pwm"
     name = "main_out"
-    freq = 400                 # pwm frequency in Hz
+    freq = 400                  # pwm frequency in Hz
 
     [[actuator.devices]]
     protocol = "pwm"
     name = "aux_out"
-    freq = 50                  # pwm frequency in Hz
+    freq = 400                  # pwm frequency in Hz
 
     [[actuator.mappings]]
     from = "control_out"
     to = "main_out"
-    chan-map = [[1,2,3,4,5,6,7,8],[1,2,3,4,5,6,7,8]]
+    chan-map = [[1,2,3,4],[1,2,3,4]]

@@ -5,6 +5,4 @@ MODELS = [
     'ins/base_ins',
     'fms/template_fms',
     'control/template_controller',
-    # 'fms/base_fms',
-    # 'control/base_controller',
 ]
