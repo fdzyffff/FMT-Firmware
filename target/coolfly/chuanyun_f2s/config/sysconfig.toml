@@ -17,12 +17,17 @@ target = "CHUANYUN_F2S"
     auto-switch = true
 
 # # Mavproxy Device Configuration
-# [mavproxy]
-#     [[mavproxy.devices]]
-#     type = "serial"
-#     name = "serial1"
-#     baudrate = 57600
-
+[mavproxy]
+    [[mavproxy.devices]]
+    type = "serial"
+    name = "serial6"
+    baudrate = 115200
+    
+	[[mavproxy.devices]]
+	type = "bb_com"
+	name = "bb_com3"
+#    baudrate = 115200
+#    auto-switch = true
 #     [[mavproxy.devices]]
 #     type = "usb"
 #     name = "usbd0"
@@ -69,10 +74,10 @@ target = "CHUANYUN_F2S"
     name = "main_out"
     freq = 400                  # pwm frequency in Hz
 
-    [[actuator.devices]]
-    protocol = "pwm"
-    name = "aux_out"
-    freq = 400                  # pwm frequency in Hz
+    # [[actuator.devices]]
+    # protocol = "pwm"
+    # name = "aux_out"
+    # freq = 400                  # pwm frequency in Hz
 
     [[actuator.mappings]]
     from = "control_out"

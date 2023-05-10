@@ -70,7 +70,12 @@ RT_WEAK void ist8310_user_calibrate(float data[3]);
 /* Re-implement this function to define customized rotation */
 RT_WEAK void ist8310_rotate_to_ned(float* data)
 {
-    /* do nothing */
+    float tmp;
+    tmp = data[2]; data[2] = data[1]; data[1] = -tmp;
+    tmp = data[0]; data[0] = -data[1]; data[1] = tmp;
+    data[0] = -data[0];
+    data[1] = -data[1];
+    return;
 }
 
 static rt_err_t mag_raw_measure(int16_t mag[3])

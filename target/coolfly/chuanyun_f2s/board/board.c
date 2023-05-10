@@ -34,11 +34,13 @@
 #include "driver/mag/ist8310.h"
 #include "driver/mag/mmc5983ma.h"
 #include "driver/mtd/ramtron.h"
+#include "driver/mtd/spi_tfcard.h"
 #include "driver/range_finder/tfmini_s.h"
 #include "driver/rgb_led/ncp5623c.h"
 // #include "driver/vision_flow/lc307.h"
-// #include "driver/vision_flow/pmw3901_fl04.h"
-#include "driver/range_finder/tf_luna.h"
+// #include "driver/vision_flow/pmw3901_l0x.h"
+// #include "driver/vision_flow/pmw3901_xx.h"
+// #include "driver/range_finder/tf_luna.h"
 #include "driver/vision_flow/mtf_01.h"
 
 #include "drv_adc.h"
@@ -87,7 +89,8 @@
 #define SYS_CONFIG_FILE "/sys/sysconfig.toml"
 
 static const struct dfs_mount_tbl mnt_table[] = {
-    { "mtdblk0", "/", "elm", 0, NULL },
+    //{ "mtdblk0", "/", "elm", 0, NULL },
+    { "tfcard", "/", "elm", 0, NULL },
     { NULL } /* NULL indicate the end */
 };
 
@@ -203,6 +206,7 @@ static fmt_err_t bsp_parse_toml_sysconfig(toml_table_t* root_tab)
             /* handle all sub tables */
             if (0 != (sub_tab = toml_table_in(root_tab, key))) {
                 if (MATCH(key, "console")) {
+                    console_printf("To Console\n");
                     err = console_toml_config(sub_tab);
                 } else if (MATCH(key, "mavproxy")) {
                     err = mavproxy_toml_config(sub_tab);
@@ -314,7 +318,7 @@ extern WorkQueue_t wq_list[MAX_WQ_SIZE];
 _EXT_DTCM1
 fmt_err_t chuanyun_workqueue_manager_init(void)
 {
-    wq_list[2] = workqueue_create("wq:sysevent_work", 5, 2048, 1);
+    wq_list[2] = workqueue_create("wq:sysevent_work", 5, 8192, 1);
     RT_ASSERT(wq_list[2] != NULL);
 
     return FMT_EOK;
@@ -426,7 +430,10 @@ void bsp_initialize(void)
     if (FMT_EOK != drv_ramtron_init("spi6_dev1")) {
         console_println("=================> can't find the ramtron on spi6_dev1");
     }
-
+    /* tfcard init */
+    if (FMT_EOK != drv_spi_tfcard_init("spi1_dev1", "tfcard")) {
+        console_println("tfcard init failed!");
+    }
     /* init file system */
     if (FMT_EOK != file_manager_init(mnt_table)) {
         console_println("=================> mtd first used => pleaserun:  mkfs mtdblk0 ");
@@ -455,26 +462,27 @@ void bsp_initialize(void)
     // RT_CHECK(drv_icm20600_init("spi2_dev1", "gyro0", "accel0"));
     // RT_CHECK(drv_icm20689_init("spi1_dev1", "gyro0", "accel0"));
 
-    // RT_CHECK(drv_bmi055_init("spi2_dev2", "gyro0", "accel0"));
+    RT_CHECK(drv_bmi055_init("spi2_dev2", "gyro0", "accel0"));
 
-    RT_CHECK(drv_bmi088_init("spi2_dev2", "spi2_dev3", "gyro0", "accel0"));
+    //RT_CHECK(drv_bmi088_init("spi2_dev2", "spi2_dev3", "gyro0", "accel0"));//换成055
     // RT_CHECK(drv_ms5611_init("spi3_dev1", "barometer"));
     RT_CHECK(drv_spl06_init("spi3_dev2", "barometer"));
 
     /* if no gps mag then use onboard mag */
-    // if (drv_ist8310_init("i2c2_dev1", "mag0") != FMT_EOK) {
-    //     console_println("!!!!!!drv_ist8310_init i2c2_dev1 faild~!!!!");
-    // }
-    // else
-    // {
-    //     console_println("drv_ist8310_init i2c2_dev1~");
-    // }
+    //用ist8310磁传感器 i2c2改成i2c3
+     if (drv_ist8310_init("i2c3_dev1", "mag0") != FMT_EOK) {
+         console_println("!!!!!!drv_ist8310_init i2c2_dev1 faild~!!!!");
+     }
+     else
+     {
+         console_println("drv_ist8310_init i2c3_dev1~");
+     }
 
-    if (drv_mmc5983ma_init("i2c2_dev2", "mag0") != FMT_EOK) {
+/*     if (drv_mmc5983ma_init("i2c2_dev2", "mag0") != FMT_EOK) {
         console_println("!!!!!!mmc5983ma i2c2_dev2 faild~!!!!");
     } else {
         FMT_CHECK(register_sensor_mag("mag0", 0));
-    }
+    } *///没磁力计
 
     if (gps_m8n_init("serial1", "gps") != FMT_EOK) {
         console_println("gps serial1 faild~!!!!");
@@ -494,21 +502,21 @@ void bsp_initialize(void)
     //     FMT_CHECK(advertise_sensor_optflow(0));
     // }
 
-    // if (pmw3901_xx_drv_init("serial4") != FMT_EOK) {
-    //     console_println("!!!!!!pmw3901_xx serial4 faild~!!!!");
+    // if (pmw3901_xx_drv_init("serial5") != FMT_EOK) {
+    //     console_println("!!!!!!pmw3901_xx serial5 faild~!!!!");
     // } else {
-    //     // console_println("======> pmw3901_xx serial4 success !!!!");
+    //     console_println("======> pmw3901_xx serial5 success !!!!");
     //     FMT_CHECK(advertise_sensor_rangefinder(0));
     //     FMT_CHECK(advertise_sensor_optflow(0));
     // }
 
-    if (mtf01_drv_init("serial2") != FMT_EOK) {
+    if (mtf01_drv_init("serial5") != FMT_EOK) {//我把2改成5了
         console_println("!!!!!!mtf01 serial5 faild~!!!!");
     } else {
-        // console_println("======> pmw3901_xx serial4 success !!!!");
+        console_println("======> mtf01 serial5 success !!!!");
         FMT_CHECK(advertise_sensor_rangefinder(0));
         FMT_CHECK(advertise_sensor_optflow(0));
-    }
+    }//没光流
 
     /* register sensor to sensor hub */
     FMT_CHECK(register_sensor_imu("gyro0", "accel0", 0));
@@ -516,8 +524,8 @@ void bsp_initialize(void)
     FMT_CHECK(register_sensor_barometer("barometer"));
     #endif
 
-    // FMT_CHECK(register_ar_rc());
-    // FMT_CHECK(register_bb_com());
+    FMT_CHECK(register_ar_rc());//遥控的
+    FMT_CHECK(register_bb_com());//mavlink串口
 
     /* init finsh */
     finsh_system_init();
@@ -527,6 +535,7 @@ void bsp_initialize(void)
 
 #ifdef FMT_USING_CM_BACKTRACE
     /* cortex-m backtrace */
+    //cm_backtrace_init("fmt_chuanyun_f2s", TARGET_NAME, FMT_VERSION);
     cm_backtrace_init("fmt_chuanyun_f2s", TARGET_NAME, FMT_VERSION);
 
 #endif
@@ -538,6 +547,7 @@ void bsp_post_initialize(void)
 {
     /* toml system configure */
     __toml_root_tab = toml_parse_config_file(SYS_CONFIG_FILE);
+
     if (!__toml_root_tab) {
         /* use default system configuration */
         __toml_root_tab = toml_parse_config_string(default_conf);
@@ -570,7 +580,7 @@ void bsp_post_initialize(void)
     /* show system information */
     bsp_show_information();
     /* dump boot log to file */
-    boot_log_dump();
+    //boot_log_dump();
 }
 
 /**

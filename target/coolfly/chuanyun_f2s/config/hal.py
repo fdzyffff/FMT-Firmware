@@ -21,6 +21,7 @@ HAL = [
     'adc/*.c',
     'mtd/*.c',
     'airspeed/*.c',
+    'spi_msd/*.c',#tfcard
 ]
 
 HAL_CPPPATH = []

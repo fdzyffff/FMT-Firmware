@@ -150,7 +150,7 @@ static void sw_mav_show_usage(void)
     COMMAND_USAGE("sw_mav", "[options]");
 
     PRINT_STRING("options:\n");
-    SHELL_COMMAND("serial", "swtich the mavlink to uart4");
+    SHELL_COMMAND("serial", "swtich the mavlink to uart6");
     SHELL_COMMAND("usb", "swtich the mavlink to usb");
     SHELL_COMMAND("bb_com", "swtich the mavlink to bb_com, use Remote to show the mavlink");
 }
@@ -185,7 +185,7 @@ static int handle_sw_mav_cmd(int argc, char** argv, int optc, optv_t* optv)
     arg = optparse_arg(&options);
     if (arg) {
         if (STRING_COMPARE(arg, "serial")) {
-            res = sw_mav_channel("serial4");
+            res = sw_mav_channel("serial6");
         } else if (STRING_COMPARE(arg, "usb0")) {
             res = sw_mav_channel("usb");
         } else if (STRING_COMPARE(arg, "bb_com")) {

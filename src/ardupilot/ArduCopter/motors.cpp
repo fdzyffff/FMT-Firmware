@@ -16,7 +16,7 @@ void Copter::arm_motors_check()
     static int16_t arming_counter;
 
     // ensure throttle is down
-    if (channel_throttle->get_control_in() > 0) {
+    if (channel_throttle->get_control_in() > 150) {
         arming_counter = 0;
         return;
     }
@@ -25,10 +25,12 @@ void Copter::arm_motors_check()
     int16_t tmp_roll = channel_roll->get_control_in();
     int16_t tmp_pitch = channel_pitch->get_control_in();
     int16_t tmp_yaw = channel_yaw->get_control_in();
+
     // console_printf("ctmp_thr[%d], tmp_roll[%d], tmp_pitch[%d], tmp_yaw[%d]\n",tmp_thr, tmp_roll, tmp_pitch, tmp_yaw);
 
-    bool arm_flag = (tmp_thr < 100 && tmp_yaw > 4000 && tmp_pitch > 4000 && tmp_roll < -4000);
-    bool disarm_flag = (tmp_thr < 100 && tmp_yaw < -4000 && tmp_pitch > 4000 && tmp_roll > 4000);
+    bool arm_flag = (tmp_thr < 150 && tmp_roll < -3000 && tmp_pitch > 3000 && tmp_yaw > 3000);
+    bool disarm_flag_1 = (tmp_thr < 150 && tmp_roll > 3000 && tmp_pitch > 3000 && tmp_yaw < -3000);
+    bool disarm_flag_2 = hal.rcin.read(13) > 1800;
 
     // full right
     if (arm_flag) {
@@ -47,7 +49,15 @@ void Copter::arm_motors_check()
         }
 
     // full left
-    }else if (disarm_flag) {
+    } else if (disarm_flag_1 || disarm_flag_2) {
+        if (disarm_flag_2) {
+        // disarm the motors
+            if (motors->armed()) {
+                init_disarm_motors();
+                return;
+            }
+        }
+
         if (!mode_has_manual_throttle(control_mode) && !ap.land_complete) {
             arming_counter = 0;
             return;
@@ -62,9 +72,8 @@ void Copter::arm_motors_check()
         if (arming_counter == DISARM_DELAY && motors->armed()) {
             init_disarm_motors();
         }
-
     // Yaw is centered so reset arming counter
-    }else{
+    } else {
         arming_counter = 0;
     }
 }
@@ -227,19 +236,19 @@ void Copter::motors_output()
     SRV_Channels::output_ch_all();
     
     // check if we are performing the motor test
-    if (ap.motor_test) {
-        ;
-    } else {
-        bool interlock = motors->armed() && !ap.in_arming_delay && (!ap.using_interlock || ap.motor_interlock_switch) && !ap.motor_emergency_stop;
-        if (!motors->get_interlock() && interlock) {
-            motors->set_interlock(true);
-        } else if (motors->get_interlock() && !interlock) {
-            motors->set_interlock(false);
-        }
-
-        // send output signals to motors
-        motors->output();
+    bool interlock = motors->armed() && !ap.in_arming_delay && (!ap.using_interlock || ap.motor_interlock_switch);// && !ap.motor_emergency_stop;
+    if (!motors->get_interlock() && interlock) {
+        motors->set_interlock(true);
+        console_printf("set_interlock(true)\n");
+    } else if (motors->get_interlock() && !interlock) {
+        motors->set_interlock(false);
+        console_printf("set_interlock(false)\n");
     }
+
+    // send output signals to motors
+    motors->output();
+
+    // console_printf("M %d, %d, %d, %d\n",motors->armed(),!ap.in_arming_delay,(!ap.using_interlock || ap.motor_interlock_switch),!ap.motor_emergency_stop);
 
     // push all channels
     hal.rcout.push();

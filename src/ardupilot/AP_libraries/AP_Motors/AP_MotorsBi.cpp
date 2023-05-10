@@ -267,19 +267,19 @@ void AP_MotorsBi::output_test(uint8_t motor_seq, int16_t pwm)
     // output to motors and servos
     switch (motor_seq) {
         case 1:
-            // front right motor
+            // left motor
             rc_write(AP_MOTORS_MOT_1, pwm);
             break;
         case 2:
-            // back motor
+            // right motor
             rc_write(AP_MOTORS_MOT_2, pwm);
             break;
         case 3:
-            // back servo
+            // left servo
             rc_write(AP_MOTORS_CH_BI_1, pwm);
             break;
         case 4:
-            // front left motor
+            // right motor
             rc_write(AP_MOTORS_CH_BI_2, pwm);
             break;
         default:

@@ -180,7 +180,7 @@ static struct rt_i2c_device i2c2_dev2 = {
 };
 
 static struct rt_i2c_device i2c3_dev1 = {
-    .slave_addr = NCP5623C_ADDRESS, /* 7 bit address */
+    .slave_addr = IST8310_ADDRESS, /* 7 bit address */
     .flags = 0
 };
 

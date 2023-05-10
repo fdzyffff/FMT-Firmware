@@ -172,8 +172,12 @@ static void cf_sbus_parse(void) // just for test
     ch_sbus[15] = ((uint32_t)sky_sbus.sbus_buff[21] >> 5 | ((uint32_t)sky_sbus.sbus_buff[22] << 3)) & 0x07FF;
 
     for (int i = 0; i < 16; i++) {
-        rc_data.rc_chan_val[i] = (uint16_t)(ch_sbus[i] * 1000 / 2048 + 1000);
+        rc_data.rc_chan_val[i] = (uint16_t)(ch_sbus[i]);// * 1000 / 2048 + 1000);
     }
+    // rc_data.rc_chan_val[0] = (uint16_t)(ch_sbus[3]);
+    rc_data.rc_chan_val[1] = 3000 - (uint16_t)(ch_sbus[2]);
+    rc_data.rc_chan_val[2] = 3000 - (uint16_t)(ch_sbus[1]);
+    // rc_data.rc_chan_val[3] = (uint16_t)(ch_sbus[0]);
 
     rc_data.timestamp_ms = (uint32_t)(sky_sbus.timestamp / 1000);
 

@@ -55,7 +55,7 @@ static int sensor_opt_flow_echo(void* param)
         return -1;
     }
 
-    console_printf("timestamp:%-8d vx:%.2f vy:%.2f valid:%d\n", optflow_report.timestamp_ms, optflow_report.vx_mPs, optflow_report.vy_mPs, optflow_report.valid);
+    // console_printf("timestamp:%-8d vx:%.2f vy:%.2f valid:%d\n", optflow_report.timestamp_ms, optflow_report.vx_mPs, optflow_report.vy_mPs, optflow_report.valid);
 
     return 0;
 }
@@ -100,16 +100,16 @@ static mspResult_e mspFcProcessCommand(mspPacket_t* cmd, mspPacket_t* reply)
             optflow_report.vx_mPs = (float)(pkt->motionY * -0.01f);
             optflow_report.vy_mPs = (float)(pkt->motionX * 0.01f);
             /* opt flow valid only if rangefinder valid and opt flow's quality is okay */
-            if (rangefinder_report.distance_m > 0.0f) {
-                if (pkt->quality >= OPFLOW_SQUAL_THRESHOLD_HIGH) {
-                    optflow_report.valid = 1;
-                }
-                if (pkt->quality <= OPFLOW_SQUAL_THRESHOLD_LOW) {
-                    optflow_report.valid = 0;
-                }
-            } else {
-                optflow_report.valid = 0;
-            }
+            // if (rangefinder_report.distance_m > 0.0f) {
+            //     if (pkt->quality >= OPFLOW_SQUAL_THRESHOLD_HIGH) {
+            //         optflow_report.valid = 1;
+            //     }
+            //     if (pkt->quality <= OPFLOW_SQUAL_THRESHOLD_LOW) {
+            //         optflow_report.valid = 0;
+            //     }
+            // } else {
+            //     optflow_report.valid = 0;
+            // }
 
             mcn_publish(MCN_HUB(sensor_optflow), &optflow_report);
         } break;

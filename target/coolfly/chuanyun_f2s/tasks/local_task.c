@@ -46,8 +46,8 @@ void task_local_entry(void* parameter)
 {
 
     sys_event_start();
-    // sbus_start();
-    // bb_led_start();
+    sbus_start();
+    bb_led_start();
     bb_match_id_start();
 
     // xc7027_start();
@@ -64,7 +64,7 @@ TASK_EXPORT __fmt_task_desc = {
     .entry = task_local_entry,
     .priority = 25,
     .auto_start = true,
-    .stack_size = 1024,
+    .stack_size = 4096,
     .param = NULL,
     .dependency = NULL
 };

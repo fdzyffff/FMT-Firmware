@@ -10,6 +10,8 @@ OpticalFlow::OpticalFlow(AP_AHRS_NavEKF &ahrs)
 
     // healthy flag will be overwritten on update
     _flags.healthy = false;
+    _initialised = false;
+    backend = nullptr;
 }
 
 void OpticalFlow::init(void)
@@ -26,14 +28,23 @@ void OpticalFlow::init(void)
     if (backend != nullptr) {
         backend->init();
     }
+
+    _initialised = true;
 }
 
 void OpticalFlow::update(void)
 {
+    if (!_initialised) {
+        init();
+    }
+
     if (backend != nullptr) {
         backend->update();
     }
+
     // only healthy if the data is less than 0.5s old
+    // console_printf("t1");
     _flags.healthy = (millis() - _last_update_ms < 500);
+    // console_printf("t2");
 }
 

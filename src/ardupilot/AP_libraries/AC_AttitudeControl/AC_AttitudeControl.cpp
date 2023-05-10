@@ -659,7 +659,7 @@ void AC_AttitudeControl::accel_limiting(bool enable_limits)
 float AC_AttitudeControl::get_althold_lean_angle_max() const
 {
     // convert to centi-degrees for public interface
-    return ToDeg(_althold_lean_angle_max) * 100.0f;
+    return apm_constrain_float(ToDeg(_althold_lean_angle_max) * 100.0f, 1000.f, 3000.f);
 }
 
 // Proportional controller with piecewise sqrt sections to constrain second derivative

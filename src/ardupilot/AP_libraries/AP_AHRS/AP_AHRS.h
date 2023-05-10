@@ -262,7 +262,7 @@ protected:
     uint8_t _active_accel_instance;
 
     // optional view class
-    AP_AHRS_View *_view;
+    AP_AHRS_View *_view=nullptr;
 
     // AOA and SSA
     float _AOA, _SSA;

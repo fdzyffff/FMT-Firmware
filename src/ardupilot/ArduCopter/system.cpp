@@ -54,7 +54,11 @@ void Copter::init_ardupilot()
 
     console_printf(THIS_APM_FIRMWARE);
 
+    motors->set_interlock(true);
+
     ap.initialised = true;
+    ap.using_interlock = false;
+    ap.motor_emergency_stop = false;
 }
 
 

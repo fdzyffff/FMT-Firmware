@@ -85,9 +85,10 @@ private:
     OpticalFlow_backend *backend;
 
     struct AP_OpticalFlow_Flags {
-        uint8_t healthy     : 1;    // true if sensor is healthy
+        uint8_t healthy;    // true if sensor is healthy
     } _flags;
 
+    bool _initialised;
 
     // state filled in by backend
     struct OpticalFlow_state _state;

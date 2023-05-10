@@ -27,6 +27,10 @@ RangeFinder::RangeFinder(enum Rotation orientation_default) :
         _orientation[i] = orientation_default;
     }
 
+    for (uint8_t i=0; i<RANGEFINDER_MAX_INSTANCES; i++) {
+        drivers[i] = nullptr;
+    }
+
     // init state and drivers
     memset(state,0,sizeof(state));
     memset(drivers,0,sizeof(drivers));
@@ -104,6 +108,7 @@ void RangeFinder::detect_instance(uint8_t instance)
     case RangeFinder_TYPE_FMT:
         state[instance].instance = instance;
         drivers[instance] = new AP_RangeFinder_FMT(*this, instance, state[instance]);
+        _type[instance] = RangeFinder_TYPE_FMT;
         break;
     default:
         break;

@@ -185,7 +185,12 @@ static float accel_range_scale;
 /* Re-implement this function to define customized rotation */
 RT_WEAK void bmi055_rotate_to_ned(float val[3])
 {
-    /* do nothing */
+    float tmp;
+    tmp = val[2]; val[2] = val[1]; val[1] = -tmp;
+    tmp = val[0]; val[0] = -val[1]; val[1] = tmp;
+    val[0] = -val[0];
+    val[1] = -val[1];
+    return;
 }
 
 static rt_err_t __write_checked_reg(rt_device_t spi_device, rt_uint8_t reg, rt_uint8_t val)
@@ -581,7 +586,7 @@ rt_err_t drv_bmi055_init(const char* spi_device_name, const char* gyro_device_na
 
     /* Initialize accelerometer */
 
-    accel_spi_dev = rt_device_find("spi1_dev4");
+    accel_spi_dev = rt_device_find("spi2_dev3");
     RT_ASSERT(accel_spi_dev != NULL);
     /* config spi */
     {

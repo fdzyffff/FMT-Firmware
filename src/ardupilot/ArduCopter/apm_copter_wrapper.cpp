@@ -95,13 +95,6 @@ void APM_Copter_Init_Para_P1(void)
     param_link_variable(PARAM_GET(APM, FLTMODE4),           &copter->g.flight_mode4);
     param_link_variable(PARAM_GET(APM, FLTMODE5),           &copter->g.flight_mode5);
     param_link_variable(PARAM_GET(APM, FLTMODE6),           &copter->g.flight_mode6);
-    param_link_variable(PARAM_GET(APM, FLOW_ENABLE),        &copter->optflow._enabled);
-    param_link_variable(PARAM_GET(APM, FLOW_FXSCALER),      &copter->optflow._flowScalerX);
-    param_link_variable(PARAM_GET(APM, FLOW_FYSCALER),      &copter->optflow._flowScalerY);
-    param_link_variable(PARAM_GET(APM, FLOW_ORIENT_YAW),    &copter->optflow._yawAngle_cd);
-    param_link_variable(PARAM_GET(APM, FLOW_POS_X),         &copter->optflow._pos_offset.x);
-    param_link_variable(PARAM_GET(APM, FLOW_POS_Y),         &copter->optflow._pos_offset.y);
-    param_link_variable(PARAM_GET(APM, FLOW_POS_Z),         &copter->optflow._pos_offset.z);
     param_link_variable(PARAM_GET(APM, FRAME_CLASS),        &copter->g2.frame_class);
     param_link_variable(PARAM_GET(APM, FRAME_TYPE),         &copter->g.frame_type);
     // PARAM_FLOAT(FS_BATT_ENABLE, 0),
@@ -117,13 +110,13 @@ void APM_Copter_Init_Para_P1(void)
     // param_link_variable(PARAM_GET(APM, MIS_TOTAL),          &copter->mission._cmd_total);
     // param_link_variable(PARAM_GET(APM, PHLD_BRAKE_ANGLE),   &copter->g.poshold_brake_angle_max);
     // param_link_variable(PARAM_GET(APM, PHLD_BRAKE_RATE),    &copter->g.poshold_brake_rate);
-    param_link_variable(PARAM_GET(APM, FOPT_ENABLE),        &copter->optflow._enabled);
-    param_link_variable(PARAM_GET(APM, FOPT_FXSCALER),      &copter->optflow._flowScalerX);
-    param_link_variable(PARAM_GET(APM, FOPT_FYSCALER),      &copter->optflow._flowScalerY);
-    param_link_variable(PARAM_GET(APM, FOPT_ORIENT_YAW),    &copter->optflow._yawAngle_cd);
-    param_link_variable(PARAM_GET(APM, FOPT_POS_X),         &copter->optflow._pos_offset.x);
-    param_link_variable(PARAM_GET(APM, FOPT_POS_Y),         &copter->optflow._pos_offset.y);
-    param_link_variable(PARAM_GET(APM, FOPT_POS_Z),         &copter->optflow._pos_offset.z);
+    param_link_variable(PARAM_GET(APM, FLOW_ENABLE),        &copter->optflow._enabled);
+    param_link_variable(PARAM_GET(APM, FLOW_FXSCALER),      &copter->optflow._flowScalerX);
+    param_link_variable(PARAM_GET(APM, FLOW_FYSCALER),      &copter->optflow._flowScalerY);
+    param_link_variable(PARAM_GET(APM, FLOW_ORIENT_YAW),    &copter->optflow._yawAngle_cd);
+    param_link_variable(PARAM_GET(APM, FLOW_POS_X),         &copter->optflow._pos_offset.x);
+    param_link_variable(PARAM_GET(APM, FLOW_POS_Y),         &copter->optflow._pos_offset.y);
+    param_link_variable(PARAM_GET(APM, FLOW_POS_Z),         &copter->optflow._pos_offset.z);
     param_link_variable(PARAM_GET(APM, FLOW_XY_P),          &copter->flowhold_t.flow_pi_xy._kp);
     param_link_variable(PARAM_GET(APM, FLOW_XY_I),          &copter->flowhold_t.flow_pi_xy._ki);
     param_link_variable(PARAM_GET(APM, FLOW_FLOW_MAX),      &copter->flowhold_t.flow_max);
