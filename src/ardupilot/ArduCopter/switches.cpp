@@ -112,7 +112,7 @@ uint8_t Copter::read_3pos_switch(uint8_t chan)
 }
 
 // can't take reference to a bitfield member, thus a #define:
-void Copter::read_aux_switch(uint8_t chan, uint8_t flag, int8_t option) {
+void Copter::read_aux_switch(uint8_t chan, uint8_t &flag, int8_t option) {
     uint8_t switch_position = read_3pos_switch(chan);
     if (flag != switch_position) {
         flag = switch_position;
@@ -192,7 +192,6 @@ void Copter::init_aux_switch_function(int8_t ch_option, uint8_t ch_flag)
 // do_aux_switch_function - implement the function invoked by the ch7 or ch8 switch
 void Copter::do_aux_switch_function(int8_t ch_function, uint8_t ch_flag)
 {
-
     switch(ch_function) {
         case AUXSW_FLIP:
             // flip if switch is on, positive throttle and we're actually flying

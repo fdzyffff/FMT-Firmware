@@ -1,5 +1,5 @@
 #include "Copter.h"
-
+ extern "C" fmt_err_t  mavproxy_switch_channel(uint8_t chan);
 /*
  * High level calls to set and update flight modes logic for individual
  * flight modes is in control_acro.cpp, control_stabilize.cpp, etc
@@ -51,6 +51,7 @@ bool Copter::set_mode(control_mode_t mode, mode_reason_t reason)
             break;
 
         case control_mode_t::GUIDED:
+
             success = guided_init(ignore_checks);
             break;
 
@@ -216,7 +217,14 @@ void Copter::exit_mode(control_mode_t old_control_mode, control_mode_t new_contr
     }
 
     if (old_control_mode == control_mode_t::GUIDED) {
+        printf("mav use bbcom\n");
+        mavproxy_switch_channel(1);
         guided_mode = Guided_TakeOff;
+    }
+
+    if (new_control_mode == control_mode_t::GUIDED) {
+        printf("mav use serial\n");
+        mavproxy_switch_channel(0);
     }
 
     // cancel any takeoffs in progress

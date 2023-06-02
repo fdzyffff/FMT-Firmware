@@ -25,7 +25,7 @@
 #include "module/sensor/sensor_hub.h"
 #include "module/sensor/sensor_imu.h"
 #include "module/sensor/sensor_mag.h"
-
+#include "module/sensor/sensor_bms.h"
 #define MAX_IMU_DEV_NUM 2
 #define MAX_MAG_DEV_NUM 2
 
@@ -51,12 +51,14 @@ MCN_DEFINE(sensor_optflow, sizeof(optflow_data_t));
 
 MCN_DEFINE(sensor_rangefinder, sizeof(rf_data_t));
 
+//MCN_DEFINE(sensor_bms, sizeof(bms_data_t));
+MCN_DECLARE(bat0_status);
 static sensor_imu_t imu_dev[MAX_IMU_DEV_NUM] = { NULL };
 static sensor_mag_t mag_dev[MAX_MAG_DEV_NUM] = { NULL };
 static sensor_baro_t baro_dev = NULL;
 static sensor_gps_t gps_dev = NULL;
 static sensor_airspeed_t airspeed_dev = NULL;
-
+static sensor_bms_t bms_dev= NULL;
 static Butter3* butter3_gyr[MAX_IMU_DEV_NUM][3];
 static Butter3* butter3_acc[MAX_IMU_DEV_NUM][3];
 
@@ -203,7 +205,25 @@ static int echo_sensor_rangefinder(void* param)
 
     return 0;
 }
+static int echo_bat0_status(void* param)
+{
+    fmt_err_t err;
+    bms_data_t bms_report;
+    err = mcn_copy_from_hub((McnHub*)param, &bms_report);
 
+    if (err != FMT_EOK) {
+        return -1;
+    }
+
+    console_printf("bms:%d %d %d %d\n",
+                   bms_report.Valtage_Value,
+                   bms_report.Current_Value,
+                   bms_report.Relative_State_OfCharge_Value,
+                   bms_report.Max_Error_Value
+                   );
+
+    return 0;
+}
 static void imu_rotation_init(uint8_t id)
 {
     Mat level_rot;
@@ -522,7 +542,18 @@ fmt_err_t advertise_sensor_rangefinder(uint8_t id)
 
     return FMT_EOK;
 }
+fmt_err_t advertise_sensor_bms(uint8_t id)
+{
+    switch (id) {
+    case 0:
+        FMT_TRY(mcn_advertise(MCN_HUB(bat0_status), echo_bat0_status));
+        break;
+    default:
+        return FMT_EINVAL;
+    }
 
+    return FMT_EOK;
+}
 /**
  * @brief Register imu sensor
  * 
@@ -636,6 +667,23 @@ fmt_err_t register_sensor_airspeed(const char* dev_name)
     }
 
     return advertise_sensor_airspeed(0);
+}
+/**
+ * @brief Register bms sensor
+ * 
+ * @param dev_name bms device name
+ * @param id Sensor id to be registered, start from 0
+ * @return fmt_err_t FMT_EOK for success
+ */
+fmt_err_t register_sensor_bms(const char* dev_name)
+{
+
+    bms_dev = sensor_bms_init(dev_name);
+    if (bms_dev == NULL) {
+        return FMT_ERROR;
+    }
+    return advertise_sensor_bms(0);
+    
 }
 
 /**
@@ -786,6 +834,30 @@ void sensor_collect(void)
                 /* publish barometer data */
                 mcn_publish(MCN_HUB(sensor_airspeed), &airspeed_data);
             }
+        }
+    }
+
+    /*
+     * Collect bms data
+     */
+    // bms_data_t bms_data;
+    // DEFINE_TIMETAG(bms_interval, 1000);
+    // if (check_timetag(TIMETAG(bms_interval))) {
+    //     if (bms_dev != NULL) {
+    //         if (sensor_bms_measure(bms_dev, &bms_data) == FMT_EOK) {
+    //             /* publish barometer data */
+    //             mcn_publish(MCN_HUB(sensor_bms), &bms_data);
+    //         }
+    //     }
+    // }
+}
+void bms_data_publish(void){
+    bms_data_t bms_data;
+    if (bms_dev != NULL) {
+        if (sensor_bms_measure(bms_dev, &bms_data) == FMT_EOK) {
+            
+            /* publish barometer data */
+            mcn_publish(MCN_HUB(bat0_status), &bms_data);
         }
     }
 }

@@ -33,7 +33,7 @@
 #include "driver/imu/icm20600.h"
 #include "driver/mag/ist8310.h"
 #include "driver/mag/mmc5983ma.h"
-#include "driver/mtd/ramtron.h"
+//#include "driver/mtd/ramtron.h"
 #include "driver/mtd/spi_tfcard.h"
 #include "driver/range_finder/tfmini_s.h"
 #include "driver/rgb_led/ncp5623c.h"
@@ -42,6 +42,7 @@
 // #include "driver/vision_flow/pmw3901_xx.h"
 // #include "driver/range_finder/tf_luna.h"
 #include "driver/vision_flow/mtf_01.h"
+#include "driver/bms/sh366006.h"
 
 #include "drv_adc.h"
 #include "drv_gpio.h"
@@ -53,7 +54,8 @@
 #include "drv_usart.h"
 // #include "drv_usbd_cdc.h"
 #include "led.h"
-
+#include "bb_led.h"
+#include "bb_match_id.h"
 #include "default_config.h"
 #include "model/control/control_interface.h"
 #include "model/fms/fms_interface.h"
@@ -145,12 +147,12 @@ static void bsp_show_information(void)
     // console_println("         ,tfffffffffffffffffffffffffffffffffffffffffff;            ");
     // console_println("             .itfffffffffffffffffffffffffffffffft1:                ");
 
-    sprintf(buffer, "FMT FW %s", FMT_VERSION);
-    banner_item("Firmware", buffer, '.', BANNER_ITEM_LEN);
-    sprintf(buffer, "RT-Thread v%ld.%ld.%ld", RT_VERSION, RT_SUBVERSION, RT_REVISION);
-    banner_item("Kernel", buffer, '.', BANNER_ITEM_LEN);
-    sprintf(buffer, "%d KB", SYSTEM_TOTAL_MEM_SIZE / 1024);
-    banner_item("RAM", buffer, '.', BANNER_ITEM_LEN);
+    //sprintf(buffer, "FMT FW %s", FMT_VERSION);
+    //banner_item("Firmware", buffer, '.', BANNER_ITEM_LEN);
+    //sprintf(buffer, "RT-Thread v%ld.%ld.%ld", RT_VERSION, RT_SUBVERSION, RT_REVISION);
+    //banner_item("Kernel", buffer, '.', BANNER_ITEM_LEN);
+    //sprintf(buffer, "%d KB", SYSTEM_TOTAL_MEM_SIZE / 1024);
+    //banner_item("RAM", buffer, '.', BANNER_ITEM_LEN);
     banner_item("Target", TARGET_NAME, '.', BANNER_ITEM_LEN);
     banner_item("Vehicle", VEHICLE_TYPE, '.', BANNER_ITEM_LEN);
     banner_item("INS Model", ins_model_info.info, '.', BANNER_ITEM_LEN);
@@ -403,6 +405,9 @@ void bsp_early_initialize(void)
 
     /* system statistic module */
     FMT_CHECK(sys_stat_init());
+
+    SYS_EVENT_RegisterHandler(SYS_EVENT_ID_BB_EVENT, bb_led_status_EventHandler);
+    SYS_EVENT_RegisterHandler(SYS_EVENT_ID_BB_EVENT, BB_skyRcIdEventHandler);
 }
 
 /* this function will be called after rtos start, which is in thread context */
@@ -427,9 +432,9 @@ void bsp_initialize(void)
     // console_println("drv_sdio_init~");
 
     /* fram init */
-    if (FMT_EOK != drv_ramtron_init("spi6_dev1")) {
-        console_println("=================> can't find the ramtron on spi6_dev1");
-    }
+    // if (FMT_EOK != drv_ramtron_init("spi6_dev1")) {
+    //     console_println("=================> can't find the ramtron on spi6_dev1");
+    // }
     /* tfcard init */
     if (FMT_EOK != drv_spi_tfcard_init("spi1_dev1", "tfcard")) {
         console_println("tfcard init failed!");
@@ -464,20 +469,29 @@ void bsp_initialize(void)
 
     RT_CHECK(drv_bmi055_init("spi2_dev2", "gyro0", "accel0"));
 
-    //RT_CHECK(drv_bmi088_init("spi2_dev2", "spi2_dev3", "gyro0", "accel0"));//换成055
+    // RT_CHECK(drv_bmi088_init("spi2_dev2", "spi2_dev3", "gyro0", "accel0"));//换成055
     // RT_CHECK(drv_ms5611_init("spi3_dev1", "barometer"));
     RT_CHECK(drv_spl06_init("spi3_dev2", "barometer"));
 
     /* if no gps mag then use onboard mag */
     //用ist8310磁传感器 i2c2改成i2c3
      if (drv_ist8310_init("i2c3_dev1", "mag0") != FMT_EOK) {
-         console_println("!!!!!!drv_ist8310_init i2c2_dev1 faild~!!!!");
+         console_println("!!!!!!drv_ist8310_init i2c3_dev1 faild~!!!!");
      }
      else
      {
-         console_println("drv_ist8310_init i2c3_dev1~");
+        FMT_CHECK(register_sensor_mag("mag0", 0));
+        console_println("drv_ist8310_init i2c3_dev1~");
      }
 
+    //add bms
+    if (drv_sh366006_init("i2c1_dev1", "bms") != FMT_EOK) {
+         console_println("!!!!!!drv_sh366006_init i2c1_dev1 faild~!!!!");
+     }
+     else
+     {
+         console_println("drv_sh366006_init i2c1_dev1~");
+     }
 /*     if (drv_mmc5983ma_init("i2c2_dev2", "mag0") != FMT_EOK) {
         console_println("!!!!!!mmc5983ma i2c2_dev2 faild~!!!!");
     } else {
@@ -486,6 +500,8 @@ void bsp_initialize(void)
 
     if (gps_m8n_init("serial1", "gps") != FMT_EOK) {
         console_println("gps serial1 faild~!!!!");
+    } else {
+        console_println("gps serial1 initialized~");
     }
 
     // if (tfmini_s_drv_init("serial4") != FMT_EOK) {

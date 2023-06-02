@@ -16,7 +16,7 @@ void Copter::arm_motors_check()
     static int16_t arming_counter;
 
     // ensure throttle is down
-    if (channel_throttle->get_control_in() > 150) {
+    if (channel_throttle->get_control_in() > 100) {
         arming_counter = 0;
         return;
     }
@@ -28,9 +28,8 @@ void Copter::arm_motors_check()
 
     // console_printf("ctmp_thr[%d], tmp_roll[%d], tmp_pitch[%d], tmp_yaw[%d]\n",tmp_thr, tmp_roll, tmp_pitch, tmp_yaw);
 
-    bool arm_flag = (tmp_thr < 150 && tmp_roll < -3000 && tmp_pitch > 3000 && tmp_yaw > 3000);
-    bool disarm_flag_1 = (tmp_thr < 150 && tmp_roll > 3000 && tmp_pitch > 3000 && tmp_yaw < -3000);
-    bool disarm_flag_2 = hal.rcin.read(13) > 1800;
+    bool arm_flag = (tmp_thr < 100 && tmp_roll < -4000 && tmp_pitch > 4000 && tmp_yaw > 4000);
+    bool disarm_flag = (tmp_thr < 100 && tmp_roll > 4000 && tmp_pitch > 4000 && tmp_yaw < -4000);
 
     // full right
     if (arm_flag) {
@@ -49,14 +48,7 @@ void Copter::arm_motors_check()
         }
 
     // full left
-    } else if (disarm_flag_1 || disarm_flag_2) {
-        if (disarm_flag_2) {
-        // disarm the motors
-            if (motors->armed()) {
-                init_disarm_motors();
-                return;
-            }
-        }
+    } else if (disarm_flag) {
 
         if (!mode_has_manual_throttle(control_mode) && !ap.land_complete) {
             arming_counter = 0;

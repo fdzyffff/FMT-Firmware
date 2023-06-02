@@ -63,7 +63,9 @@ static void rt_init_thread_entry(void* parameter)
     bsp_post_initialize();
 
     /* start task */
+    printf("task manager start\n");
     task_manager_start();
+    printf("task manager done\n");
 }
 
 int rt_application_init()

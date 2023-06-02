@@ -179,8 +179,8 @@ static bool mavlink_msg_sys_status_cb(mavlink_message_t* msg_t)
     sys_status.onboard_control_sensors_health = 1;
     sys_status.load = (uint16_t)(get_cpu_usage() * 1e3);
     sys_status.voltage_battery = bat0_status.battery_voltage;
-    sys_status.current_battery = -1;
-    sys_status.battery_remaining = -1;
+    sys_status.current_battery = bat0_status.battery_current;
+    sys_status.battery_remaining = bat0_status.battery_remaining;
 
     mavlink_msg_sys_status_encode(mavlink_system.sysid, mavlink_system.compid, msg_t, &sys_status);
 
@@ -344,7 +344,18 @@ static bool mavlink_msg_rc_channels_cb(mavlink_message_t* msg_t)
 
     return true;
 }
+static bool mavlink_msg_set_position_target_local_ned_cb(mavlink_message_t* msg_t)
+{
+    mavlink_set_position_target_local_ned_t mavlink_set_position_target_local_ned;
+    memset(&mavlink_set_position_target_local_ned, 0, sizeof(mavlink_set_position_target_local_ned));
+    mavlink_set_position_target_local_ned.time_boot_ms=systime_now_ms();
+    mavlink_set_position_target_local_ned.x=1;
+    mavlink_set_position_target_local_ned.y=2;
+    mavlink_set_position_target_local_ned.z=3;
+    mavlink_msg_set_position_target_local_ned_encode(mavlink_system.sysid, mavlink_system.compid, msg_t, &mavlink_set_position_target_local_ned);
 
+    return true;
+}
 fmt_err_t task_comm_init(void)
 {
     fmt_err_t err;
@@ -383,7 +394,7 @@ void task_comm_entry(void* parameter)
     mavproxy_register_period_msg(MAVLINK_MSG_ID_GPS_RAW_INT, 100, mavlink_msg_gps_raw_int_cb, true);
 
     mavproxy_register_period_msg(MAVLINK_MSG_ID_RC_CHANNELS, 100, mavlink_msg_rc_channels_cb, true);
-
+    mavproxy_register_period_msg(MAVLINK_MSG_ID_SET_POSITION_TARGET_LOCAL_NED, 100, mavlink_msg_set_position_target_local_ned_cb, true);
     /* execute mavproxy main loop */
     mavproxy_loop();
 }

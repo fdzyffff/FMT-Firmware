@@ -15,7 +15,7 @@ AC_AttitudeControl::AC_AttitudeControl(AP_AHRS_View &ahrs, const AP_Vehicle::Mul
         _p_angle_yaw(AC_ATTITUDE_CONTROL_ANGLE_P),
         _angle_limit_tc(AC_ATTITUDE_CONTROL_ANGLE_LIMIT_TC_DEFAULT),
         _dt(dt),
-        _angle_boost(0),
+        _angle_boost(1),
         _use_ff_and_input_shaping(true),
         _throttle_rpy_mix_desired(AC_ATTITUDE_CONTROL_THR_MIX_DEFAULT),
         _throttle_rpy_mix(AC_ATTITUDE_CONTROL_THR_MIX_DEFAULT),

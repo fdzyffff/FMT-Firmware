@@ -81,6 +81,7 @@ RT_WEAK void ist8310_rotate_to_ned(float* data)
 static rt_err_t mag_raw_measure(int16_t mag[3])
 {
     uint8_t buffer[6];
+    // static int i = 0;
 
     RT_TRY(i2c_read_regs(i2c_dev, REG_DATA_OUT_X_L, buffer, sizeof(buffer)));
 
@@ -88,6 +89,13 @@ static rt_err_t mag_raw_measure(int16_t mag[3])
     mag[0] = ((int16_t)buffer[1] << 8) | (int16_t)buffer[0];
     mag[1] = ((int16_t)buffer[3] << 8) | (int16_t)buffer[2];
     mag[2] = ((int16_t)buffer[5] << 8) | (int16_t)buffer[4];
+
+    // if (i++ % 100 == 0)
+    // {
+    //     printf("mag_raw_measure %d %d %d\n",mag[0],mag[1],mag[2]);
+    // }
+    
+    
     /* start next measurement */
     // RT_TRY(i2c_write_reg(i2c_dev, REG_CTRL1, CTRL1_ODR_SINGLE));
 

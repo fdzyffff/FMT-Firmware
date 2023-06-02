@@ -40,6 +40,7 @@ void Copter::setup()
         SCHED_TASK(arm_motors_check,       10,     50),
         SCHED_TASK(ten_hz_loop,            10,    100),
         SCHED_TASK(user_ten_hz_loop,       10,    100),
+        SCHED_TASK(read_aux_switches,      10,     10),
         SCHED_TASK(one_hz_loop,            1,     100),
     };
     scheduler.init(&copter_scheduler_tasks[0], ARRAY_SIZE(copter_scheduler_tasks));
@@ -167,6 +168,26 @@ void Copter::one_hz_loop()
         // console_printf(" hal.sitl_state.altitude: %f\n", hal.sitl_state.altitude);
         printf(" hal.rcin._rc_in_data[0,1,2,3,7,8]: [%d,%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[7],hal.rcin._rc_in_data[8]);
         printf(" hal.rcout._rc_out_data[0,1,2,3,4,5]: [%d,%d,%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3],hal.rcout._rc_out_data[4],hal.rcout._rc_out_data[5]);
+        // printf("control_mode %d\n",control_mode);
+        // printf("arhs %f %f %f %d %d %d\n",ahrs.roll,ahrs.pitch,ahrs.yaw,current_loc.lat,current_loc.lng,current_loc.alt);
+        // printf("ap state land_complete[%d],\n",ap.land_complete);
+        // printf("position_ok %d\n",position_ok());
+        // printf("stabilize_run armed[%d] ap.throttle_zero[%d] motors->get_interlock[%d]\n",motors->armed(),ap.throttle_zero,motors->get_interlock());
+        // printf("get_pilot_desired_lean_angles %d %d\n",channel_roll->get_control_in(),channel_pitch->get_control_in());
+
+        // printf(" hal.rcin._rc_in_data[0,1,2,3,7]: [%d,%d,%d,%d,%d]\n", hal.rcin._rc_in_data[0],hal.rcin._rc_in_data[1],hal.rcin._rc_in_data[2],hal.rcin._rc_in_data[3],hal.rcin._rc_in_data[7]);
+        // printf("sitl_state location %d  %d %f\n",hal.sitl_state.longitude,hal.sitl_state.latitude,hal.sitl_state.altitude);
+       
+       
+        // printf("sitl_state speed %f %f %f\n",hal.sitl_state.speedN,hal.sitl_state.speedE,hal.sitl_state.speedD);
+        // printf("sitl_state acc %f %f %f\n",hal.sitl_state.xAccel,hal.sitl_state.yAccel,hal.sitl_state.zAccel);
+        // printf("sitl_state rpy deg %f %f %f\n",hal.sitl_state.rollDeg,hal.sitl_state.pitchDeg,hal.sitl_state.yawDeg);
+        // printf("sitl_state rpy rate %f %f %f\n",hal.sitl_state.rollRate,hal.sitl_state.pitchRate,hal.sitl_state.yawRate);
+        // printf("ins relative location %f %f %f\n",hal.ins_out_msg.x_R,hal.ins_out_msg.y_R,hal.ins_out_msg.h_R);
+
+
+        // printf(" hal.rcout._rc_out_data[0,1,2,3,4,5]: [%d,%d,%d,%d,%d,%d]\n", hal.rcout._rc_out_data[0],hal.rcout._rc_out_data[1],hal.rcout._rc_out_data[2],hal.rcout._rc_out_data[3],hal.rcout._rc_out_data[4],hal.rcout._rc_out_data[5]);
+
         // hal.print_rc();
         // printf(" copter->g2.servo_channels.srv_channel(5)->ch_num: %d\n", copter->g2.servo_channels.srv_channel(5)->ch_num);
         // printf(" motors->get_pwm_output_min(): %d\n", motors->get_pwm_output_min());
@@ -175,13 +196,13 @@ void Copter::one_hz_loop()
         // console_printf(" copter->g2.frame_class: %d\n", copter->g2.frame_class);
 
         // console_printf("rangefinder_data_msg.distance_m:%f\n",hal.rangefinder_data_msg.distance_m );
-        // console_printf("[%f,%f,%d][%f]\n",hal.optflow_data_msg.vx_mPs, hal.optflow_data_msg.vy_mPs, hal.optflow_data_msg.quality, hal.rangefinder_data_msg.distance_m);
-        // console_printf("%d [%f,%f][%f,%f]\n",optflow.healthy(), optflow.flowRate().x, optflow.flowRate().y,optflow.bodyRate().x,optflow.bodyRate().y);
+        console_printf("[%f,%f,%d][%f]\n",hal.optflow_data_msg.vx_mPs, hal.optflow_data_msg.vy_mPs, hal.optflow_data_msg.quality, hal.rangefinder_data_msg.distance_m);
+        console_printf("%d [%f,%f][%f,%f]\n",optflow.healthy(), optflow.flowRate().x, optflow.flowRate().y,optflow.bodyRate().x,optflow.bodyRate().y);
 
         // console_printf("[%d, %0.2f]%0.2f->%0.2f\n",rangefinder_alt_ok(), rangefinder_state.alt_cm_filt.get(), apm_log.climb_rate_cms_thr, apm_log.climb_rate_cms_after_surface);
         // console_printf("r:%f,p:%f,y%f\n",degrees(hal.ins_out_msg.phi), degrees(hal.ins_out_msg.theta), wrap_360(degrees(hal.ins_out_msg.psi)));
 
-        console_printf("Motors %d, %d, %d\n",!motors->armed(),ap.throttle_zero,!motors->get_interlock());
+        // console_printf("Motors %d, %d, %d\n",!motors->armed(),ap.throttle_zero,!motors->get_interlock());
     }
 
 }

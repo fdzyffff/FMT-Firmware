@@ -313,6 +313,11 @@ static fmt_err_t handle_mavlink_msg(mavlink_message_t* msg, mavlink_system_t sys
     case MAVLINK_MSG_ID_MISSION_ACK:
         handle_mission_message(msg);
         break;
+    case MAVLINK_MSG_ID_SET_POSITION_TARGET_LOCAL_NED:{
+        mavlink_set_position_target_local_ned_t set_position_target_local_ned;
+        mavlink_msg_set_position_target_local_ned_decode(msg, &set_position_target_local_ned);
+    }break;
+    
 
 #if defined(FMT_USING_HIL)
     case MAVLINK_MSG_ID_HIL_SENSOR: {

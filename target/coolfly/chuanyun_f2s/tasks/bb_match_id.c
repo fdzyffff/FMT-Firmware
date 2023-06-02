@@ -26,11 +26,11 @@ History:
 uint32_t flag_searchIdTimerStart = 0;
 uint8_t vt_id_timer_start_flag = 0;
 
-_EXT_DTCM1 void BB_skyRcIdEventHandler(void* p)
+void BB_skyRcIdEventHandler(void* p)
 {
     STRU_SysEvent_DEV_BB_STATUS* pstru_status = (STRU_SysEvent_DEV_BB_STATUS*)p;
     uint8_t id[7];
-
+//printf("BB_skyRcIdEventHandler %d\n ",pstru_status->lockstatus);
     if (pstru_status->pid == BB_GET_RCID) {
         DLOG_Critical("Get rcid: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x,rssi_a %d, rssi_b %d", pstru_status->rcid[0], pstru_status->rcid[1],
                                                                        pstru_status->rcid[2], pstru_status->rcid[3], pstru_status->rcid[4],
@@ -332,7 +332,7 @@ void bb_match_id_start(void)
 {
     HAL_GPIO_InPut(EXTERN_SEARCH_ID_PIN);
 
-    SYS_EVENT_RegisterHandler(SYS_EVENT_ID_BB_EVENT, BB_skyRcIdEventHandler);
+    
 
     WorkQueue_t lp_wq = workqueue_find("wq:lp_work");
 

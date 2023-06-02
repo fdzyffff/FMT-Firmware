@@ -15,82 +15,87 @@
  *****************************************************************************/
 
 #include "module/pmu/power_manager.h"
+#include "module/sensor/sensor_hub.h"
 
 MCN_DEFINE(bat0_status, sizeof(struct battery_status));
-MCN_DEFINE(bat1_status, sizeof(struct battery_status));
+//MCN_DEFINE(bat1_status, sizeof(struct battery_status));
 
-static rt_device_t adc_dev;
+//static rt_device_t adc_dev;
 
-static int echo_battery_status(void* parameter)
-{
-    struct battery_status bat_status;
+// static int echo_battery_status(void* parameter)
+// {
+//     struct battery_status bat_status;
 
-    if (mcn_copy_from_hub((McnHub*)parameter, &bat_status) != FMT_EOK) {
-        return -1;
-    }
+//     if (mcn_copy_from_hub((McnHub*)parameter, &bat_status) != FMT_EOK) {
+//         return -1;
+//     }
 
-    console_printf("voltage:%5d mV, current:%5d mA, remaining:%3u%%\n",
-                   bat_status.battery_voltage,
-                   bat_status.battery_current,
-                   bat_status.battery_remaining);
+//     console_printf("voltage:%5d mV, current:%5d mA, remaining:%3u%%\n",
+//                    bat_status.battery_voltage,
+//                    bat_status.battery_current,
+//                    bat_status.battery_remaining);
 
-    return 0;
-}
+//     return 0;
+// }
 
-fmt_err_t pmu_poll_battery_status(void)
-{
-    struct battery_status bat0_status;
-    struct battery_status bat1_status;
-    uint32_t value;
+// fmt_err_t pmu_poll_battery_status(void)
+// {
+//     struct battery_status bat0_status;
+//     struct battery_status bat1_status;
+//     uint32_t value;
 
-    if (adc_dev == NULL) {
-        return FMT_EEMPTY;
-    }
+//     if (adc_dev == NULL) {
+//         return FMT_EEMPTY;
+//     }
 
-    if (rt_device_read(adc_dev, 0, &value, sizeof(value)) != sizeof(value)) {
-        return FMT_ERROR;
-    }
-    bat0_status.battery_voltage = value; /* millivolt */
+//     if (rt_device_read(adc_dev, 0, &value, sizeof(value)) != sizeof(value)) {
+//         return FMT_ERROR;
+//     }
+//     bat0_status.battery_voltage = value; /* millivolt */
 
-    if (rt_device_read(adc_dev, 1, &value, sizeof(value)) != sizeof(value)) {
-        return FMT_ERROR;
-    }
-    bat0_status.battery_current = value; /* millicurrent */
+//     if (rt_device_read(adc_dev, 1, &value, sizeof(value)) != sizeof(value)) {
+//         return FMT_ERROR;
+//     }
+//     bat0_status.battery_current = value; /* millicurrent */
 
-    bat0_status.battery_remaining = 0;
+//     bat0_status.battery_remaining = 0;
 
-    if (rt_device_read(adc_dev, 2, &value, sizeof(value)) != sizeof(value)) {
-        return FMT_ERROR;
-    }
-    bat1_status.battery_voltage = value; /* millivolt */
+//     if (rt_device_read(adc_dev, 2, &value, sizeof(value)) != sizeof(value)) {
+//         return FMT_ERROR;
+//     }
+//     bat1_status.battery_voltage = value; /* millivolt */
 
-    if (rt_device_read(adc_dev, 3, &value, sizeof(value)) != sizeof(value)) {
-        return FMT_ERROR;
-    }
-    bat1_status.battery_current = value; /* millicurrent */
+//     if (rt_device_read(adc_dev, 3, &value, sizeof(value)) != sizeof(value)) {
+//         return FMT_ERROR;
+//     }
+//     bat1_status.battery_current = value; /* millicurrent */
 
-    bat1_status.battery_remaining = 0;
+//     bat1_status.battery_remaining = 0;
 
-    if (mcn_publish(MCN_HUB(bat0_status), &bat0_status) != FMT_EOK) {
-        return FMT_ERROR;
-    }
+//     if (mcn_publish(MCN_HUB(bat0_status), &bat0_status) != FMT_EOK) {
+//         return FMT_ERROR;
+//     }
 
-    if (mcn_publish(MCN_HUB(bat1_status), &bat1_status) != FMT_EOK) {
-        return FMT_ERROR;
-    }
+//     if (mcn_publish(MCN_HUB(bat1_status), &bat1_status) != FMT_EOK) {
+//         return FMT_ERROR;
+//     }
 
+//     return FMT_EOK;
+// }
+fmt_err_t pmu_poll_battery_status(void){
+    bms_data_publish();
     return FMT_EOK;
 }
-
 fmt_err_t pmu_init(void)
 {
-    FMT_CHECK(mcn_advertise(MCN_HUB(bat0_status), echo_battery_status));
-    FMT_CHECK(mcn_advertise(MCN_HUB(bat1_status), echo_battery_status));
+    // FMT_CHECK(mcn_advertise(MCN_HUB(bat0_status), echo_battery_status));
+    // FMT_CHECK(mcn_advertise(MCN_HUB(bat1_status), echo_battery_status));
 
-    adc_dev = rt_device_find("adc1");
-    RT_ASSERT(adc_dev != NULL);
+    // adc_dev = rt_device_find("adc1");
+    // RT_ASSERT(adc_dev != NULL);
 
-    RT_CHECK(rt_device_open(adc_dev, RT_DEVICE_FLAG_RDONLY));
+    // RT_CHECK(rt_device_open(adc_dev, RT_DEVICE_FLAG_RDONLY));
+    register_sensor_bms("bms");
 
     return FMT_EOK;
 }

@@ -21,12 +21,17 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+struct device_bms {
+    rt_device_t dev;
+};
+typedef struct device_bms* device_bms_t;
 struct battery_status {
     uint16_t battery_voltage;
-    int16_t battery_current;
-    int8_t battery_remaining;
+    uint16_t battery_current;
+    uint8_t battery_remaining;
+    uint8_t max_error;
 };
+
 
 fmt_err_t pmu_init(void);
 fmt_err_t pmu_poll_battery_status(void);

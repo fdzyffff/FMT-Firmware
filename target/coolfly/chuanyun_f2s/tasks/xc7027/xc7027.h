@@ -17,7 +17,7 @@ int XC7027_ENC_Config();
 void XC7027_SENSOR_Config(ENUM_XC7027_MODE SensorFormat);
 void XC7027_Sensor_Start(void);
 void XC7027_SENSOR_LoopCallBack(void);
-void sc2310_re_init(void);
+void XC7027_re_init(int new_format);
 
 void xc7027_start(void);
 

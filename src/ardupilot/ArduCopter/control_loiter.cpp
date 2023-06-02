@@ -8,6 +8,7 @@
 bool Copter::loiter_init(bool ignore_checks)
 {
     if (position_ok() || ignore_checks) {
+        console_printf("Loiter Mode\n");
 
         // set target to current position
         wp_nav->init_loiter_target();
@@ -28,6 +29,7 @@ bool Copter::loiter_init(bool ignore_checks)
 
         return true;
     }else{
+        console_printf("Fail Loiter Mode\n");
         return false;
     }
 }

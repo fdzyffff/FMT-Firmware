@@ -61,6 +61,11 @@ struct sensor_mag {
     float offset[3];
 };
 typedef struct sensor_mag* sensor_mag_t;
+//add bms
+struct sensor_bms {
+    rt_device_t dev;
+};
+typedef struct sensor_bms* sensor_bms_t;
 
 struct sensor_baro {
     rt_device_t dev;
@@ -130,6 +135,13 @@ typedef struct {
     float diff_pressure_pa;
     float temperature_deg;
 } airspeed_data_t;
+typedef struct {
+    //uint32_t timestamp_ms;
+    uint16_t Valtage_Value;
+    uint16_t Current_Value;
+    uint8_t Relative_State_OfCharge_Value;
+    uint8_t Max_Error_Value;
+} bms_data_t;
 
 void sensor_collect(void);
 fmt_err_t advertise_sensor_imu(uint8_t id);
@@ -145,6 +157,8 @@ fmt_err_t register_sensor_barometer(const char* dev_name);
 fmt_err_t register_sensor_airspeed(const char* dev_name);
 fmt_err_t register_sensor_gps(const char* dev_name);
 
+fmt_err_t register_sensor_bms(const char* dev_name);
+void bms_data_publish(void);
 #ifdef __cplusplus
 }
 #endif

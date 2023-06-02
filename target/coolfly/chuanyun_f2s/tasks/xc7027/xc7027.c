@@ -10,6 +10,7 @@
 
 #include "memory_config.h"
 #include "spcd_camera_config_1080p_30fps_ahead.h"
+#include "spcd_camera_config_720p_30fps_ahead.h"
 #include "spcd_camera_config_set.h"
 #include "xc7027.h"
 
@@ -21,7 +22,8 @@
 
 _EXT_DTCM1_BSS
 static volatile int is_Inited = 0;
-
+_EXT_DTCM1_BSS
+static volatile int current_format = 0;
 // void Reg_Write32(uint32_t regAddr, uint32_t regData);
 // void Reg_Write32_Mask(uint32_t regAddr, uint32_t regData, uint32_t regDataMask);
 // uint32_t Reg_Read32(uint32_t regAddr);
@@ -67,20 +69,20 @@ void XC7027_SENSOR_Config(ENUM_XC7027_MODE SensorFormat)
         // 	iSensorRegisterLenght = sizeof(SC2310_720P_50FPS_SET_AHEAD);
         // 	break;
 
-        // case XC7027_MODE_720P_30FPS:
-        // 	HAL_DVP_Init(XC7027_DVP_CHANNEL, XC7027_DVP_CHANNEL, 1280, 720, 30);
-        // 	piISPRegister = XC7027_720P_30FPS_SET_AHEAD;
-        // 	iISPRegisterLenght = sizeof(XC7027_720P_30FPS_SET_AHEAD);
-        // 	piSensorRegister = SC2310_720P_30FPS_SET_AHEAD;
-        // 	iSensorRegisterLenght = sizeof(SC2310_720P_30FPS_SET_AHEAD);
-        // 	break;
+        case XC7027_MODE_720P_30FPS:
+        	HAL_DVP_Init(XC7027_DVP_CHANNEL, XC7027_DVP_CHANNEL, 1280, 720, 30);
+        	piISPRegister = XC7027_720P_30FPS_SET_AHEAD;
+        	iISPRegisterLenght = sizeof(XC7027_720P_30FPS_SET_AHEAD);
+        	piSensorRegister = SC2310_720P_30FPS_SET_AHEAD;
+        	iSensorRegisterLenght = sizeof(SC2310_720P_30FPS_SET_AHEAD);
+        	break;
 
     default:
-        HAL_DVP_Init(XC7027_DVP_CHANNEL, XC7027_DVP_CHANNEL, 1920, 1080, 30);
-        piISPRegister = XC7027_1080P_30FPS_SET_AHEAD;
-        iISPRegisterLenght = sizeof(XC7027_1080P_30FPS_SET_AHEAD);
-        piSensorRegister = SC2310_1080P_30FPS_SET_AHEAD;
-        iSensorRegisterLenght = sizeof(SC2310_1080P_30FPS_SET_AHEAD);
+        	HAL_DVP_Init(XC7027_DVP_CHANNEL, XC7027_DVP_CHANNEL, 1280, 720, 30);
+        	piISPRegister = XC7027_720P_30FPS_SET_AHEAD;
+        	iISPRegisterLenght = sizeof(XC7027_720P_30FPS_SET_AHEAD);
+        	piSensorRegister = SC2310_720P_30FPS_SET_AHEAD;
+        	iSensorRegisterLenght = sizeof(SC2310_720P_30FPS_SET_AHEAD);
         break;
     }
 
@@ -276,7 +278,7 @@ void XC7027_SENSOR_Config(ENUM_XC7027_MODE SensorFormat)
                     break;
 
                 } else {
-                    DLOG_Critical("ISP-DeBp %ust Addr%04X=%02X,err=%08X\r\n", i, piISPRegister[i], iWrBuf[2], iI2cRevalue);
+                    // DLOG_Critical("ISP-DeBp %ust Addr%04X=%02X,err=%08X\r\n", i, piISPRegister[i], iWrBuf[2], iI2cRevalue);
 
                     if (iI2cRevalue == HAL_BUSY) {
                         sys_msleep(4);
@@ -303,7 +305,7 @@ void XC7027_SENSOR_Config(ENUM_XC7027_MODE SensorFormat)
                 if (iRetry >= 3) {
                     iRetry = 0;
                     i += 2;
-                    DLOG_Critical("ISP-DeBP %ust Addr%04X,%02X!=iWrBuf[2],err=%08X\r\n", i, BYPASS_OFF[i], iRdBuf, iI2cRevalue);
+                    // DLOG_Critical("ISP-DeBP %ust Addr%04X,%02X!=iWrBuf[2],err=%08X\r\n", i, BYPASS_OFF[i], iRdBuf, iI2cRevalue);
                 }
 
                 sys_msleep(4);
@@ -493,12 +495,12 @@ void XC7027_SENSOR_LoopCallBack(void)
 _EXT_DTCM1
 static void init()
 {
-    // DLOG_Critical("xc7082 init");
+    DLOG_Critical("xc7082 init");
     // try to start device
     uint8_t tries = 5;
 
     HAL_I2C_MasterInit(XC7027_I2C, 0x001B, HAL_I2C_FAST_SPEED);
-    // sys_msleep(100);
+    sys_msleep(10);
 
     HAL_I2C_MasterInit(XC7027_I2C, 0x0030, HAL_I2C_FAST_SPEED);
     sys_msleep(10);
@@ -544,27 +546,55 @@ static void init()
 
     // DLOG_Critical("xc7082 init success~!");
 
-    XC7027_SENSOR_Config(XC7027_MODE_1080P_30FPS);
-
+    // XC7027_SENSOR_Config(XC7027_MODE_720P_30FPS);
+    if(current_format == 0)
+    {
+        XC7027_SENSOR_Config(XC7027_MODE_720P_30FPS);
+    } else 
+    {
+        XC7027_SENSOR_Config(XC7027_MODE_1080P_30FPS);
+    }
+    
     sys_msleep(20);
 
+
+    STRU_SysEvent_H264InputFormatChangeParameter p;
+    if(current_format == 0)
+    {
+        sys_msleep(200);
+        p.width = 1280;
+        p.hight = 720;
+    } else {
+        p.width = 1920;
+        p.hight = 1080;
+    }
+    p.index = 1;
+    p.framerate = 30;
+    p.vic = 0;
+    p.e_h264InputSrc = ENCODER_INPUT_SRC_DVP_1;
+
+    SYS_EVENT_NotifyInterCore(SYS_EVENT_ID_H264_INPUT_FORMAT_CHANGE, (void*)&p);
+    
     XC7027_ENC_Config();
 
     sys_msleep(20);
-
     is_Inited = 1;
 }
 
 _EXT_DTCM1
-void xc7027_re_init(void)
+void XC7027_re_init(int new_format)
 {
-    is_Inited = 0;
+    current_format = new_format;
     // init();
+    is_Inited = 0;
 }
 
 _EXT_DTCM1
 static void run_xc7027(void* parameter)
 {
+    // uint16_t Voltage_Value=0;
+    //         Read_SBS_Conmmand_2byte(Voltage ,&Voltage_Value);
+    //     printf("Voltage_Value %d \n",Voltage_Value);
     if (!is_Inited) {
         
         XC7027_Reset();

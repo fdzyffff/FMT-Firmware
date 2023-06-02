@@ -33,7 +33,7 @@
 #define MAVPROXY_SERIAL_BAUDRATE    57600
 
 static mavproxy_device_info mavproxy_device_list[MAVPROXY_MAX_DEVICE_NUM] = { 0 };
-static uint8_t mavproxy_device_num = 0;
+static uint8_t mavproxy_device_num = 3;
 
 int get_device_num(void)
 {
@@ -120,7 +120,7 @@ static fmt_err_t mavproxy_parse_device(const toml_table_t* curtab, int idx)
         TOML_DBG_E("fail to parse name value\n");
         return FMT_ERROR;
     }
-
+    mavproxy_add_device(idx,DEVICE_LIST[idx].name);
     /* traverse keys in table */
     for (i = 0; 0 != (key = toml_key_in(curtab, i)); i++) {
         if (MATCH(key, "type") || MATCH(key, "name")) {
@@ -195,6 +195,7 @@ static fmt_err_t mavproxy_parse_devices(const toml_array_t* array)
     uint32_t idx = 0;
 
     for (i = 0; 0 != (curtab = toml_table_at(array, i)); i++) {
+        
         err = mavproxy_parse_device(curtab, idx);
 
         if (err != FMT_EOK) {
@@ -257,9 +258,9 @@ fmt_err_t mavproxy_switch_channel(uint8_t chan)
             }
         }
         /* now we can safely close the old device */
-        if (old_device != NULL) {
-            rt_device_close(old_device);
-        }
+        // if (old_device != NULL) {
+        //     rt_device_close(old_device);
+        // }
     } else {
         TOML_DBG_E("mavproxy_set_device failed \n");
         return FMT_ERROR;

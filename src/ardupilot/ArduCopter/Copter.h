@@ -151,7 +151,7 @@ public:
     void do_aux_switch_function(int8_t ch_function, uint8_t ch_flag);
     void notify_flight_mode(control_mode_t mode);
     void set_accel_throttle_I_from_pilot_throttle();
-    void read_aux_switch(uint8_t chan, uint8_t flag, int8_t option);
+    void read_aux_switch(uint8_t chan, uint8_t &flag, int8_t option);
 
     bool current_mode_has_user_takeoff(bool must_navigate);
     bool do_user_takeoff(float takeoff_alt_cm, bool must_navigate);

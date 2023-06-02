@@ -16,8 +16,9 @@
 #include <firmament.h>
 
 #include "hal/serial/serial.h"
-
+#define MAV_DISPATCH_DEV_NUM 2
 static rt_device_t mavproxy_dev = RT_NULL;
+static rt_device_t mavproxy_dev_list[MAV_DISPATCH_DEV_NUM] = {NULL};
 static struct rt_completion tx_cplt, rx_cplt;
 
 static fmt_err_t (*mav_rx_indicate)(uint32_t size) = NULL;
@@ -43,18 +44,23 @@ rt_size_t mavproxy_dev_write(const void* buffer, uint32_t len, int32_t timeout)
 {
     rt_size_t size;
 
-    if (mavproxy_dev == NULL) {
-        /* mavproxy device not initialized */
-        return 0;
-    }
-    /* write data to device */
-    size = rt_device_write(mavproxy_dev, 0, buffer, len);
-    if (size > 0) {
-        /* wait write complete (synchronized write) */
-        if (rt_completion_wait(&tx_cplt, timeout) != RT_EOK) {
-            return 0;
+    for (size_t i = 0; i < MAV_DISPATCH_DEV_NUM; i++)
+    {
+        // printf("mavproxy_dev_write %d",&mavproxy_dev);
+        if (mavproxy_dev_list[i] != NULL) {
+            // printf("send %d %d\n",i,len);
+            /* mavproxy device not initialized */
+                /* write data to device */
+            size = rt_device_write(mavproxy_dev_list[i], 0, buffer, len);
+            if (size > 0) {
+                /* wait write complete (synchronized write) */
+                if (rt_completion_wait(&tx_cplt, timeout) != RT_EOK) {
+                    return 0;
+                }
+            }
         }
     }
+    
 
     return size;
 }
@@ -62,7 +68,6 @@ rt_size_t mavproxy_dev_write(const void* buffer, uint32_t len, int32_t timeout)
 rt_size_t mavproxy_dev_read(void* buffer, uint32_t len, int32_t timeout)
 {
     rt_size_t cnt = 0;
-
     if (mavproxy_dev == NULL) {
         /* mavproxy device not initialized */
         return 0;
@@ -97,22 +102,23 @@ rt_size_t mavproxy_dev_read(void* buffer, uint32_t len, int32_t timeout)
     return cnt;
 }
 
+
 void mavproxy_dev_set_rx_indicate(fmt_err_t (*rx_ind)(uint32_t size))
 {
     mav_rx_indicate = rx_ind;
 }
 
-fmt_err_t mavproxy_set_device(const char* dev_name)
+
+fmt_err_t mavproxy_add_device(uint32_t idx,const char * dev_name)
 {
     rt_device_t new_dev;
-
     new_dev = rt_device_find(dev_name);
 
-    if (new_dev == RT_NULL) {
+    if (new_dev == RT_NULL || idx<0 || idx>1) {
         return FMT_EEMPTY;
     }
 
-    if (new_dev != mavproxy_dev) {
+    if (new_dev != mavproxy_dev_list[idx]) {
         rt_uint16_t flag = RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_INT_RX;
         if (new_dev->flag & (RT_DEVICE_FLAG_DMA_RX | RT_DEVICE_FLAG_DMA_TX)) {
             /* if device support DMA, then use it */
@@ -122,13 +128,46 @@ fmt_err_t mavproxy_set_device(const char* dev_name)
         if (err != RT_EOK) {
             return FMT_ERROR;
         }
-        mavproxy_dev = new_dev;
+        mavproxy_dev_list[idx] = new_dev;
     }
-
     /* set callback functions */
-    rt_device_set_tx_complete(new_dev, mavproxy_dev_tx_done);
-    rt_device_set_rx_indicate(new_dev, mavproxy_dev_rx_ind);
 
+    rt_device_set_tx_complete(new_dev, mavproxy_dev_tx_done);
+    // rt_device_set_rx_indicate(new_dev, mavproxy_dev_rx_ind);
+
+    return FMT_EOK;
+}
+
+fmt_err_t mavproxy_set_device(const char* dev_name)
+{
+    
+    rt_device_t new_dev;
+
+    new_dev = rt_device_find(dev_name);
+    // if (new_dev == RT_NULL) {
+        
+    //     return FMT_EEMPTY;
+    // }
+    mavproxy_dev = new_dev;
+    // if (new_dev != mavproxy_dev) {
+    //     rt_uint16_t flag = RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_INT_RX;
+    //     if (new_dev->flag & (RT_DEVICE_FLAG_DMA_RX | RT_DEVICE_FLAG_DMA_TX)) {
+    //         /* if device support DMA, then use it */
+    //         flag = RT_DEVICE_OFLAG_RDWR | RT_DEVICE_FLAG_DMA_RX | RT_DEVICE_FLAG_DMA_TX;
+    //     }
+    //     rt_err_t err = rt_device_open(new_dev, flag);
+    //     if (err != RT_EOK) {
+    //         return FMT_ERROR;
+    //     }
+    //     mavproxy_dev = new_dev;
+    // }
+    for (size_t i = 0; i < MAV_DISPATCH_DEV_NUM; i++)
+    {
+        rt_device_set_rx_indicate(mavproxy_dev_list[i], NULL);
+    }
+    // /* set callback functions */
+    // rt_device_set_tx_complete(new_dev, mavproxy_dev_tx_done);
+    rt_device_set_rx_indicate(new_dev, mavproxy_dev_rx_ind);
     return FMT_EOK;
 }
 

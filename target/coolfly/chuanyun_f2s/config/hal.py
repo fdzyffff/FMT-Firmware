@@ -12,6 +12,7 @@ HAL = [
     'gyro/*.c',
     'accel/*.c',
     'mag/*.c',
+    'bms/*.c',
     'barometer/*.c',
     # 'fmtio_dev/*.c',
     'motor/*.c',

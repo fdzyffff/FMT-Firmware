@@ -30,8 +30,8 @@
 
 #include "inter_core.h"
 #include "xc7027.h"
-
-
+#include "mini384.h"
+#include "driver/bms/sh366006.h"
 //--------------------------------------
 static void sys_event_start(void);
 
@@ -49,6 +49,9 @@ void task_local_entry(void* parameter)
     sbus_start();
     bb_led_start();
     bb_match_id_start();
+    xc7027_start();
+    //mini384_start();
+
 
     // xc7027_start();
 

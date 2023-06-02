@@ -22,7 +22,8 @@
 #include "module/mavproxy/mavproxy_config.h"
 #include "module/syscmd/optparse.h"
 #include "module/syscmd/syscmd.h"
-
+#include "xc7027.h"
+#include "mini384.h"
 ////////////////////////////////////////////////////////////////////////////
 // reboot
 _EXT_DTCM1
@@ -37,7 +38,6 @@ static int handle_reboot_cmd(int argc, char** argv, int optc, optv_t* optv)
 
     return 0;
 }
-
 _EXT_DTCM1
 int cmd_reboot(int argc, char** argv)
 {
@@ -56,7 +56,6 @@ static int handle_reset_fct(int argc, char** argv, int optc, optv_t* optv)
     printf("fct reset finish~ \r\n");
     return 0;
 }
-
 _EXT_DTCM1
 int cmd_reset_fct(int argc, char** argv)
 {
@@ -65,7 +64,6 @@ int cmd_reset_fct(int argc, char** argv)
 FINSH_FUNCTION_EXPORT_ALIAS(cmd_reset_fct, __cmd_reset_fct, reset the RF factory setting);
 
 // set_bb_id
-_EXT_DTCM1
 static int handle_set_bb_id(int argc, char** argv, int optc, optv_t* optv)
 {
 
@@ -88,7 +86,6 @@ static int handle_set_bb_id(int argc, char** argv, int optc, optv_t* optv)
     return 0;
 }
 
-_EXT_DTCM1
 int cmd_set_bb_id(int argc, char** argv)
 {
     return syscmd_process(argc, argv, handle_set_bb_id);
@@ -97,7 +94,6 @@ FINSH_FUNCTION_EXPORT_ALIAS(cmd_set_bb_id, __cmd_set_bb_id, set basebase rc id<r
 
 ////////////////////////////////////////////////////////////////////////////
 // set_chip_id
-_EXT_DTCM1
 static int handle_set_chip_id(int argc, char** argv, int optc, optv_t* optv)
 {
     uint8_t idArr[5];
@@ -115,7 +111,6 @@ static int handle_set_chip_id(int argc, char** argv, int optc, optv_t* optv)
     return 0;
 }
 
-_EXT_DTCM1
 int cmd_set_chip_id(int argc, char** argv)
 {
     return syscmd_process(argc, argv, handle_set_chip_id);
@@ -126,7 +121,6 @@ FINSH_FUNCTION_EXPORT_ALIAS(cmd_set_chip_id, __cmd_set_chip_id, set<chip id1 ~5>
 // swtich_mavlink
 
 /* coolfly use to switch mavlink channle */
-_EXT_DTCM1
 fmt_err_t __switch_mavlink_to_device(rt_device_t dev)
 {
     fmt_err_t ret = RT_ERROR;
@@ -143,18 +137,16 @@ fmt_err_t __switch_mavlink_to_device(rt_device_t dev)
 
     return ret;
 }
-
 _EXT_DTCM1
 static void sw_mav_show_usage(void)
 {
     COMMAND_USAGE("sw_mav", "[options]");
 
     PRINT_STRING("options:\n");
-    SHELL_COMMAND("serial", "swtich the mavlink to uart6");
+    SHELL_COMMAND("serial", "swtich the mavlink to uart4");
     SHELL_COMMAND("usb", "swtich the mavlink to usb");
     SHELL_COMMAND("bb_com", "swtich the mavlink to bb_com, use Remote to show the mavlink");
 }
-
 _EXT_DTCM1
 static int sw_mav_channel(const char* dev)
 {
@@ -172,7 +164,6 @@ static int sw_mav_channel(const char* dev)
     }
     return ret;
 }
-
 _EXT_DTCM1
 static int handle_sw_mav_cmd(int argc, char** argv, int optc, optv_t* optv)
 {
@@ -199,10 +190,41 @@ static int handle_sw_mav_cmd(int argc, char** argv, int optc, optv_t* optv)
 
     return res;
 }
-
 _EXT_DTCM1
 int cmd_sw_mav(int argc, char** argv)
 {
     return syscmd_process(argc, argv, handle_sw_mav_cmd);
 }
 FINSH_FUNCTION_EXPORT_ALIAS(cmd_sw_mav, __cmd_sw_mav, swtich mavlink channel);
+_EXT_DTCM1
+static int handle_cmd_sw_encode(int argc, char** argv, int optc, optv_t* optv)
+{
+    uint8_t bitr;
+    HAL_RET_T result;
+    bitr = (uint8_t)(strtoul(argv[1], NULL, 0));
+
+    // HAL_BB_SetEncoderBrcModeProxy(MANUAL);
+    // HAL_PictureQualitySet((uint8_t)40);
+    // sys_msleep(100);
+    // DLOG_Critical("HAL_BB_SetEncoderBitrateProxy %d",(int)bitr);
+    result = HAL_BB_SetEncoderBitrateProxy(0,1);
+    result = HAL_BB_SetEncoderBitrateProxy(1,3);
+    // DLOG_Critical("HAL_BB_SetEncoderBitrateProxy %d",(int)result);
+    // sys_msleep(100);
+    // result = HAL_BB_SetEncoderBitrateProxy(1,bitr);
+    // DLOG_Critical("HAL_BB_SetEncoderBitrateProxy %d",(int)result);
+    if(bitr == 0){
+        XC7027_re_init(0);
+        sys_msleep(200);
+        mini384_resume();
+    } else {
+        XC7027_re_init(1);
+        mini384_pause();
+    }
+    return 0;
+}
+int cmd_sw_encode(int argc, char** argv)
+{
+    return syscmd_process(argc, argv, handle_cmd_sw_encode);
+}
+FINSH_FUNCTION_EXPORT_ALIAS(cmd_sw_encode, __cmd_sw_encode, swtich encode);
