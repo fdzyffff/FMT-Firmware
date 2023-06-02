@@ -51,6 +51,10 @@ static param_t __param_list_apm[] = {
     PARAM_FLOAT(ATC_THR_MIX_MAN, 0.5),          //copter->attitude_control->_thr_mix_man
     PARAM_FLOAT(ATC_THR_MIX_MAX, 0.5),          //copter->attitude_control->_thr_mix_max
     PARAM_FLOAT(ATC_THR_MIX_MIN, 0.1),          //copter->attitude_control->_thr_mix_min
+    PARAM_INT8(AVOID_ENABLE, 0),                //copter->avoid._enabled
+    PARAM_INT16(AVOID_ANGLE_MAX, 1000),         //copter->avoid._angle_max
+    PARAM_FLOAT(AVOID_DIST_MAX, 3.0f),          //copter->avoid._dist_max
+    PARAM_FLOAT(AVOID_MARGIN, 1.5f),            //copter->avoid._margin
     PARAM_INT8(CH7_OPT, 0),                     //copter->g.ch7_option
     PARAM_INT8(CH8_OPT, 0),                     //copter->g.ch8_option
     PARAM_INT8(CH9_OPT, 0),                     //copter->g.ch9_option
@@ -200,6 +204,11 @@ static param_t __param_list_apm[] = {
     PARAM_INT16(RNGFND_MIN_CM, 80),             //copter->rangefinder._min_distance_cm[0]
     PARAM_INT8(RNGFND_ORIENT, 25),              //copter->rangefinder._orientation[0]
     PARAM_INT8(RNGFND_TYPE, 0),                 //copter->rangefinder._type[0]
+    PARAM_INT8(RNGFND2_GNDCLEAR, 10),           //copter->rangefinder._ground_clearance_cm[0]
+    PARAM_INT16(RNGFND2_MAX_CM, 800),           //copter->rangefinder._max_distance_cm[0]
+    PARAM_INT16(RNGFND2_MIN_CM, 80),            //copter->rangefinder._min_distance_cm[0]
+    PARAM_INT8(RNGFND2_ORIENT, 25),             //copter->rangefinder._orientation[0]
+    PARAM_INT8(RNGFND2_TYPE, 0),                //copter->rangefinder._type[0]
     PARAM_INT8(SERVO1_FUNCTION, 0),             //copter->g2.servo_channels.srv_channel(0)->function
     PARAM_INT16(SERVO1_MAX, 1900),              //copter->g2.servo_channels.srv_channel(0)->servo_max
     PARAM_INT16(SERVO1_MIN, 1100),              //copter->g2.servo_channels.srv_channel(0)->servo_min

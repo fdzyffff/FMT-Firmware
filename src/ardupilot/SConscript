@@ -29,6 +29,7 @@ src += Glob('AP_libraries/AP_Scheduler/*.cpp')
 src += Glob('AP_libraries/AP_Param/*.cpp')
 src += Glob('AP_libraries/AP_RangeFinder/*.cpp')
 src += Glob('AP_libraries/AP_OpticalFlow/*.cpp')
+src += Glob('AP_libraries/AC_Avoidance/*.cpp')
 
 inc += [cwd]
 inc += [cwd + '/ArduCopter']
@@ -55,6 +56,7 @@ inc += [cwd + '/AP_libraries/AP_HAL/utility']
 inc += [cwd + '/AP_libraries/AP_Param']
 inc += [cwd + '/AP_libraries/AP_RangeFinder']
 inc += [cwd + '/AP_libraries/AP_OpticalFlow']
+inc += [cwd + '/AP_libraries/AC_Avoidance']
 
 
 group = DefineGroup('APM_LIB', src, depend = [''], CPPPATH = inc, CPPDEFINES=['APM_STANDALONE'])

@@ -6,6 +6,7 @@
 #include "AP_InertialNav.h"     // Inertial Navigation library
 #include "AC_PosControl.h"      // Position control library
 #include "AC_AttitudeControl.h" // Attitude control library
+#include "AC_Avoid.h"
 
 // loiter maximum velocities and accelerations
 #define WPNAV_ACCELERATION              100.0f      // defines the default velocity vs distant curve.  maximum acceleration in cm/s/s that position controller asks for from acceleration controller
@@ -54,6 +55,9 @@ public:
 
     /// Constructor
     AC_WPNav(const AP_InertialNav& inav, const AP_AHRS_View& ahrs, AC_PosControl& pos_control, const AC_AttitudeControl& attitude_control);
+
+    /// provide pointer to avoidance library
+    void set_avoidance(AC_Avoid* avoid_ptr) { _avoid = avoid_ptr; }
 
     /// provide rangefinder altitude
     void set_rangefinder_alt(bool use, bool healthy, float alt_cm) { _rangefinder_available = use; _rangefinder_healthy = healthy; _rangefinder_alt_cm = alt_cm; }
@@ -324,7 +328,7 @@ protected:
     const AP_AHRS_View&     _ahrs;
     AC_PosControl&          _pos_control;
     const AC_AttitudeControl& _attitude_control;
-
+    AC_Avoid                *_avoid = nullptr;
 
     // loiter controller internal variables
     int16_t     _pilot_accel_fwd_cms; 	// pilot's desired acceleration forward (body-frame)

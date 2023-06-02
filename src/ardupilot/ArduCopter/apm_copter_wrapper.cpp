@@ -216,6 +216,11 @@ void APM_Copter_Init_Para_P1(void)
     param_link_variable(PARAM_GET(APM, RNGFND_MIN_CM),      &copter->rangefinder._min_distance_cm[0]);
     param_link_variable(PARAM_GET(APM, RNGFND_ORIENT),      &copter->rangefinder._orientation[0]);
     param_link_variable(PARAM_GET(APM, RNGFND_TYPE),        &copter->rangefinder._type[0]);
+    param_link_variable(PARAM_GET(APM, RNGFND2_GNDCLEAR),   &copter->rangefinder._ground_clearance_cm[1]);
+    param_link_variable(PARAM_GET(APM, RNGFND2_MAX_CM),     &copter->rangefinder._max_distance_cm[1]);
+    param_link_variable(PARAM_GET(APM, RNGFND2_MIN_CM),     &copter->rangefinder._min_distance_cm[1]);
+    param_link_variable(PARAM_GET(APM, RNGFND2_ORIENT),     &copter->rangefinder._orientation[1]);
+    param_link_variable(PARAM_GET(APM, RNGFND2_TYPE),       &copter->rangefinder._type[1]);
     param_link_variable(PARAM_GET(APM, SERVO1_FUNCTION),    &copter->g2.servo_channels.srv_channel(0)->function);
     param_link_variable(PARAM_GET(APM, SERVO1_MAX),         &copter->g2.servo_channels.srv_channel(0)->servo_max);
     param_link_variable(PARAM_GET(APM, SERVO1_MIN),         &copter->g2.servo_channels.srv_channel(0)->servo_min);
@@ -335,6 +340,10 @@ void APM_Copter_Init_Para_P2(void)
     param_link_variable(PARAM_GET(APM, ATC_THR_MIX_MAN),    &copter->attitude_control->_thr_mix_man);
     param_link_variable(PARAM_GET(APM, ATC_THR_MIX_MAX),    &copter->attitude_control->_thr_mix_max);
     param_link_variable(PARAM_GET(APM, ATC_THR_MIX_MIN),    &copter->attitude_control->_thr_mix_min);
+    param_link_variable(PARAM_GET(APM, AVOID_ENABLE),       &copter->avoid._enabled);
+    param_link_variable(PARAM_GET(APM, AVOID_ANGLE_MAX),    &copter->avoid._angle_max);
+    param_link_variable(PARAM_GET(APM, AVOID_DIST_MAX),     &copter->avoid._dist_max);
+    param_link_variable(PARAM_GET(APM, AVOID_MARGIN),       &copter->avoid._margin);
     param_link_variable(PARAM_GET(APM, CIRCLE_RADIUS),      &copter->circle_nav->_radius);
     param_link_variable(PARAM_GET(APM, CIRCLE_RATE),        &copter->circle_nav->_rate);
     param_link_variable(PARAM_GET(APM, MOT_HOVER_LEARN),    &copter->motors->_throttle_hover_learn);

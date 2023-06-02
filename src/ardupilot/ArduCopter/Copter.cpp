@@ -37,7 +37,8 @@ Copter::Copter(void) :
     rtl_loiter_start_time(0),
     auto_trim_counter(0),
     in_mavlink_delay(false),
-    gcs_out_of_time(false)
+    gcs_out_of_time(false),
+    avoid(ahrs, rangefinder)
 {
     memset(&current_loc, 0, sizeof(current_loc));
     aparm.angle_max = DEFAULT_ANGLE_MAX;

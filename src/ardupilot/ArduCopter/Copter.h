@@ -45,6 +45,7 @@
 #include "AP_Scheduler.h"       // main loop scheduler
 #include "version.h"
 #include "AP_OpticalFlow.h"
+#include "AC_Avoid.h"
 
 // libraries which are dependent on #defines in defines.h and/or config.h
 
@@ -724,6 +725,8 @@ public:
         // last time there was significant stick input
         uint32_t last_stick_input_ms;
     } flowhold_t;
+
+    AC_Avoid avoid;
 
 private:
 
